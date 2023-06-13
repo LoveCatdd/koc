@@ -1,20 +1,20 @@
 <template>
  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
   <div class="container">
-    <a class="navbar-brand" href="#">King of Chess</a>
+    <router-link class="navbar-brand" :to="{name: 'home'}">King of Chess</router-link>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">首页</a>
+          <router-link :class=" route_name === 'home' ? 'nav-link active' : 'nav-link'" aria-current="page" :to="{name: 'home'}">首页</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">排行榜</a>
+          <router-link :class=" route_name === 'rank_list' ? 'nav-link active' : 'nav-link'" :to="{name: 'rank_list'}">排行榜</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">仓库</a>
+          <router-link :class=" route_name === 'storehouse' ? 'nav-link active' : 'nav-link'" :to="{name: 'storehouse'}">仓库</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">棋谱</a>
+          <router-link :class=" route_name === 'record' ? 'nav-link active' : 'nav-link'" :to="{name: 'record'}">棋谱</router-link>
         </li>
     </ul>
 
@@ -25,7 +25,7 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
-                <a class="dropdown-item" href="#">我的Bot</a>
+                <router-link class="dropdown-item" :to="{name: 'user_info'}">个人中心</router-link>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">退出</a></li>
@@ -39,9 +39,24 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useRoute} from 'vue-router'
 export default {
     name: 'NavBar',
-}
+    components: {
+
+    },
+    setup() {
+      const route = useRoute();
+      let route_name = (computed(() => route.name));
+
+      return {
+        route_name
+      }
+    }
+
+  }
+
 </script>
 
 <style>
