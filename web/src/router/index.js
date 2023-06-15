@@ -5,6 +5,7 @@ import RankListView from '../views/ranklist/RankListView.vue';
 import RecordView from '../views/record/RecordView.vue';
 import UserInfoView from '../views/user/info/UserInfoView.vue';
 import StoreHouseView from '../views/storehouse/StoreHouseView.vue';
+import PkView from '../views/pk/PkView.vue';
 
 const routes = [
   {
@@ -33,7 +34,17 @@ const routes = [
     component: StoreHouseView
   },
   {
+    path: '/pk/',
+    name: 'pk',
+    component: PkView
+  },
+  {
     path: '/404/',
+    name: '404',
+    component: NotFoundView
+  },
+  {
+    path: '/:catchAll(.*)/',
     name: '404',
     component: NotFoundView
   },

@@ -1,5 +1,5 @@
 <template>
- <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+ <nav v-if="route_name !== 'pk'"  class="navbar navbar-expand-lg bg-dark navbar-dark">
   <div class="container">
     <router-link class="navbar-brand" :to="{name: 'home'}">King of Chess</router-link>
     <div class="collapse navbar-collapse" id="navbarText">
@@ -15,6 +15,9 @@
         </li>
         <li class="nav-item">
           <router-link :class=" route_name === 'record' ? 'nav-link active' : 'nav-link'" :to="{name: 'record'}">棋谱</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link :class=" route_name === 'pk' ? 'nav-link active' : 'nav-link'" :to="{name: 'pk'}">PK</router-link>
         </li>
     </ul>
 
@@ -36,6 +39,9 @@
     </div>
   </div>
 </nav>
+<div v-else class="center navbar-brand bg-dark navbar-dark navbar navbar-expand-lg">
+    King of Chess
+</div>
 </template>
 
 <script>
@@ -59,6 +65,12 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
+div.center {
+  margin-right: 0px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 8px 0px 8px 0px;
+}
 </style>
