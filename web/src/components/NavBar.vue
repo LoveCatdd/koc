@@ -72,5 +72,6 @@ div.center {
   justify-content: center;
   align-content: center;
   padding: 8px 0px 8px 0px;
+  background-color: #272522;
 }
 </style>

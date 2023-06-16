@@ -13,9 +13,10 @@ export default {
     setup() {
         let parent = ref(null);
         let canvas = ref(null);
-
+        let direction = 1;
+        
         onMounted(() => {
-            new GameMap(canvas, parent.value)
+            new GameMap(canvas, parent.value,direction)
         })
         return {
             parent,
@@ -33,5 +34,6 @@ export default {
 }
 .radius- {
     border-radius: 1%;
+    /* background-color: rgb(224, 224, 216); */
 }
 </style>

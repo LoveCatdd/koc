@@ -1,19 +1,20 @@
 <template>
-    <div class="row margin-left">
-        <div class="col-7">
-            <GameMap />
+    <div class="lightdark">
+        <div class="row margin-left">
+            <div class="col-7 margin-top">
+                <GameMap />
+            </div>
+            <div class="col-5 user margin-top">
+            </div>
         </div>
-        <div class="col-5 user">
-            
-        </div>
+        <ContentBase>
+            <div class="row ">
+                <div class="col content">投降</div>
+                <div class="col content">升级</div>
+                <div class="col content">时间</div>
+            </div>
+        </ContentBase>
     </div>
-    <ContentBase>
-        <div class="row ">
-            <div class="col content">投降</div>
-            <div class="col content">升级</div>
-            <div class="col content">时间</div>
-        </div>
-    </ContentBase>
 </template>
 
 <script>
@@ -30,10 +31,12 @@ export default {
 
 <style scoped>
 .margin-left {
-    margin: 20px 0px 10px 200px;
+    margin: 0px 0px 10px 200px;
     padding: 0px;
 }
-
+.margin-top {
+    margin-top: 20px;
+}
 .user{
     margin-left: 30px;
     height: 600px;
@@ -48,5 +51,10 @@ export default {
     display: flex;
     justify-content: center;
     align-content: center;
+}
+.lightdark {
+    height: 100%;
+    width: 100%;
+    background-color: #312E2B;
 }
 </style>
