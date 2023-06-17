@@ -7,8 +7,8 @@ export class Bishop extends PiecesObject {
         this.piece_image = new Image();
         this.path = info.image;
 
-        this.row = info.row; //列
-        this.col = info.col; //行
+        this.row = info.row;
+        this.col = info.col;
 
         this.direction = info.direction; //方向
 

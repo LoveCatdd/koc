@@ -13,15 +13,14 @@ export class GameMap extends GameObject {
 
         this.ctx = canvas.value.getContext('2d');
         this.parent = parent;
-
+        this.canvas = canvas;
         this.rows = 8; // 行
         this.cols = 8; // 列
         this.pieces_list = [];
         this.L = 0;
         this.TL = 0;
         this.direction = direction; // 黑 or 白
-
-        this.mouse_event = new ControllerBase(canvas);
+        this.mouse_event = new ControllerBase(this.canvas, this);
     }
 
     start() {
@@ -96,7 +95,7 @@ export class GameMap extends GameObject {
                 direction: this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
-                image: process.env.BASE_URL + 'images\\pieces\\wk.png',
+                image: process.env.BASE_URL + 'images\\pieces\\wn.png',
                 survive: true,
             }, this);
             idx++;
@@ -112,7 +111,7 @@ export class GameMap extends GameObject {
             // 对方
             idx = 0;
             this.pieces_list[idx] = new Rook({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\br.png',
@@ -120,7 +119,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Knight({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\bn.png',
@@ -128,7 +127,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Bishop({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\bb.png',
@@ -136,7 +135,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Queen({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\bq.png',
@@ -144,7 +143,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new King({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\bk.png',
@@ -152,7 +151,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Bishop({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\bb.png',
@@ -160,7 +159,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Knight({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\bn.png',
@@ -168,7 +167,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Rook({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\br.png',
@@ -177,7 +176,7 @@ export class GameMap extends GameObject {
             idx++;
             for (let i = 0; i < 8; ++i) {
                 this.pieces_list[idx] = new Pawn({
-                    direction: this.direction,
+                    direction: -this.direction,
                     row: parseInt(idx / 8),
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + 'images\\pieces\\bp.png',
@@ -265,7 +264,7 @@ export class GameMap extends GameObject {
             // 对方
             idx = 0;
             this.pieces_list[idx] = new Rook({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wr.png',
@@ -273,7 +272,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Knight({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wn.png',
@@ -281,7 +280,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Bishop({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wb.png',
@@ -289,7 +288,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Queen({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wq.png',
@@ -297,7 +296,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new King({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wk.png',
@@ -305,7 +304,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Bishop({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wb.png',
@@ -313,7 +312,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Knight({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wn.png',
@@ -321,7 +320,7 @@ export class GameMap extends GameObject {
             }, this);
             idx++;
             this.pieces_list[idx] = new Rook({
-                direction: this.direction,
+                direction: -this.direction,
                 row: parseInt(idx / 8),
                 col: parseInt(idx % 8),
                 image: process.env.BASE_URL + 'images\\pieces\\wr.png',
@@ -330,7 +329,7 @@ export class GameMap extends GameObject {
             idx++;
             for (let i = 0; i < 8; ++i) {
                 this.pieces_list[idx] = new Pawn({
-                    direction: this.direction,
+                    direction: -this.direction,
                     row: parseInt(idx / 8),
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + 'images\\pieces\\wp.png',
@@ -357,7 +356,6 @@ export class GameMap extends GameObject {
     }
 
     render() {
-
         // 渲染地图
         let color_even = '#EEEED2', color_odd = '#769656';
         for (let r = 0; r < this.rows; ++r) {

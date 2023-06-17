@@ -11,20 +11,21 @@ export class PiecesObject extends GameObject {
         this.row = 0; //列
         this.col = 0; //行
 
+        this.local_r = this.row;
+        this.local_c = this.col;
+
         this.direction = 0; //方向
 
         this.survive = false; //棋子存活状态
+        this.status = "idle"; // idle 静止， move 移动
 
+        this.speed = 5;
+
+        this.eps = 1 + 1e-3;
     }
     // 走棋规则
     move_piece() {
-        // const con1 = x - this.col + y - this.row === 3;
-        // const con2 = x - this.col !== 0;
-        // const con3 = y - this.row !== 0;
-
-        // if (con1 && con2 && con3) 
-        //     return true;
-        // return false;
+        return true;
     }
     // 吃棋规则
     kill_piece() {
@@ -37,10 +38,39 @@ export class PiecesObject extends GameObject {
         this.render();
     }
 
+    update_idx(r, c) {
+        if (this.move_piece()) {
+            this.col = c;
+            this.row = r;
+            this.local_r = this.r;
+            this.local_c = this.c;
+        } else {
+            this.row = this.local_r;
+            this.col = this.local_c;
+        }
+    }
+
+    update_move(r, c) {
+        if (this.status === "idle") {
+            this.local_r = this.r;
+            this.local_c = this.c;
+        }
+        this.status = "move";
+
+        this.update_idx(r, c);
+    }
+
     render() {
-        const ctx = this.gamemap.ctx;
-        const L = this.gamemap.L;
-        ctx.drawImage(this.piece_image, this.col * L, this.row * L, L, L);
+        if (this.status === "idle") {
+            const ctx = this.gamemap.ctx;
+            const L = this.gamemap.L;
+            ctx.drawImage(this.piece_image, this.col * L, this.row * L, L, L);
+        } else if (this.status === "move") {
+            const ctx = this.gamemap.ctx;
+            const L = this.gamemap.L;
+            ctx.drawImage(this.piece_image, this.col, this.row, L, L);
+        }
 
     }
+
 }
