@@ -67,11 +67,12 @@ export default {
 
 <style scoped>
 div.center {
+  font-size: 24px;
   margin-right: 0px;
   display: flex;
   justify-content: center;
   align-content: center;
-  padding: 8px 0px 8px 0px;
+  padding: 15px 0px 0px 0px;
   background-color: #272522;
 }
 </style>

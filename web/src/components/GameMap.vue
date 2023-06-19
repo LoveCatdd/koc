@@ -28,12 +28,11 @@ export default {
 
 <style scoped>
 .gamemap {
-    height: 610px;
-    width: 610px;
+    height: 800px;
+    width: 800px;
 
 }
 .radius- {
     border-radius: 1%;
-    /* background-color: rgb(224, 224, 216); */
 }
 </style>
