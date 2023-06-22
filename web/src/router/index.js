@@ -6,6 +6,9 @@ import RecordView from '../views/record/RecordView.vue';
 import UserInfoView from '../views/user/info/UserInfoView.vue';
 import StoreHouseView from '../views/storehouse/StoreHouseView.vue';
 import PkView from '../views/pk/PkView.vue';
+import LoginView from '../views/user/account/login/LoginView.vue';
+import RegisterView from '../views/user/account/register/RegisterView.vue';
+
 
 const routes = [
   {
@@ -37,6 +40,16 @@ const routes = [
     path: '/pk/',
     name: 'pk',
     component: PkView
+  },
+  {
+    path: '/login/',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/register/',
+    name: 'register',
+    component: RegisterView
   },
   {
     path: '/404/',

@@ -14,7 +14,7 @@ class BackendApplicationTests {
         System.out.println(passwordEncoder.encode("111111"));
         System.out.println(passwordEncoder.encode("222222"));
         System.out.println(passwordEncoder.encode("333333"));
-        System.out.println(passwordEncoder.encode("123123"));
+        System.out.println(passwordEncoder.encode("1111"));
 
     }
 
