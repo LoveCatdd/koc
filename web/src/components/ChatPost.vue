@@ -49,6 +49,7 @@ export default {
   flex-grow: 1;
   overflow: auto;
   max-height: 360px; /* 当内容超出最大高度时显示滚动条 */
+  
 }
 .chat-msg-u {
   padding: 10px;

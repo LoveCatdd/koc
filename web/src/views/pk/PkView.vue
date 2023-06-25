@@ -53,9 +53,10 @@ export default {
                 },
             ]
         });
-
+    
         const post = (content) => {
             if (content === '') return ;
+
             message.count ++;
             message.posts.push({
                 id: 1,

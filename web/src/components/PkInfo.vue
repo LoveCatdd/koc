@@ -84,7 +84,10 @@ export default {
     color: azure;
     font-weight: bolder;
     margin: 15px 10px 7px 0px;
+}
 
+.left-right {
+    flex: 1;
 }
 
 .icon-color {
@@ -92,8 +95,5 @@ export default {
 }
 .container- {
     display: flex;
-}
-.left-right {
-    flex: 1;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
- <nav v-if="route_name !== 'pk'"  class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div v-if="route_name === 'login' || route_name === 'register'"></div>
+  <nav v-else class="navbar navbar-expand-lg bg-dark navbar-dark">
   <div class="container">
     <router-link class="navbar-brand" :to="{name: 'home'}">King of Chess</router-link>
     <div class="collapse navbar-collapse" id="navbarText">
@@ -21,43 +22,57 @@
         </li>
     </ul>
 
-    <ul class="navbar-nav">
-        <li class="nav-item dropdown">
+        <ul class="navbar-nav" v-if="$store.state.user.is_login">
+          <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            lpxl
+            {{ $store.state.user.username }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
                 <router-link class="dropdown-item" :to="{name: 'user_info'}">个人中心</router-link>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">退出</a></li>
+            <li><a class="dropdown-item" href="#" @click="logout">退出</a></li>
           </ul>
+      </li>
+        </ul>
+
+      <ul class="navbar-nav" v-else>
+        <li class="nav-item">
+          <router-link :class=" route_name === 'pk' ? 'nav-link active' : 'nav-link'" :to="{name: 'login'}">登录</router-link>
         </li>
+        <li class="nav-item">
+          <router-link :class=" route_name === 'pk' ? 'nav-link active' : 'nav-link'" :to="{name: 'register'}">注册</router-link>
+        </li>
+
       </ul>
 
     </div>
   </div>
 </nav>
-<div v-else class="center navbar-brand bg-dark navbar-dark navbar navbar-expand-lg">
-    King of Chess
-</div>
 </template>
 
 <script>
 import { computed } from 'vue';
 import { useRoute} from 'vue-router'
+import { useStore } from 'vuex';
+ 
 export default {
     name: 'NavBar',
     components: {
 
     },
     setup() {
+      const store = useStore();
       const route = useRoute();
       let route_name = (computed(() => route.name));
-
+      const logout = () => {
+        store.dispatch('logout');
+      };
       return {
-        route_name
+        route_name,
+        store,
+        logout,
       }
     }
 

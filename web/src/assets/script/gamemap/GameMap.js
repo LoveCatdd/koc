@@ -19,7 +19,7 @@ export class GameMap extends GameObject {
         this.pieces_list = [];
         this.L = 0;
         this.TL = 0;
-        this.direction = direction; // 黑 or 白
+        this.direction = direction; // 黑为 -1  白为 1 
         this.mouse_event = new ControllerBase(this.canvas, this);
     }
 
