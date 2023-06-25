@@ -14,6 +14,18 @@ export class Pawn extends PiecesObject {
 
         this.survive = info.survive; //棋子存活状态
     }
+
+    // 走棋规则
+    move_piece(x,y) {
+        //基本走棋
+        const rowbool = (x - this.local_r === -1);
+        const colbool = (y === this.local_c);
+        if(rowbool && colbool){
+            return true;
+        }
+        return false;
+    }
+
     start() {
         this.piece_image.src = this.path;
 

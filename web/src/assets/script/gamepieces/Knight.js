@@ -14,6 +14,12 @@ export class Knight extends PiecesObject {
 
         this.survive = info.survive; //棋子存活状态
     }
+    // 走棋规则
+    move_piece(x,y) {
+        //基本走棋
+        
+        return false;
+    }
     start() {
         this.piece_image.src = this.path;
 

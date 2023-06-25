@@ -21,6 +21,13 @@ export class ControllerBase {
         // console.log(`${r}, ${c}`);
         this.idx = r * 8 + c;
 
+        if(this.gamemap.pieces_list[this.idx])
+        {
+            console.log('OK');
+            console.log(this.gamemap.pieces_list[this.idx].row);
+        }
+            
+ 
         // const piece = this.pieces_list[this.idx];
         // if (piece !== undefined) console.log(piece);
 
@@ -49,6 +56,7 @@ export class ControllerBase {
 
         piece.update_move(mr, mc);
         // console.log(`${mc}, ${mr}`);
+        //this.isMouseMove = false;
     }
 
     handleMouseUp = (event) => {
@@ -78,10 +86,12 @@ export class ControllerBase {
                 this.piece_picked = [undefined, undefined];
             }
         } else if (idx_ !== this.idx) {
+            //console.log('黑棋');
 
-            this.pieces_list[idx_] = this.pieces_list[this.idx];
-            this.pieces_list[this.idx] = undefined;
-            piece.update_idx(mr, mc);
+            if(piece.update_idx(mr, mc)){
+                this.pieces_list[idx_] = this.pieces_list[this.idx];
+                this.pieces_list[this.idx] = undefined;
+            }
             piece.status = "idle";
         } else {
             if (this.isMouseMove) {
@@ -92,8 +102,9 @@ export class ControllerBase {
                 this.piece_picked = [this.pieces_list[this.idx], this.idx];
             }
         }
-        console.log(this.piece_picked[0]);
+        //console.log(this.piece_picked[0]);
         this.isMouseDown = false;
+        //this.isMouseMove = false;
         this.idx = -1;
     }
 

@@ -39,31 +39,34 @@ export class PiecesObject extends GameObject {
     }
 
     update_idx(r, c) {
-        if (this.move_piece()) {
+        if (this.move_piece(r,c)) {
             this.col = c;
             this.row = r;
-            this.local_r = this.r;
-            this.local_c = this.c;
+            this.local_r = this.row;
+            this.local_c = this.col;
+            return true;
         } else {
             this.row = this.local_r;
             this.col = this.local_c;
+            return false;
         }
     }
 
-    update_move(r, c) {
+    update_move(r,c) {
         if (this.status === "idle") {
-            this.local_r = this.r;
-            this.local_c = this.c;
+            this.local_r = this.row;
+            this.local_c = this.col;
         }
         this.status = "move";
-
-        this.update_idx(r, c);
+        this.col = c;
+        this.row = r;
     }
 
     render() {
         if (this.status === "idle") {
             const ctx = this.gamemap.ctx;
             const L = this.gamemap.L;
+            //console.log(this.col+' '+this.row);
             ctx.drawImage(this.piece_image, this.col * L, this.row * L, L, L);
         } else if (this.status === "move") {
             const ctx = this.gamemap.ctx;
