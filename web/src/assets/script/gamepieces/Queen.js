@@ -14,7 +14,6 @@ export class Queen extends PiecesObject {
 
         this.survive = info.survive; //棋子存活状态
     }
-
     // 走棋规则
     move_piece(x,y) {
         //基本走棋
@@ -22,7 +21,7 @@ export class Queen extends PiecesObject {
         const colbool = (y === this.local_c);
         const rcolbool = (Math.abs(x - this.local_r) === Math.abs(y - this.local_c));
         //基本走棋
-        if(rowbool || colbool || rcolbool){
+        if((rowbool || colbool || rcolbool) && this.check1(x,y) && this.kill_piece(x,y)){
             return true;
         }
         return false;

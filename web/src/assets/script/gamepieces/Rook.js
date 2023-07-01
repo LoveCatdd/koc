@@ -14,8 +14,6 @@ export class Rook extends PiecesObject {
 
         this.survive = info.survive; //棋子存活状态
     }
-    //路径有无棋子判断
-    
     // 走棋规则
     move_piece(x,y) {
         const rowbool = (x === this.local_r);
@@ -24,7 +22,7 @@ export class Rook extends PiecesObject {
         //console.log(this.local_c+' '+this.local_r);
 
         //基本走棋
-        if((rowbool || colbool)){
+        if((rowbool || colbool) && this.check1(x,y) && this.kill_piece(x,y)){
             return true;
         }
         return false;

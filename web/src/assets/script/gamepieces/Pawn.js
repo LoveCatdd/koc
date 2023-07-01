@@ -14,13 +14,60 @@ export class Pawn extends PiecesObject {
 
         this.survive = info.survive; //棋子存活状态
     }
-
+    // 吃棋规则
+    kill_piece(x,y) {
+        if(x === this.local_r && y === this.local_c)return false;
+        let idx = x * 8 + y;
+        if(this.gamemap.pieces_list[idx] === undefined){
+            return false;
+        }else if(this.gamemap.pieces_list[idx].direction === this.direction){
+            return false;
+        }else{
+            this.gamemap.pieces_list[idx].survive = false;
+            return true;
+        }
+    }
+    //路径有无棋子判断
+    check1(x,y){
+        if(x === this.local_r && y === this.local_c)return false;
+        let rowdef = (x - this.local_r) / Math.abs(x - this.local_r);
+        let coldef = (y - this.local_c) / Math.abs(y - this.local_c);
+        if(isNaN(coldef)){
+            coldef = 0;
+        }else if(isNaN(rowdef)){
+            rowdef = 0;
+        }
+        //console.log(rowdef+' '+coldef);
+        let i = this.local_r + rowdef, j = this.local_c + coldef;
+        let idx = i * 8 + j;
+        while (i !== x + rowdef || j !== y + coldef){
+            //console.log(i+' '+j);
+            //if(this.gamemap.pieces_list[idx]===undefined)
+            //    console.log("NULL");
+            if(this.gamemap.pieces_list[idx] !== undefined){
+                return false;
+            }
+            i += rowdef;
+            j += coldef;
+            idx = i * 8 + j;
+        }
+        // if(this.gamemap.pieces_list[idx] !== undefined && ){
+        //     return this.kill_piece(this.gamemap.pieces_list[idx])
+        // }
+        return true;
+    }
     // 走棋规则
     move_piece(x,y) {
         //基本走棋
-        const rowbool = (x - this.local_r === -1);
+        const rowdef = (x - this.local_r);
+        const coldef = Math.abs(y - this.local_c);
+        const rowbool = (rowdef === -1);
         const colbool = (y === this.local_c);
-        if(rowbool && colbool){
+        if(rowbool && colbool && this.check1(x,y)){
+            return true;
+        }else if(this.local_r === 6 && rowdef === -2 && this.check1(x,y)){
+            return true;
+        }else if(rowbool && coldef === 1 && this.kill_piece(x,y)){
             return true;
         }
         return false;

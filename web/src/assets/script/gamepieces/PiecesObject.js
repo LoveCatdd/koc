@@ -28,9 +28,73 @@ export class PiecesObject extends GameObject {
         return true;
     }
     // 吃棋规则
-    kill_piece() {
-
+    kill_piece(x,y) {
+        if(x === this.local_r && y === this.local_c)return false;
+        let idx = x * 8 + y;
+        if(this.gamemap.pieces_list[idx] === undefined){
+            return true;
+        }else if(this.gamemap.pieces_list[idx].direction === this.direction){
+            return false;
+        }else{
+            this.gamemap.pieces_list[idx].survive = false;
+            return true;
+        }
     }
+    //路径有无棋子判断
+    check1(x,y){
+        if(x === this.local_r && y === this.local_c)return false;
+        let rowdef = (x - this.local_r) / Math.abs(x - this.local_r);
+        let coldef = (y - this.local_c) / Math.abs(y - this.local_c);
+        if(isNaN(coldef)){
+            coldef = 0;
+        }else if(isNaN(rowdef)){
+            rowdef = 0;
+        }
+        //console.log(rowdef+' '+coldef);
+        let i = this.local_r + rowdef, j = this.local_c + coldef;
+        let idx = i * 8 + j;
+        while (i !== x || j !== y){
+             
+            //console.log(i+' '+j);
+            //if(this.gamemap.pieces_list[idx]===undefined)
+            //    console.log("NULL");
+            if(this.gamemap.pieces_list[idx] !== undefined){
+                return false;
+            }
+            i += rowdef;
+            j += coldef;
+            idx = i * 8 + j;
+        }
+        // if(this.gamemap.pieces_list[idx] !== undefined && ){
+        //     return this.kill_piece(this.gamemap.pieces_list[idx])
+        // }
+        return true;
+    }
+    // check1(x,y){
+    //     let rowdef = (x - this.local_r) / Math.abs(x - this.local_r);
+    //     let coldef = (y - this.local_c) / Math.abs(y - this.local_c);
+    //     if(isNaN(coldef)){
+    //         coldef = 0;
+    //     }else if(isNaN(rowdef)){
+    //         rowdef = 0;
+    //     }
+    //     //console.log(rowdef+' '+coldef);
+    //     let i = this.local_r + rowdef, j = this.local_c + coldef;
+        
+    //     while (i !== x || j !== y){
+    //         let idx = i * 8 + j;
+    //         //console.log(i+' '+j);
+    //         //if(this.gamemap.pieces_list[idx]===undefined)
+    //         //    console.log("NULL");
+    //         if(this.gamemap.pieces_list[idx] !== undefined){
+    //             return false;
+    //         }
+    //         i += rowdef;
+    //         j += coldef;
+    //     }
+        
+    //     return true;
+    // }
     start() {
 
     }
@@ -63,7 +127,7 @@ export class PiecesObject extends GameObject {
     }
 
     render() {
-        if (this.status === "idle") {
+        if (this.status === "idle" && this.survive) {
             const ctx = this.gamemap.ctx;
             const L = this.gamemap.L;
             //console.log(this.col+' '+this.row);

@@ -21,11 +21,11 @@ export class ControllerBase {
         // console.log(`${r}, ${c}`);
         this.idx = r * 8 + c;
 
-        if(this.gamemap.pieces_list[this.idx])
+        /*if(this.gamemap.pieces_list[this.idx])
         {
             console.log('OK');
             console.log(this.gamemap.pieces_list[this.idx].row);
-        }
+        }*/
             
  
         // const piece = this.pieces_list[this.idx];
@@ -74,7 +74,7 @@ export class ControllerBase {
 
         if (this.piece_picked[0] !== undefined) {
 
-            if (idx_ === this.piece_picked[1]);
+            if (idx_ === this.piece_picked[1])console.log("else if");
             else if (this.check_direction(this.piece_picked[1], idx_)) {
 
                 this.piece_picked = [this.pieces_list[idx_], idx_];
@@ -87,7 +87,7 @@ export class ControllerBase {
             }
         } else if (idx_ !== this.idx) {
             //console.log('黑棋');
-
+            //TODO：拖拽棋子还在原来的格子上是界面卡死
             if(piece.update_idx(mr, mc)){
                 this.pieces_list[idx_] = this.pieces_list[this.idx];
                 this.pieces_list[this.idx] = undefined;
