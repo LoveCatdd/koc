@@ -1,8 +1,9 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class King extends PiecesObject {
-    constructor(info, gamemap) {
-        super(gamemap);
+    constructor(info, info_obj) {
+        super(info_obj);
+
 
         this.piece_image = new Image();
         this.path = info.image;
@@ -16,11 +17,11 @@ export class King extends PiecesObject {
 
     }
     // 走棋规则
-    move_piece(x,y) {
+    move_piece(x, y) {
         //基本走棋
         const rowdef = Math.abs(x - this.local_r);
         const coldef = Math.abs(y - this.local_c);
-        if(rowdef <= 1 && coldef <= 1 && this.check1(x,y) && this.kill_piece(x,y)){
+        if (rowdef <= 1 && coldef <= 1 && this.check1(x, y) && this.kill_piece(x, y)) {
             return true;
         }
         return false;

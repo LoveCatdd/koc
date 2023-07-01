@@ -1,123 +1,66 @@
 <template>
-    <div class="lightdark ">
-        <div class="row margin-left">
-            <div class="col-7 margin-top">
-                <GameMap />
-            </div>
-            <div class="col-5 user margin-top padding- ">
-                <PkInfo class="height-25 radius-u"/>
-                <div class="height-35" >
-                    <ChatPost  :message="message" />
-                </div> 
-                <ChatBase class="height-18" @post="post"/>
-                <PkInfo class="height-25 radius-m"/>
-            </div>
-        </div>
-    </div>
+    <PlayGround v-if="$store.state.pk.status === 'playing' " />
+    <MatchGround v-else-if="$store.state.pk.status === 'matching' " />
 </template>
 
 <script>
-import GameMap from '@/components/GameMap.vue';
-import PkInfo from '@/components/PkInfo.vue';
-import ChatBase from '@/components/ChatBase.vue';
-import ChatPost from  '@/components/ChatPost.vue';
 
-import { reactive } from 'vue';
+import { onMounted, onUnmounted} from 'vue';
+import { useStore } from 'vuex';
+import PlayGround from '@/components/PlayGround.vue';
+import MatchGround from '@/components/MatchGround.vue';
+
 
 export default {    
     name: 'PkView',
     components: {
-        GameMap,
-        PkInfo,
-        ChatBase,
-        ChatPost
+        PlayGround,
+        MatchGround
     },
     setup() {   
-        const message = reactive({
-            count: 3,
-            posts: [
-                {
-                    id: 1,
-                    sender: 'me',
-                    content: '你好',
-                },
-                {
-                    id: 1,
-                    sender: 'u',
-                    content: '你好啊',
-                },
-                {
-                    id: 1,
-                    sender: 'me',
-                    content: '蛤蛤',
-                },
-            ]
-        });
-    
-        const post = (content) => {
-            if (content === '') return ;
+        const store = useStore();
+        const socketUrl = `ws://127.0.0.1:8090/websocket/${store.state.user.token}/`;
 
-            message.count ++;
-            message.posts.push({
-                id: 1,
-                sender: 'me',
-                content: content
-            });
-        };
+        let socket = null;
+
+        onMounted(() => {
+            socket = new WebSocket(socketUrl);
+
+            socket.onopen = () => {
+                console.log("connected");
+                store.commit('updateSocket', socket);
+            }
+            socket.onmessage = msg => {
+                const data = JSON.parse(msg.data);
+                if (data.event === "start-matching") {
+                    store.commit('updateOpponent', {
+                        username: data.username,
+                        photo: data.photo
+                    });
+                    store.commit('updateStatus', "playing");
+                    store.commit("updateGame", data.game);
+                } else if (data.event === "move") {
+                   console.log(data.step);
+                    // const [pre_idx, now_idx] = data.step.split("-");
+                    // store.state.pk.game_obj.sync_idx(pre_idx, now_idx);
+                }
+            }
+        });
+
+        onUnmounted(() => {
+            if (socket !== null) {
+                socket.close();
+                store.commit('updateStatus', "matching");
+            }
+        });
 
         return {
-            message,
-            post,
+
         }
     }
 }
 </script>
 
 <style scoped>
-.margin-left {
-    margin: 0px 0px 0px 200px;
-    padding: 0px;
-}
-.margin-top {
-    margin-top: 25px;
-}
-.user{
-    margin-left: 30px;
-    height: 800px;
-    width: 540px;
-    position: relative;
-}
-.col-7 {
-    width: 800px;
-    height: 884px;
-}
-
-.lightdark {
-    background-color: #312E2B;
-}
-.height-35 {
-    height: 42%;
-    width: 100%;
-    background-color: #444654;
-}
-.height-18 {
-    height: 18%;
-    width: 100%;
-    background-color: #444654;
-}
-.height-25 {
-    height: 20%;
-    width: 100%;
-    background-color: #272522;
-}
-.padding- {
-    padding: 0px;
-}
-.radius-u {
-    border-radius: 2.5% 2.5% 0% 0%;
-}
-.radius-m {
-    border-radius: 0% 0% 2.5% 2.5%;
-}
 
 </style>

@@ -21,13 +21,6 @@ export class ControllerBase {
         // console.log(`${r}, ${c}`);
         this.idx = r * 8 + c;
 
-        /*if(this.gamemap.pieces_list[this.idx])
-        {
-            console.log('OK');
-            console.log(this.gamemap.pieces_list[this.idx].row);
-        }*/
-            
- 
         // const piece = this.pieces_list[this.idx];
         // if (piece !== undefined) console.log(piece);
 
@@ -56,13 +49,14 @@ export class ControllerBase {
 
         piece.update_move(mr, mc);
         // console.log(`${mc}, ${mr}`);
-        //this.isMouseMove = false;
     }
 
     handleMouseUp = (event) => {
 
         const piece = this.pieces_list[this.idx];
         if (this.piece_picked[0] === undefined && piece === undefined) return;
+
+        // console.log(piece);
 
         // 获取鼠标相对于 Canvas 的位置
         const L = this.gamemap.L;
@@ -74,7 +68,7 @@ export class ControllerBase {
 
         if (this.piece_picked[0] !== undefined) {
 
-            if (idx_ === this.piece_picked[1])console.log("else if");
+            if (idx_ === this.piece_picked[1]);
             else if (this.check_direction(this.piece_picked[1], idx_)) {
 
                 this.piece_picked = [this.pieces_list[idx_], idx_];
@@ -86,12 +80,10 @@ export class ControllerBase {
                 this.piece_picked = [undefined, undefined];
             }
         } else if (idx_ !== this.idx) {
-            //console.log('黑棋');
-            //TODO：拖拽棋子还在原来的格子上是界面卡死
-            if(piece.update_idx(mr, mc)){
-                this.pieces_list[idx_] = this.pieces_list[this.idx];
-                this.pieces_list[this.idx] = undefined;
-            }
+
+            this.pieces_list[idx_] = this.pieces_list[this.idx];
+            this.pieces_list[this.idx] = undefined;
+            piece.update_idx(mr, mc);
             piece.status = "idle";
         } else {
             if (this.isMouseMove) {
@@ -102,9 +94,10 @@ export class ControllerBase {
                 this.piece_picked = [this.pieces_list[this.idx], this.idx];
             }
         }
-        //console.log(this.piece_picked[0]);
+
+
+        console.log(this.piece_picked[0]);
         this.isMouseDown = false;
-        //this.isMouseMove = false;
         this.idx = -1;
     }
 

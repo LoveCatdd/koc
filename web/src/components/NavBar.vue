@@ -12,9 +12,6 @@
           <router-link :class=" route_name === 'rank_list' ? 'nav-link active' : 'nav-link'" :to="{name: 'rank_list'}">排行榜</router-link>
         </li>
         <li class="nav-item">
-          <router-link :class=" route_name === 'storehouse' ? 'nav-link active' : 'nav-link'" :to="{name: 'storehouse'}">仓库</router-link>
-        </li>
-        <li class="nav-item">
           <router-link :class=" route_name === 'record' ? 'nav-link active' : 'nav-link'" :to="{name: 'record'}">棋谱</router-link>
         </li>
         <li class="nav-item">
@@ -37,7 +34,7 @@
       </li>
         </ul>
 
-      <ul class="navbar-nav" v-else>
+      <ul class="navbar-nav" v-else-if="!$store.state.user.pulling_info">
         <li class="nav-item">
           <router-link :class=" route_name === 'pk' ? 'nav-link active' : 'nav-link'" :to="{name: 'login'}">登录</router-link>
         </li>
@@ -67,11 +64,10 @@ export default {
       const route = useRoute();
       let route_name = (computed(() => route.name));
       const logout = () => {
-        store.dispatch('logout');
+        store.dispatch("logout");
       };
       return {
         route_name,
-        store,
         logout,
       }
     }

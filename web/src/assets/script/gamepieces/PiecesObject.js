@@ -1,12 +1,13 @@
 import { GameObject } from "../GameObiect";
 
 export class PiecesObject extends GameObject {
-    constructor(gamemap) {
+    constructor(info_obj) {
         super();
 
         this.piece_image;
 
-        this.gamemap = gamemap;
+        this.ctx = info_obj.ctx;
+        this.L = info_obj.L;
 
         this.row = 0; //列
         this.col = 0; //行
@@ -28,37 +29,37 @@ export class PiecesObject extends GameObject {
         return true;
     }
     // 吃棋规则
-    kill_piece(x,y) {
-        if(x === this.local_r && y === this.local_c)return false;
+    kill_piece(x, y) {
+        if (x === this.local_r && y === this.local_c) return false;
         let idx = x * 8 + y;
-        if(this.gamemap.pieces_list[idx] === undefined){
+        if (this.gamemap.pieces_list[idx] === undefined) {
             return true;
-        }else if(this.gamemap.pieces_list[idx].direction === this.direction){
+        } else if (this.gamemap.pieces_list[idx].direction === this.direction) {
             return false;
-        }else{
+        } else {
             this.gamemap.pieces_list[idx].survive = false;
             return true;
         }
     }
     //路径有无棋子判断
-    check1(x,y){
-        if(x === this.local_r && y === this.local_c)return false;
+    check1(x, y) {
+        if (x === this.local_r && y === this.local_c) return false;
         let rowdef = (x - this.local_r) / Math.abs(x - this.local_r);
         let coldef = (y - this.local_c) / Math.abs(y - this.local_c);
-        if(isNaN(coldef)){
+        if (isNaN(coldef)) {
             coldef = 0;
-        }else if(isNaN(rowdef)){
+        } else if (isNaN(rowdef)) {
             rowdef = 0;
         }
         //console.log(rowdef+' '+coldef);
         let i = this.local_r + rowdef, j = this.local_c + coldef;
         let idx = i * 8 + j;
-        while (i !== x || j !== y){
-             
+        while (i !== x || j !== y) {
+
             //console.log(i+' '+j);
             //if(this.gamemap.pieces_list[idx]===undefined)
             //    console.log("NULL");
-            if(this.gamemap.pieces_list[idx] !== undefined){
+            if (this.gamemap.pieces_list[idx] !== undefined) {
                 return false;
             }
             i += rowdef;
@@ -80,7 +81,7 @@ export class PiecesObject extends GameObject {
     //     }
     //     //console.log(rowdef+' '+coldef);
     //     let i = this.local_r + rowdef, j = this.local_c + coldef;
-        
+
     //     while (i !== x || j !== y){
     //         let idx = i * 8 + j;
     //         //console.log(i+' '+j);
@@ -92,7 +93,7 @@ export class PiecesObject extends GameObject {
     //         i += rowdef;
     //         j += coldef;
     //     }
-        
+
     //     return true;
     // }
     start() {
@@ -103,7 +104,7 @@ export class PiecesObject extends GameObject {
     }
 
     update_idx(r, c) {
-        if (this.move_piece(r,c)) {
+        if (this.move_piece(r, c)) {
             this.col = c;
             this.row = r;
             this.local_r = this.row;
@@ -116,7 +117,7 @@ export class PiecesObject extends GameObject {
         }
     }
 
-    update_move(r,c) {
+    update_move(r, c) {
         if (this.status === "idle") {
             this.local_r = this.row;
             this.local_c = this.col;
@@ -127,17 +128,13 @@ export class PiecesObject extends GameObject {
     }
 
     render() {
+        const ctx = this.ctx;
+        const L = this.L;
         if (this.status === "idle" && this.survive) {
-            const ctx = this.gamemap.ctx;
-            const L = this.gamemap.L;
-            //console.log(this.col+' '+this.row);
             ctx.drawImage(this.piece_image, this.col * L, this.row * L, L, L);
         } else if (this.status === "move") {
-            const ctx = this.gamemap.ctx;
-            const L = this.gamemap.L;
             ctx.drawImage(this.piece_image, this.col, this.row, L, L);
         }
-
     }
 
 }

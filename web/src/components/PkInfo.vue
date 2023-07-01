@@ -7,7 +7,7 @@
         <div class="col-9 padding-">
             <div class="container-">
                 <div class="username- left-right">
-                    LPXL
+                    {{ username }}
                 </div>
                 <div class="time-size "> 
                     时间：10:00
@@ -30,6 +30,12 @@ export default {
     name: 'PkInfo',
     components: {
 
+    },
+    props: {
+        username: {
+            type: String,
+            required: true,
+        }
     },
     setup() {
 

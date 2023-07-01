@@ -105,7 +105,7 @@ export default {
 <style scoped>
 
 .background- {
-    height: 961px;
+    height: 960px;
     width: 100%;
     background-color: #312E2B;
     background-repeat: no-repeat;
