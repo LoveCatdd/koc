@@ -55,16 +55,23 @@ export default {
         onMounted(() => {
          
             socket = store.state.pk.socket;
-            socket.onmessage = msg => {
+            console.log(socket);
+            socket.onmessage = msg => { // 有时会失效
                 const data = JSON.parse(msg.data);
+                console.log(data);
                 if (data.event === "action") {
-                    console.log(data);
+                    store.commit("updateAction", data.action);
+                } else if (data.event === "wait") {
+                    store.commit("updateAction", data.action);
                 } else if (data.event === "send-message") {
                     store.commit("updatePost", {
                         id: data.id,
                         sender: data.sender,
                         content: data.content
                     })
+                } else if (data.event === "move") {
+                    const idx_list = data.step.split(" ");
+                    store.state.pk.game_obj.sync_idx(idx_list[0], idx_list[1]);
                 }
             }
         });
@@ -73,6 +80,8 @@ export default {
             if (socket !== null) {
                 // socket.onclose();
                 store.commit('updateStatus', "matching");
+                store.commit('updateMatchStatus', "matching");
+                store.commit('updatePk');
             }
         });
 

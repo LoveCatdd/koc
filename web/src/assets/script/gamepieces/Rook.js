@@ -1,8 +1,8 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class Rook extends PiecesObject {
-    constructor(info, info_obj) {
-        super(info_obj);
+    constructor(info, ctx, store) {
+        super(ctx, store);
 
         this.piece_image = new Image();
         this.path = info.image;
@@ -18,8 +18,6 @@ export class Rook extends PiecesObject {
     move_piece(x, y) {
         const rowbool = (x === this.local_r);
         const colbool = (y === this.local_c);
-        //console.log(this.col+' '+this.row);
-        //console.log(this.local_c+' '+this.local_r);
 
         //基本走棋
         if ((rowbool || colbool) && this.check1(x, y) && this.kill_piece(x, y)) {

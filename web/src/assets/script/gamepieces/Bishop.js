@@ -1,8 +1,8 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class Bishop extends PiecesObject {
-    constructor(info, info_obj) {
-        super(info_obj);
+    constructor(info, ctx, store) {
+        super(ctx, store);
 
         this.piece_image = new Image();
         this.path = info.image;
@@ -19,6 +19,7 @@ export class Bishop extends PiecesObject {
         //基本走棋
         const rcolbool = (Math.abs(x - this.local_r) === Math.abs(y - this.local_c));
         if (rcolbool && this.check1(x, y) && this.kill_piece(x, y)) {
+
             return true;
         }
         return false;

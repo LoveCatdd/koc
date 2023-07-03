@@ -2,6 +2,8 @@ package com.koc.backend.consumer.utils;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.koc.backend.consumer.WebSocketServer;
+import com.koc.backend.pojo.Record;
+import javafx.scene.shape.MoveTo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.security.access.method.P;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
@@ -31,15 +34,14 @@ public class Game extends Thread{
     private Integer wait = null; // 当前等待玩家
     private Integer action = null;
 
-    private String loser = "";
-
+    private Integer loser ;
+    private String moveRecord = "";
 
     public Game(Integer aId, Integer bId, Integer aDirt, Integer bDirt) {
        this.pieces = new ArrayList<>();
        this.playerA = new Player(aId, aDirt);
        this.playerB = new Player(bId, bDirt);
 
-        System.out.println("create pieces " + this.pieces.size());
     }
 
     public void setNextStepA(String nextStepA) {
@@ -49,6 +51,10 @@ public class Game extends Thread{
         } finally {
             lock.unlock();
         }
+    }
+
+    public void setMoveRecord(Integer id, String step) {
+        moveRecord += id + "-" + step + "&";
     }
 
     public void setNextStepB(String nextStepB) {
@@ -61,7 +67,6 @@ public class Game extends Thread{
     }
 
     public void createPieces(int direction, boolean isWhite) {
-        System.out.println("create pieces " + this.pieces.size());
         if (isWhite) {
             int idx = 48;
             for (int i = 0; i < 8; ++i) {
@@ -109,27 +114,29 @@ public class Game extends Thread{
         }
     }
 
-    public void updateIdx(int preIdx, int newIdx) {
-
-        if (pieces.contains(preIdx)) {
-            PieceObject piece = pieces.get(preIdx);
-            piece.setIdx(newIdx);
-            pieces.add(piece);
-            pieces.remove(preIdx);
-            System.out.println("remove piece succeed");
-        } else {
-            System.out.println("remove piece error");
-        }
-    }
+//    public void updateIdx(Integer preIdx, Integer newIdx) {
+//
+//        for (int i = 0; i < pieces.size(); ++ i) {
+//            PieceObject piece = pieces.get(i);
+//            if (piece.getIdx().equals(preIdx)) {
+//                piece.setIdx(newIdx);
+//                pieces.add(piece);
+//                pieces.remove(i);
+//                break;
+//            }
+//        }
+//        System.out.println(pieces);
+//    }
 
     private void startAction() { // 开始行动判断
 
         JSONObject respAction = new JSONObject();
         respAction.put("event", "action");
+        respAction.put("action", "action");
 
         JSONObject respWait = new JSONObject();
         respWait.put("event", "wait");
-
+        respWait.put("action", "wait");
         int aDirection = playerA.getDirection();
         int bDirection = playerB.getDirection();
         if (aDirection == 1) {
@@ -143,18 +150,19 @@ public class Game extends Thread{
             WebSocketServer.users.get(playerB.getId()).sendMessage(respAction.toJSONString());
             WebSocketServer.users.get(playerA.getId()).sendMessage(respWait.toJSONString());
         }
-
     }
     private void playingAction(int actionId, int waitId) {
 
-        this.wait = waitId;
         this.action = actionId;
+        this.wait = waitId;
 
         JSONObject respAction = new JSONObject();
         respAction.put("event", "action");
+        respAction.put("action", "action");
 
         JSONObject respWait = new JSONObject();
         respWait.put("event", "wait");
+        respWait.put("action", "wait");
 
         WebSocketServer.users.get(actionId).sendMessage(respAction.toJSONString());
         WebSocketServer.users.get(waitId).sendMessage(respWait.toJSONString());
@@ -170,7 +178,14 @@ public class Game extends Thread{
         return true;
     }
 
+
     private void sendMove() {
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         int aId = playerA.getId();
         int bId = playerB.getId();
 
@@ -181,7 +196,6 @@ public class Game extends Thread{
             lock.lock();
             try {
                 respMove.put("step", nextStepB);
-                System.out.println(nextStepB);
             } finally {
                 lock.unlock();
             }
@@ -189,7 +203,6 @@ public class Game extends Thread{
             lock.lock();
             try {
                 respMove.put("step", nextStepA);
-                System.out.println(nextStepA);
             } finally {
                 lock.unlock();
             }
@@ -199,20 +212,35 @@ public class Game extends Thread{
         sendSomeMessage(wait, respMove.toJSONString());
     }
 
+    private void saveToDatabase() {
+        Record record = new Record(
+                null,
+                playerA.getId(),
+                playerB.getId(),
+                playerA.getDirection(),
+                playerB.getDirection(),
+                moveRecord,
+                loser,
+                new Date()
+        );
+
+        WebSocketServer.recordMapper.insert(record);
+    }
+
     private void senResult() {
         JSONObject respA = new JSONObject();
         respA.put("event", "result");
 
         JSONObject respB = new JSONObject();
         respB.put("event", "result");
-        if ("a".equals(loser)) {
+        if (playerA.getId().equals(loser)) {
             respB.put("result", "win");
             respA.put("result", "lose");
-        } else if ("b".equals(loser)) {
+        } else if (playerB.getId().equals(loser)) {
             respA.put("resu;t", "win");
             respB.put("result", "lose");
         }
-
+        saveToDatabase();
         sendSomeMessage(playerA.getId(), respA.toJSONString());
         sendSomeMessage(playerB.getId(), respB.toJSONString());
     }

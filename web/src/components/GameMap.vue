@@ -17,8 +17,8 @@ export default {
 
         onMounted(() => {
             store.commit("updateGameOBJ",
-                            new GameMap(canvas, parent.value,store)
-                        );
+                new GameMap(canvas, parent.value,store)
+            );
         })
         return {
             parent,

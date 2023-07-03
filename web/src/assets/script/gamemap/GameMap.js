@@ -47,11 +47,9 @@ export class GameMap extends GameObject {
 
             const idx = parseInt(this.direction) === 1 ? parseInt(obj.idx) :
                 this.reversal(parseInt(obj.idx));
-            const ctx = this.ctx;
-            const L = this.L;
+
             const piece_name = obj.pieceName;
-            const direction = parseInt(obj.direction) === parseInt(this.direction) ? parseInt(obj.direction)
-                : parseInt(-obj.direction);
+            const direction = parseInt(obj.direction);
 
             const imgsrc = parseInt(obj.direction) === parseInt(this.direction) ?
                 (parseInt(this.direction) === 1 ? 'w' : 'b') :
@@ -64,7 +62,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}p.png`,
                     survive: true,
-                }, { ctx: ctx, L: L });
+                }, this.ctx, this.store);
             } else if (piece_name === "rook") {
                 this.pieces_list[idx] = new Rook({
                     direction: direction,
@@ -72,7 +70,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}r.png`,
                     survive: true,
-                }, { ctx: ctx, L: L });
+                }, this.ctx, this.store);
             } else if (piece_name === "knight") {
                 this.pieces_list[idx] = new Knight({
                     direction: direction,
@@ -80,7 +78,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}n.png`,
                     survive: true,
-                }, { ctx: ctx, L: L });
+                }, this.ctx, this.store);
             } else if (piece_name === "bishop") {
                 this.pieces_list[idx] = new Bishop({
                     direction: direction,
@@ -88,7 +86,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}b.png`,
                     survive: true,
-                }, { ctx: ctx, L: L });
+                }, this.ctx, this.store);
             } else if (piece_name === "queen") {
                 this.pieces_list[idx] = new Queen({
                     direction: direction,
@@ -96,7 +94,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}q.png`,
                     survive: true,
-                }, { ctx: ctx, L: L });
+                }, this.ctx, this.store);
             } else if (piece_name === "king") {
                 this.pieces_list[idx] = new King({
                     direction: direction,
@@ -104,7 +102,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}k.png`,
                     survive: true,
-                }, { ctx: ctx, L: L });
+                }, this.ctx, this.store);
             }
         }
     }
@@ -116,20 +114,26 @@ export class GameMap extends GameObject {
     }
 
     sync_idx(pre_idx, now_idx) {
-        const pre_ = this.reversal(parseInt(pre_idx));
-        const now_ = this.reversal(parseInt(now_idx));
+        const pre_ = this.reversal(parseInt(pre_idx, 10));
+        const now_ = this.reversal(parseInt(now_idx, 10));
+
         this.pieces_list[pre_].row = parseInt(now_ / 8);
-        this.pieces_list[pre_].col = parseInt(now_ % 8);
+        this.pieces_list[pre_].col = now_ % 8;
+
+        if (this.pieces_list[now_] !== undefined &&
+            this.pieces_list[now_] !== null) {
+            this.pieces_list[now_].survive = false;
+        }
 
         this.pieces_list[now_] = this.pieces_list[pre_];
 
-        this.pieces_list[pre_].survive = false;
-        this.pieces_list[pre_] = null;
+        this.pieces_list[pre_] = undefined;
     }
 
 
 
     update_size() {
+        if (this.parent === null || this.ctx === null) return;
         this.L = parseInt(
             Math.min(this.parent.clientHeight / this.rows,
                 this.parent.clientWidth / this.cols));
@@ -137,6 +141,12 @@ export class GameMap extends GameObject {
         this.ctx.canvas.height = this.L * this.rows;
 
         this.TL = this.L / 4;
+        const L = this.L;
+
+        for (let obj of this.pieces_list) {
+            if (obj === null || obj === undefined) continue;
+            obj.setL(L);
+        }
     }
 
     update() {

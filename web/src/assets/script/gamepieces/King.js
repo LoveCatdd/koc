@@ -1,8 +1,8 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class King extends PiecesObject {
-    constructor(info, info_obj) {
-        super(info_obj);
+    constructor(info, ctx, store) {
+        super(ctx, store);
 
 
         this.piece_image = new Image();

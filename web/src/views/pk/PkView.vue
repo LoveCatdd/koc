@@ -19,7 +19,8 @@ export default {
     },
     setup() {   
         const store = useStore();
-        const socketUrl = `ws://127.0.0.1:8090/websocket/${store.state.user.token}/`;
+        
+        const socketUrl = `ws://127.0.0.1:8090/websocket/${store.state.user.token}`;
 
         let socket = null;
 
@@ -37,13 +38,14 @@ export default {
                         username: data.username,
                         photo: data.photo
                     });
-                    store.commit('updateStatus', "playing");
                     store.commit("updateGame", data.game);
-                } else if (data.event === "move") {
-                   console.log(data.step);
-                    // const [pre_idx, now_idx] = data.step.split("-");
-                    // store.state.pk.game_obj.sync_idx(pre_idx, now_idx);
-                }
+                    setTimeout(() => {
+                        store.commit('updateMatchStatus', "success");
+                    }, 1000);
+                    setTimeout(() => {
+                        store.commit('updateStatus', "playing");
+                    }, 3000);
+                } 
             }
         });
 
@@ -55,7 +57,6 @@ export default {
         });
 
         return {
-
         }
     }
 }
