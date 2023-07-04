@@ -68,6 +68,7 @@ export default {
 
         onUnmounted(() => {
             if (socket !== null) {
+                socket.close();
                 if (socket === null) console.log("close success");
                 else console.log("close error");
                 store.commit('updateStatus', "matching");

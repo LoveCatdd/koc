@@ -1,7 +1,7 @@
 
 import { GameObject } from "../GameObiect";
 export class PiecesObject extends GameObject {
-    constructor(ctx, store, isReplay) {
+    constructor(ctx, store) {
         super();
 
         this.piece_image;
@@ -19,7 +19,6 @@ export class PiecesObject extends GameObject {
 
         this.survive = false; //棋子存活状态
         this.status = "idle"; // idle 静止， move 移动
-        this.isReplay = isReplay;
         this.speed = 5;
 
         this.eps = 1 + 1e-3;
@@ -50,6 +49,7 @@ export class PiecesObject extends GameObject {
             return false;
         } else {
             this.pieces_list[idx].survive = false;
+            this.pieces_list[idx].game_over();
 
             return true;
         }
@@ -76,6 +76,10 @@ export class PiecesObject extends GameObject {
             idx = i * 8 + j;
         }
         return true;
+    }
+
+    game_over() {
+
     }
 
     check_direction() {

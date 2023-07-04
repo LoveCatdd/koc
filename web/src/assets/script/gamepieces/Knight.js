@@ -1,8 +1,8 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class Knight extends PiecesObject {
-    constructor(info, ctx, store, isReplay) {
-        super(ctx, store, isReplay);
+    constructor(info, ctx, store) {
+        super(ctx, store);
 
         this.piece_image = new Image();
         this.path = info.image;
@@ -23,6 +23,7 @@ export class Knight extends PiecesObject {
         }
         return true;
     }
+
     // 走棋规则
     move_piece(x, y) {
         //基本走棋

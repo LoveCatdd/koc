@@ -113,15 +113,13 @@ export default {
 
         onUnmounted(() => {
             if (socket !== null) {
+                socket.close();
                 store.commit('updateStatus', "matching");
                 store.commit('updateMatchStatus', "matching");
                 store.commit('updatePk');
             }
         });
-
-
-
-
+        
         return {
             post,
             socket,

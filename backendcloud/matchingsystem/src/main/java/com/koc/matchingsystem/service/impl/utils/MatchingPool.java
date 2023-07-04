@@ -64,6 +64,7 @@ public class MatchingPool extends Thread{
         restTemplate.postForObject(startGameUrl,data,String.class);
     }
     private void MatchPlayers() {
+        System.out.println(players.toString());
         boolean[] used = new boolean[players.size()];
         for (int i = 0; i < players.size(); ++ i){
             if (used[i])

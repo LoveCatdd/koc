@@ -100,7 +100,7 @@ export default {
 
 .loader:before , .loader:after{
   content: '';
-  border-radius: 50%;
+  border-radius: 90%;
   position: absolute;
   inset: 0;
   box-shadow: 0 0 15px 3Px rgba(236, 192, 82, 0.805) inset;

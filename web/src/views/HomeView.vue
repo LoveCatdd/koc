@@ -17,11 +17,6 @@
               <p>排位场</p>
             </button>
             </div>
-            <div class="margin-">
-              <button class="button-size" @click="friendClick">
-              <p>友人场</p>
-            </button>
-            </div>
         </div>
         <div class="col-1"></div>
       </div>

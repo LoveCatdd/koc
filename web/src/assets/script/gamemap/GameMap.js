@@ -62,7 +62,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}p.png`,
                     survive: true,
-                }, this.ctx, this.store, false);
+                }, this.ctx, this.store);
             } else if (piece_name === "rook") {
                 this.pieces_list[idx] = new Rook({
                     direction: direction,
@@ -70,7 +70,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}r.png`,
                     survive: true,
-                }, this.ctx, this.store, false);
+                }, this.ctx, this.store);
             } else if (piece_name === "knight") {
                 this.pieces_list[idx] = new Knight({
                     direction: direction,
@@ -78,7 +78,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}n.png`,
                     survive: true,
-                }, this.ctx, this.store, false);
+                }, this.ctx, this.store);
             } else if (piece_name === "bishop") {
                 this.pieces_list[idx] = new Bishop({
                     direction: direction,
@@ -86,7 +86,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}b.png`,
                     survive: true,
-                }, this.ctx, this.store, false);
+                }, this.ctx, this.store);
             } else if (piece_name === "queen") {
                 this.pieces_list[idx] = new Queen({
                     direction: direction,
@@ -94,7 +94,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}q.png`,
                     survive: true,
-                }, this.ctx, this.store, false);
+                }, this.ctx, this.store);
             } else if (piece_name === "king") {
                 this.pieces_list[idx] = new King({
                     direction: direction,
@@ -102,7 +102,7 @@ export class GameMap extends GameObject {
                     col: parseInt(idx % 8),
                     image: process.env.BASE_URL + `images\\pieces\\${imgsrc}k.png`,
                     survive: true,
-                }, this.ctx, this.store, false);
+                }, this.ctx, this.store);
             }
         }
     }
@@ -114,11 +114,14 @@ export class GameMap extends GameObject {
     }
 
     sync_idx(pre_idx, now_idx) {
-        const pre_ = this.reversal(parseInt(pre_idx, 10));
-        const now_ = this.reversal(parseInt(now_idx, 10));
+        const pre_ = this.reversal(parseInt(pre_idx));
+        const now_ = this.reversal(parseInt(now_idx));
 
-        this.pieces_list[pre_].row = parseInt(now_ / 8);
-        this.pieces_list[pre_].col = now_ % 8;
+
+        if (this.pieces_list[pre_] !== undefined && this.pieces_list[pre_] !== null) {
+            this.pieces_list[pre_].row = parseInt(now_ / 8);
+            this.pieces_list[pre_].col = now_ % 8;
+        }
 
         if (this.pieces_list[now_] !== undefined &&
             this.pieces_list[now_] !== null) {

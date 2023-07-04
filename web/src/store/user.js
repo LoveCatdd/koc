@@ -33,6 +33,12 @@ export default {
         },
         updatePullingInfo(state, pulling_info) {
             state.pulling_info = pulling_info;
+        },
+        updateUsername(state, username) {
+            state.username = username;
+        },
+        updatePhoto(state, photo) {
+            state.photo = photo;
         }
 
     },
@@ -62,11 +68,12 @@ export default {
         getInfo(context, datas) {
             $.ajax({
                 url: "http://127.0.0.1:8090/user/account/info/",
-                type: "post",
+                type: "get",
                 headers: {
                     Authorization: "Bearer " + context.state.token,
                 },
                 success(resp) {
+                    console.log(resp);
                     if (resp.error_message === "success") {
                         context.commit("updateUser", {
                             ...resp,
@@ -74,11 +81,12 @@ export default {
                         });
                         datas.success(resp);
                     } else {
-                        datas.success(resp);
+                        datas.error();
                     }
                 },
                 error(resp) {
-                    datas.error(resp);
+                    console.log(resp);
+                    datas.error();
                 }
             });
         },

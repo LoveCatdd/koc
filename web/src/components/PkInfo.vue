@@ -71,7 +71,7 @@ export default {
             context.emit('SaveClick',true);
             showChatstatus.value = !showChatstatus.value;
         }
-        let countdown = ref(10);
+        let countdown = ref(600);
 
         const store = useStore();
         let timer = 0;

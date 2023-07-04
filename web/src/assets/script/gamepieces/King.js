@@ -1,9 +1,8 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class King extends PiecesObject {
-    constructor(info, ctx, store, isReplay) {
-        super(ctx, store, isReplay);
-
+    constructor(info, ctx, store) {
+        super(ctx, store);
 
         this.piece_image = new Image();
         this.path = info.image;
@@ -15,6 +14,12 @@ export class King extends PiecesObject {
 
         this.survive = info.survive; //棋子存活状态
 
+    }
+    game_over() {
+        this.store.state.pk.socket.send(JSON.stringify({
+            event: "finished",
+            status: "finished",
+        }));
     }
     // 走棋规则
     move_piece(x, y) {

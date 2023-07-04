@@ -7,18 +7,20 @@
             <div  class="user-margin user-color">lpxl</div>
             <div class="user-margin user-color">666</div>
         </div>
-
-        <div class="user-color ">
-            匹配场、排位场、友人场
-        </div>
-
+        <PkUserInfoBase />
     </div>
 </div>
 </template>
 
 <script>
+
+import PkUserInfoBase from './PkUserInfoBase.vue'
+
 export default {
     name: 'UserInfoBase',
+    components: {
+        PkUserInfoBase
+    },
     props: {
         info: {
             type: String,

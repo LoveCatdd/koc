@@ -1,7 +1,6 @@
 import { createStore } from 'vuex'
 import ModuleUser from './user'
 import ModulePk from './pk';
-import ModuleReplay from './replay';
 // Vuex持久化插件(vuex-persistedstate)解决刷新数据消失的问题
 import createPersistedState from "vuex-persistedstate"
 
@@ -17,7 +16,6 @@ export default createStore({
     modules: {
         user: ModuleUser,
         pk: ModulePk,
-        replay: ModuleReplay,
     },
     // Vuex持久化插件(vuex-persistedstate)解决刷新数据消失的问题
     // 下面的写法，会默认持久化所有state

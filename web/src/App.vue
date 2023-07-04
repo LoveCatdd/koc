@@ -1,6 +1,6 @@
 <template>
   <NavBar />
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
@@ -10,7 +10,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
 import NavBar from "./components/NavBar.vue"
 
 
@@ -22,12 +21,10 @@ export default ({
     NavBar
   },
   setup() {
-    
+
   },
 })
 </script>
 
 
-<style>
-
-</style>
+<style></style>

@@ -2,11 +2,11 @@
     <div class="center-"> 
         <div class="card-background radius">
             <div class="margin-bottom margin-">  
-                <img class="img-size img-float" :src="info.photo" alt="">        
+                <img class="img-size img-float" :src="$store.state.user.photo" alt="">        
                 <div class="user-margin">
                     <div class="game-float user-color">匹配场</div>
-                    <div  class="user-margin user-color">lpxl</div>
-                    <div class="user-margin user-color">666</div>
+                    <div  class="user-margin user-color">{{ $store.state.user.username }}</div>
+                    <div class="user-margin user-color">{{ $store.state.user.designation }}</div>
                 </div>
             </div>
             <div class="body-margin">
@@ -23,6 +23,8 @@
 
 <script>
 import router from '@/router';
+import { onUnmounted } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
     name: 'PkEnd',
@@ -33,10 +35,19 @@ export default {
         }
     },
     setup() {
+
+        const store = useStore();
+
         const rightClick = () => {
             router.push({name: 'home'});
         };
 
+
+        onUnmounted(() => {
+            store.commit("updateGameStatus"), {
+                game_status: "playing",
+            }
+        });
         return {
             rightClick,
         }
