@@ -13,8 +13,9 @@ public class InfoController {
     @Autowired
     private InfoService infoService;
 
-    @PostMapping("/user/account/info/")
+    @GetMapping("/user/account/info/")
     public Map<String, String> getinfo() {
         return infoService.getinfo();
     }
+
 }

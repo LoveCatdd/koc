@@ -6,6 +6,8 @@ import RecordView from '../views/record/RecordView.vue';
 import UserInfoView from '../views/user/info/UserInfoView.vue';
 import StoreHouseView from '../views/storehouse/StoreHouseView.vue';
 import PkView from '../views/pk/PkView.vue';
+import RuleView from '../views/rule/RuleView';
+import FriendsListView from '../views/user/friends/FriendsListView';
 import LoginView from '../views/user/account/login/LoginView.vue';
 import RegisterView from '../views/user/account/register/RegisterView.vue';
 
@@ -40,6 +42,16 @@ const routes = [
     path: '/pk/',
     name: 'pk',
     component: PkView
+  },
+  {
+    path: '/rule/',
+    name: 'rule',
+    component: RuleView
+  },
+  {
+    path: '/friendslist/',
+    name: 'friendslist',
+    component: FriendsListView
   },
   {
     path: '/login/',

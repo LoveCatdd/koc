@@ -1,5 +1,8 @@
 package com.koc.backend.service.impl.user.account;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.koc.backend.mapper.InfoMapper;
+import com.koc.backend.pojo.Info;
 import com.koc.backend.pojo.User;
 import com.koc.backend.service.impl.utils.UserDetailsImpl;
 import com.koc.backend.service.user.account.LoginService;
@@ -29,7 +32,8 @@ public class LoginServiceImpl implements LoginService {
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticate.getPrincipal();
         User user = loginUser.getUser();
         String jwt = JwtUtil.createJWT(user.getId().toString());
-
+        //个人中心初始化
+        //if()
         Map<String, String> map = new HashMap<>();
         map.put("error_message", "success");
         map.put("token", jwt);

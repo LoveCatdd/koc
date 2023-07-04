@@ -54,7 +54,7 @@ export default {
         getInfo(context, datas) {
             $.ajax({
                 url: "http://127.0.0.1:8090/user/account/info/",
-                type: "post",
+                type: "get",
                 headers: {
                     Authorization: "Bearer " + context.state.token,
                 },
@@ -66,11 +66,11 @@ export default {
                         });
                         datas.success(resp);
                     } else {
-                        datas.success(resp);
+                        datas.error();
                     }
                 },
-                error(resp) {
-                    datas.error(resp);
+                error() {
+                    datas.error();
                 }
             });
         },

@@ -27,24 +27,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+        //密码加密
     }
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+        //处理身份验证
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf().disable()//禁用 CSRF (跨站请求伪造) 防护功能。
+                //设置会话管理策略为无状态，即不创建会话。
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                //开始配置请求的权限控制
                 .authorizeRequests()
-                .antMatchers("/user/account/token/", "/user/account/register/").permitAll()
+                //允许访问的地址
+                .antMatchers("/user/account/token/", "/user/account/register/","/user/account/info/").permitAll()
+                //允许对 OPTIONS 请求方法的所有请求进行放行，OPTIONS 请求用于获取目标资源所支持的通信选项。
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
+                //对于其他所有请求，需要进行身份验证才能访问。
                 .anyRequest().authenticated();
-
+        //将自定义的 JWT 认证过滤器添加到 Spring Security 过滤器链中，该过滤器在用户名密码认证过滤器之前执行。
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
