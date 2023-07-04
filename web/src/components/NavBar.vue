@@ -14,10 +14,6 @@
               :to="{ name: 'rank_list' }">排行榜</router-link>
           </li>
           <li class="nav-item">
-            <router-link :class="route_name === 'storehouse' ? 'nav-link active' : 'nav-link'"
-              :to="{ name: 'storehouse' }">仓库</router-link>
-          </li>
-          <li class="nav-item">
             <router-link :class="route_name === 'record' ? 'nav-link active' : 'nav-link'"
               :to="{ name: 'record' }">棋谱</router-link>
           </li>

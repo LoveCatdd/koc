@@ -1,4 +1,4 @@
-package com.koc.backend.controller.user.Groups;
+package com.koc.backend.controller.Groups;
 
 import com.alibaba.fastjson.JSONObject;
 import com.koc.backend.service.user.groups.GetGroups;

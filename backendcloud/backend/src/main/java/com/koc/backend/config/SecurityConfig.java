@@ -46,14 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //开始配置请求的权限控制
                 .authorizeRequests()
-<<<<<<< HEAD
-                //允许访问的地址
-                .antMatchers("/user/account/token/", "/user/account/register/","/user/account/info/").permitAll()
-                //允许对 OPTIONS 请求方法的所有请求进行放行，OPTIONS 请求用于获取目标资源所支持的通信选项。
-=======
                 .antMatchers("/user/account/token/", "/user/account/register/").permitAll()
                 .antMatchers("/pk/start/game/").hasIpAddress("127.0.0.1")
->>>>>>> 1e0f99d9410c6e54dc9cd54c1384c70a9896d4d4
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 //对于其他所有请求，需要进行身份验证才能访问。
                 .anyRequest().authenticated();

@@ -1,4 +1,4 @@
-package com.koc.backend.controller.user.friends;
+package com.koc.backend.controller.friends;
 
 public class AddfriendController {
 }

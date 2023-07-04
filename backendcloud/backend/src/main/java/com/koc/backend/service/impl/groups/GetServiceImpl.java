@@ -4,10 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.koc.backend.mapper.GroupMapper;
 import com.koc.backend.pojo.Group;
-import com.koc.backend.pojo.Info;
 import com.koc.backend.pojo.User;
 import com.koc.backend.service.impl.utils.UserUtilImpl;
-import com.koc.backend.service.user.friends.GetGroups;
+import com.koc.backend.service.user.groups.GetGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,7 @@ public class GetServiceImpl implements GetGroups {
         List<Group> groups = groupMapper.selectList(qr.eq("userid",user.getId()));
         String groupstr = "";
         for(Group g : groups){
-            groupstr += g.getGroupid() + " " + g.getGroupnames();
+            groupstr += g.getId() + " " + g.getGroupnames();
         }
         jsonObject.put("userid", group.getUserid());
         jsonObject.put("groups", groupstr);

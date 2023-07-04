@@ -1,6 +1,7 @@
 package com.koc.backend.service.impl.user.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.koc.backend.mapper.GroupMapper;
 import com.koc.backend.mapper.InfoMapper;
 import com.koc.backend.mapper.UserMapper;
 import com.koc.backend.pojo.Group;
@@ -22,6 +23,9 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Autowired
     private InfoMapper infoMapper;
+
+    @Autowired
+    GroupMapper groupMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -75,11 +79,13 @@ public class RegisterServiceImpl implements RegisterService {
     String photo = "https://www.miyoushe.com/mainPage/sr-logo-v2.png";
     User user = new User(null, username, encodedPassword, photo,1500);
     Info info = new Info(null,null);
-    Group group = new Group();
+    Group group = new Group(null,null,"默认分组");
     userMapper.insert(user);
     user = userMapper.selectOne(queryWrapper.eq("username", user.getUsername()));
+    group.setUserid(user.getId());
     info.setUserid(user.getId());
     infoMapper.insert(info);
+    groupMapper.insert(group);
     map.put("error_message", "success");
     return map;
 

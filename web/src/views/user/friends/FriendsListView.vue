@@ -67,9 +67,6 @@
                                             <img :src="item.photo" class="friend-text">
                                             <span style="flex-grow: 1;">{{ item.friendname }}</span>
                                             <span v-if="item.messages === 0">
-                                                <a role="button" href="#">
-                                                    <i class="bi bi-chat-dots"></i>
-                                                </a>
                                             </span>
                                             <span class="badge bg-primary rounded-pill" v-else>{{ item.messages
                                             }}</span>
@@ -112,8 +109,7 @@
 
 <script>
 import { reactive, ref } from 'vue';
-// import ChatWindow from '@/chat/Chat.vue';
-// import $ from 'jquery';
+import $ from 'jquery';
 
 export default {
     setup() {
@@ -125,14 +121,35 @@ export default {
         let showModal = ref(false);
         let newGroupName = ref('');
         const groups = reactive({
-            count: 4,
+            count: 0,
             group: [
-                { id: 0, name: '默认分组' },
-                { id: 1, name: 'nihao1' },
-                { id: 2, name: 'nihao4' },
-                { id: 3, name: 'nihao2' },
-                { id: 4, name: 'nihao3' }
             ],
+        });
+        onMounted(() => {
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/info/getgroups/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + context.state.user.token,
+                },
+                sueecss(resp) {
+
+                },
+                error() {
+
+                }
+            }),
+                $.ajax({
+                    url: 'http://127.0.0.1:8090/user/account/info/getfriends/',
+                    type: "get",
+                    headers: {
+                        Authorization: "Bearer " + context.state.user.token,
+                    },
+                    sueecss(resp) {
+                        const data = JSON.parse(resp.data);
+                        [friends.friend.id, friends.friend.photo, friends.friend.friendname] = data.split(' ');
+                    }
+                })
         });
         // component('PopupWindow', PopupWindow);
         const searchResults = reactive({
@@ -141,22 +158,8 @@ export default {
             ],
         });
         const friends = reactive({
-            count: 9,
+            count: 0,
             friend: [
-                { id: 0, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张三', messages: 0 },
-                { id: 1, groupid: 1, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '李四', messages: 0 },
-                { id: 2, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '赵六', messages: 0 },
-                { id: 3, groupid: 2, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '王五', messages: 0 },
-                { id: 4, groupid: 3, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '凯文', messages: 0 },
-                { id: 5, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '菲利斯', messages: 0 },
-                { id: 6, groupid: 4, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '帕朵', messages: 0 },
-                { id: 7, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '梅比乌斯', messages: 0 },
-                { id: 8, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '华', messages: 0 },
-                { id: 10, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张1', messages: 0 },
-                { id: 11, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张2', messages: 0 },
-                { id: 12, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '三', messages: 0 },
-                { id: 13, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张4', messages: 0 },
-                { id: 9, groupid: 4, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '伊甸', messages: 0 }
             ],
         });
         const cgroup = (cid) => {
