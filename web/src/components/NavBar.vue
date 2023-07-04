@@ -1,6 +1,7 @@
 <template>
   <div v-if="route_name === 'login' || route_name === 'register'"></div>
   <nav v-else class="navbar navbar-expand-lg bg-dark navbar-dark">
+
     <div class="container">
       <router-link class="navbar-brand" :to="{ name: 'home' }">King of Chess</router-link>
       <div class="collapse navbar-collapse" id="navbarText">
@@ -29,7 +30,7 @@
             <router-link :class="route_name === 'rule' ? 'nav-link active' : 'nav-link'"
               :to="{ name: 'rule' }">规则</router-link>
           </li>
-        </ul>
+        </ul>、
         <ul class="navbar-nav" v-if="$store.state.user.is_login">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"

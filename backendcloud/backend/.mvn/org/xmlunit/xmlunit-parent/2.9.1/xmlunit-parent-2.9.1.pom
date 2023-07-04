@@ -262,36 +262,36 @@
           <configuration>
             <windowtitle>XMLUnit for Java ${project.version} API</windowtitle>
             <doctitle>XMLUnit for Java ${project.version} API</doctitle>
-            <groups>
-              <group>
+            <subset>
+              <subset>
                 <title>XMLUnit Core ${project.version}</title>
                 <packages>org.xmlunit*</packages>
-              </group>
-              <group>
+              </subset>
+              <subset>
                 <title>XMLUnit Hamcrest Matchers ${project.version}</title>
                 <packages>org.xmlunit.matchers*</packages>
-              </group>
-              <group>
+              </subset>
+              <subset>
                 <title>XMLUnit AssertJ 3.x Assertions ${project.version}</title>
                 <packages>org.xmlunit.assertj3*</packages>
-              </group>
-              <group>
+              </subset>
+              <subset>
                 <title>XMLUnit AssertJ 2.x/3.x Assertions ${project.version}</title>
                 <packages>org.xmlunit.assertj*</packages>
-              </group>
-              <group>
+              </subset>
+              <subset>
                 <title>XMLUnit Legacy ${project.version}</title>
                 <packages>org.custommonkey.xmlunit*</packages>
-              </group>
-              <group>
+              </subset>
+              <subset>
                 <title>XMLUnit Placeholders ${project.version}</title>
                 <packages>org.xmlunit.placeholder*</packages>
-              </group>
-              <group>
+              </subset>
+              <subset>
                 <title>XMLUnit Jakarta XML Binding Support ${project.version}</title>
                 <packages>org.xmlunit.builder.jakarta_jaxb*</packages>
-              </group>
-            </groups>
+              </subset>
+            </subset>
             <quiet>true</quiet>
             <source>${maven.javadoc.source}</source>
             <encoding>${project.build.sourceEncoding}</encoding>

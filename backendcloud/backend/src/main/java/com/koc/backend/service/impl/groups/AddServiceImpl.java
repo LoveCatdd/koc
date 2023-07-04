@@ -3,8 +3,8 @@ package com.koc.backend.service.impl.groups;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.koc.backend.mapper.GroupMapper;
-import com.koc.backend.pojo.Group;
+import com.koc.backend.mapper.subsetMapper;
+import com.koc.backend.pojo.Subset;
 import com.koc.backend.pojo.User;
 import com.koc.backend.service.impl.utils.UserUtilImpl;
 import com.koc.backend.service.user.groups.AddGroups;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class AddServiceImpl implements AddGroups {
 
     @Autowired
-    GroupMapper groupMapper;
+    subsetMapper subsetMapper;
     @Override
     public JSONObject AddGroup(String req) {
         User user = UserUtilImpl.getUser();
@@ -25,8 +25,8 @@ public class AddServiceImpl implements AddGroups {
         JSONArray GNamesArray = data.getJSONArray("groupname");
         String gnames =GNamesArray.toJSONString();
 
-        Group group = new Group(null,Uid,gnames);
-        groupMapper.insert(group);
+        Subset subset = new Subset(null,Uid,gnames);
+        subsetMapper.insert(subset);
         JSONObject res = new JSONObject();
         res.put("error","success");
 

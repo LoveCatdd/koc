@@ -4,14 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.koc.backend.mapper.FriendMapper;
 import com.koc.backend.pojo.Friend;
-import com.koc.backend.pojo.Group;
 import com.koc.backend.pojo.User;
 import com.koc.backend.service.impl.utils.UserUtilImpl;
 import com.koc.backend.service.user.friends.GetFriends;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class GetFriendsImpl implements GetFriends {
 
     @Autowired

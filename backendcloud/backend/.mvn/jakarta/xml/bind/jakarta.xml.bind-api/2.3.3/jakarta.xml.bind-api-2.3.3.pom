@@ -113,12 +113,12 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                         </bottom>
                         <detectJavaApiLink>false</detectJavaApiLink>
                         <docfilessubdirs>true</docfilessubdirs>
-                        <groups>
-                            <group>
+                        <subset>
+                            <subset>
                                 <title>Jakarta XML Binding API Packages</title>
                                 <packages>javax.xml.bind*</packages>
-                            </group>
-                        </groups>
+                            </subset>
+                        </subset>
                         <tags>
                             <tag>
                                 <name>apiNote</name>

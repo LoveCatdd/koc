@@ -1,10 +1,10 @@
 package com.koc.backend.service.impl.user.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.koc.backend.mapper.GroupMapper;
+import com.koc.backend.mapper.subsetMapper;
 import com.koc.backend.mapper.InfoMapper;
 import com.koc.backend.mapper.UserMapper;
-import com.koc.backend.pojo.Group;
+import com.koc.backend.pojo.Subset;
 import com.koc.backend.pojo.Info;
 import com.koc.backend.pojo.User;
 import com.koc.backend.service.user.account.RegisterService;
@@ -25,7 +25,7 @@ public class RegisterServiceImpl implements RegisterService {
     private InfoMapper infoMapper;
 
     @Autowired
-    GroupMapper groupMapper;
+    subsetMapper subsetMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -78,14 +78,12 @@ public class RegisterServiceImpl implements RegisterService {
     String encodedPassword = passwordEncoder.encode(password);//加密
     String photo = "https://www.miyoushe.com/mainPage/sr-logo-v2.png";
     User user = new User(null, username, encodedPassword, photo,1500);
-    Info info = new Info(null,null);
-    Group group = new Group(null,null,"默认分组");
     userMapper.insert(user);
     user = userMapper.selectOne(queryWrapper.eq("username", user.getUsername()));
-    group.setUserid(user.getId());
-    info.setUserid(user.getId());
+    Info info = new Info(null,user.getId());
     infoMapper.insert(info);
-    groupMapper.insert(group);
+    Subset subset = new Subset(null,user.getId(),"默认分组");
+    subsetMapper.insert(subset);
     map.put("error_message", "success");
     return map;
 

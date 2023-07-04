@@ -11,7 +11,7 @@ public class AddGroupController {
     @Autowired
     AddGroups addGroups;
 
-    @GetMapping("/api/groups")
+    @GetMapping("http://127.0.0.1:8090/user/account/info/addgroup")
     public JSONObject AddGroup(String req) {
         return addGroups.AddGroup(req);
     }

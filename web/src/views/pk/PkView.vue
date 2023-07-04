@@ -45,7 +45,22 @@ export default {
                     setTimeout(() => {
                         store.commit('updateStatus', "playing");
                     }, 3000);
-                } 
+                }
+
+                if (data.event === "action") {
+                    store.commit("updateAction", data.action);
+                } else if (data.event === "wait") {
+                    store.commit("updateAction", data.action);
+                } else if (data.event === "send-message") {
+                    store.commit("updatePost", {
+                        id: data.id,
+                        sender: data.sender,
+                        content: data.content
+                    })
+                } else if (data.event === "move") {
+                    const idx_list = data.step.split(" ");
+                    store.state.pk.game_obj.sync_idx(idx_list[0], idx_list[1]);
+                }
             }
         });
 

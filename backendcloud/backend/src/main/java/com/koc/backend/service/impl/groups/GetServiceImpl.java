@@ -2,8 +2,8 @@ package com.koc.backend.service.impl.groups;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.koc.backend.mapper.GroupMapper;
-import com.koc.backend.pojo.Group;
+import com.koc.backend.mapper.subsetMapper;
+import com.koc.backend.pojo.Subset;
 import com.koc.backend.pojo.User;
 import com.koc.backend.service.impl.utils.UserUtilImpl;
 import com.koc.backend.service.user.groups.GetGroups;
@@ -11,27 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class GetServiceImpl implements GetGroups {
 
     @Autowired
-    GroupMapper groupMapper;
+    subsetMapper subsetMapper;
     @Override
     public JSONObject GetGroup() {
+        System.out.println("get group run");
         User user = UserUtilImpl.getUser();
-        QueryWrapper<Group> qr = new QueryWrapper<>();
-        Group group = groupMapper.selectOne(qr.eq("userid",user.getId()));
+        QueryWrapper<Subset> qr = new QueryWrapper<>();
+        Subset group = subsetMapper.selectOne(qr.eq("userid",user.getId()));
         JSONObject jsonObject = new JSONObject();
-        // jsonObject.put("userid", group.getUserid());
-        // jsonObject.put("groups", group.getGroupnames());
-        List<Group> groups = groupMapper.selectList(qr.eq("userid",user.getId()));
-        String groupstr = "";
-        for(Group g : groups){
-            groupstr += g.getId() + " " + g.getGroupnames();
-        }
-        jsonObject.put("userid", group.getUserid());
-        jsonObject.put("groups", groupstr);
+        List<Subset> groups = subsetMapper.selectList(qr.eq("userid",user.getId()));
+        jsonObject.put("groupsnum", groups.size());
+        System.out.println(jsonObject.toJSONString());
         return jsonObject;
     }
 }

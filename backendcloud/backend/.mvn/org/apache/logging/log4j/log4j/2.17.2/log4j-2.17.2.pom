@@ -306,7 +306,7 @@
 <!--     <pluginRepository> -->
 <!--       <id>apache.snapshots</id> -->
 <!--       <name>Apache snapshots repository</name> -->
-<!--       <url>http://repository.apache.org/content/groups/snapshots</url> -->
+<!--       <url>http://repository.apache.org/content/subset/snapshots</url> -->
 <!--       <snapshots> -->
 <!--         <enabled>true</enabled> -->
 <!--       </snapshots> -->

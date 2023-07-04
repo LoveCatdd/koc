@@ -205,17 +205,17 @@
   <mailingLists>
     <mailingList>
       <name>mybatis-dev</name>
-      <archive>https://groups.google.com/forum/#!forum/mybatis-dev</archive>
-      <subscribe>https://groups.google.com/forum/#!forum/mybatis-dev/join</subscribe>
-      <unsubscribe>https://groups.google.com/forum/#!forum/mybatis-dev/join</unsubscribe>
+      <archive>https://subset.google.com/forum/#!forum/mybatis-dev</archive>
+      <subscribe>https://subset.google.com/forum/#!forum/mybatis-dev/join</subscribe>
+      <unsubscribe>https://subset.google.com/forum/#!forum/mybatis-dev/join</unsubscribe>
       <post>mybatis-dev@googlegroups.com</post>
     </mailingList>
 
     <mailingList>
       <name>mybatis-user</name>
-      <archive>https://groups.google.com/forum/#!forum/mybatis-user</archive>
-      <subscribe>https://groups.google.com/forum/#!forum/mybatis-user/join</subscribe>
-      <unsubscribe>https://groups.google.com/forum/#!forum/mybatis-user/join</unsubscribe>
+      <archive>https://subset.google.com/forum/#!forum/mybatis-user</archive>
+      <subscribe>https://subset.google.com/forum/#!forum/mybatis-user/join</subscribe>
+      <unsubscribe>https://subset.google.com/forum/#!forum/mybatis-user/join</unsubscribe>
       <post>mybatis-user@googlegroups.com</post>
       <otherArchives>
         <otherArchive>http://mybatis-user.963551.n3.nabble.com/</otherArchive>
@@ -224,9 +224,9 @@
 
     <mailingList>
       <name>mybatis-commits</name>
-      <archive>https://groups.google.com/forum/#!forum/mybatis-commits</archive>
-      <subscribe>https://groups.google.com/forum/#!forum/mybatis-commits/join</subscribe>
-      <unsubscribe>https://groups.google.com/forum/#!forum/mybatis-commits/join</unsubscribe>
+      <archive>https://subset.google.com/forum/#!forum/mybatis-commits</archive>
+      <subscribe>https://subset.google.com/forum/#!forum/mybatis-commits/join</subscribe>
+      <unsubscribe>https://subset.google.com/forum/#!forum/mybatis-commits/join</unsubscribe>
       <post>mybatis-commits@googlegroups.com</post>
     </mailingList>
   </mailingLists>
@@ -352,11 +352,11 @@
     <osgi.private />
 
     <!-- Animal Sniffer Signature -->
-    <signature.group>org.codehaus.mojo.signature</signature.group>
+    <signature.subset>org.codehaus.mojo.signature</signature.subset>
     <signature.artifact>java18</signature.artifact>
     <signature.version>1.0</signature.version>
 
-    <!-- Add slow test groups here and annotate classes similar to @Tag('groupName') which will auto enable on travis-ci only. -->
+    <!-- Add slow test subset here and annotate classes similar to @Tag('groupName') which will auto enable on travis-ci only. -->
     <excludedGroups />
   </properties>
 
@@ -575,7 +575,7 @@
           <artifactId>impsort-maven-plugin</artifactId>
           <version>${impsort.version}</version>
           <configuration>
-            <groups>${impsortGroups}</groups>
+            <subset>${impsortGroups}</subset>
             <staticGroups>java,*</staticGroups>
             <removeUnused>true</removeUnused>
           </configuration>
@@ -668,7 +668,7 @@
         <version>${animal.version}</version>
         <configuration>
           <signature>
-            <groupId>${signature.group}</groupId>
+            <groupId>${signature.subset}</groupId>
             <artifactId>${signature.artifact}</artifactId>
             <version>${signature.version}</version>
           </signature>

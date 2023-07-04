@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Manual {
+public class Subset {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer userid;
-    private char piece;
-    private Integer x;
-    private Integer y;
+    private String subsetname;
 }

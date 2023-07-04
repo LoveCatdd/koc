@@ -12,7 +12,7 @@ public class GetGroupController {
     @Autowired
     GetGroups getGroups;
 
-    @GetMapping("http://127.0.0.1:8090/user/account/info/getgroups")
+    @GetMapping("/user/group/getgroups/")
     public JSONObject GetGroup(){
         return getGroups.GetGroup();
     }
