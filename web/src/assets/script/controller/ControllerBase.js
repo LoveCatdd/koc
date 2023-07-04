@@ -17,9 +17,14 @@ export class ControllerBase {
         const L = this.gamemap.L;
         let c = parseInt((event.clientX - rect.left) / L);
         let r = parseInt((event.clientY - rect.top) / L);
-
-        // console.log(`${r}, ${c}`);
         this.idx = r * 8 + c;
+
+        /*if(this.gamemap.pieces_list[this.idx])
+        {
+            console.log('OK');
+            console.log(this.gamemap.pieces_list[this.idx].row);
+        }*/
+
 
         // const piece = this.pieces_list[this.idx];
         // if (piece !== undefined) console.log(piece);
@@ -35,9 +40,8 @@ export class ControllerBase {
     handleMouseMove = (event) => {
         if (!this.isMouseDown) return;
         this.isMouseMove = true;
-        const direction = this.gamemap.direction;
         const piece = this.pieces_list[this.idx];
-        if ((piece === undefined) || piece.direction !== direction) return;
+        if (piece === undefined) return;
 
         if (this.piece_picked[0] !== undefined) {
             this.piece_picked = [undefined, undefined];
@@ -48,7 +52,7 @@ export class ControllerBase {
         const mr = event.clientY - rect.top;
 
         piece.update_move(mr, mc);
-        // console.log(`${mc}, ${mr}`);
+
     }
 
     handleMouseUp = (event) => {
@@ -63,25 +67,23 @@ export class ControllerBase {
         const mr = parseInt((event.clientY - rect.top) / L);
 
         const idx_ = mr * 8 + mc;
-
         if (this.piece_picked[0] !== undefined) {
 
             if (idx_ === this.piece_picked[1]);
             else if (this.check_direction(this.piece_picked[1], idx_)) {
-
                 this.piece_picked = [this.pieces_list[idx_], idx_];
-
             } else {
-                this.pieces_list[idx_] = this.piece_picked[0];
-                this.pieces_list[this.piece_picked[1]] = undefined;
-                this.piece_picked[0].update_idx(mr, mc);
+                if (this.piece_picked[0].update_idx(mr, mc)) {
+                    this.pieces_list[idx_] = this.piece_picked[0];
+                    this.pieces_list[this.piece_picked[1]] = undefined;
+                }
                 this.piece_picked = [undefined, undefined];
             }
         } else if (idx_ !== this.idx) {
-
-            this.pieces_list[idx_] = this.pieces_list[this.idx];
-            this.pieces_list[this.idx] = undefined;
-            piece.update_idx(mr, mc);
+            if (piece.update_idx(mr, mc)) {
+                this.pieces_list[idx_] = this.pieces_list[this.idx];
+                this.pieces_list[this.idx] = undefined;
+            }
             piece.status = "idle";
         } else {
             if (this.isMouseMove) {
@@ -92,8 +94,9 @@ export class ControllerBase {
                 this.piece_picked = [this.pieces_list[this.idx], this.idx];
             }
         }
-        console.log(this.piece_picked[0]);
+        //console.log(this.piece_picked[0]);
         this.isMouseDown = false;
+        //this.isMouseMove = false;
         this.idx = -1;
     }
 

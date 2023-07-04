@@ -1,6 +1,6 @@
 <template>
     <div class="chat-bot" id="msg" ref="chatMessages" >
-        <div v-for="post in message.posts" :key="post.id">
+        <div v-for="post in $store.state.pk.posts" :key="post.id">
             <div  :class=" post.sender === 'me'? 'chat-m': 'chat-u'"> 
                 <div :class=" post.sender === 'me'? 'chat-msg-m' : 'chat-msg-u' ">
                     {{ post.content }}
@@ -15,12 +15,6 @@ import { ref, onMounted } from 'vue';
 
 export default {
     name: 'ChatPost',
-    props: {
-        message: {
-            type: Object,
-            required: true,
-        }
-    },
     setup() {
         let chatMessages = ref(null);
 

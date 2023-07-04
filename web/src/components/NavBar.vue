@@ -34,7 +34,6 @@
               :to="{ name: 'rule' }">规则</router-link>
           </li>
         </ul>
-
         <ul class="navbar-nav" v-if="$store.state.user.is_login">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -53,7 +52,7 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav" v-else>
+        <ul class="navbar-nav" v-else-if="!$store.state.user.pulling_info">
           <li class="nav-item">
             <router-link :class="route_name === 'pk' ? 'nav-link active' : 'nav-link'"
               :to="{ name: 'login' }">登录</router-link>
@@ -62,7 +61,6 @@
             <router-link :class="route_name === 'pk' ? 'nav-link active' : 'nav-link'"
               :to="{ name: 'register' }">注册</router-link>
           </li>
-
         </ul>
 
       </div>
@@ -78,18 +76,16 @@ import { useStore } from 'vuex';
 export default {
   name: 'NavBar',
   components: {
-
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     let route_name = (computed(() => route.name));
     const logout = () => {
-      store.dispatch('logout');
+      store.dispatch("logout");
     };
     return {
       route_name,
-      store,
       logout,
     }
   }

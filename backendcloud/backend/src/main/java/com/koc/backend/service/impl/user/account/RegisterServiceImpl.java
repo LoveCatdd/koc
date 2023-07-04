@@ -73,8 +73,8 @@ public class RegisterServiceImpl implements RegisterService {
 
     String encodedPassword = passwordEncoder.encode(password);//加密
     String photo = "https://www.miyoushe.com/mainPage/sr-logo-v2.png";
-    User user = new User(null, username, encodedPassword, photo);
-    Info info = new Info(null,null,"这个人什么也没留下~~",1500,null,null);
+    User user = new User(null, username, encodedPassword, photo,1500);
+    Info info = new Info(null,null);
     Group group = new Group();
     userMapper.insert(user);
     user = userMapper.selectOne(queryWrapper.eq("username", user.getUsername()));
@@ -82,6 +82,7 @@ public class RegisterServiceImpl implements RegisterService {
     infoMapper.insert(info);
     map.put("error_message", "success");
     return map;
+
 }
 }
 

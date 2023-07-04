@@ -13,8 +13,4 @@ public class Info {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer userid;
-    private String profile;
-    private Integer rating;
-    private Float cwin;
-    private  Integer ranking;
 }

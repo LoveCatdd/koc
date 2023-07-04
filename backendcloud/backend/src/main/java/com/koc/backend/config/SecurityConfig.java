@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -45,13 +46,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //开始配置请求的权限控制
                 .authorizeRequests()
+<<<<<<< HEAD
                 //允许访问的地址
                 .antMatchers("/user/account/token/", "/user/account/register/","/user/account/info/").permitAll()
                 //允许对 OPTIONS 请求方法的所有请求进行放行，OPTIONS 请求用于获取目标资源所支持的通信选项。
+=======
+                .antMatchers("/user/account/token/", "/user/account/register/").permitAll()
+                .antMatchers("/pk/start/game/").hasIpAddress("127.0.0.1")
+>>>>>>> 1e0f99d9410c6e54dc9cd54c1384c70a9896d4d4
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 //对于其他所有请求，需要进行身份验证才能访问。
                 .anyRequest().authenticated();
         //将自定义的 JWT 认证过滤器添加到 Spring Security 过滤器链中，该过滤器在用户名密码认证过滤器之前执行。
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/websocket/**");
     }
 }

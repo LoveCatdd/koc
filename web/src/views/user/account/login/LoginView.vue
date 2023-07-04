@@ -1,5 +1,5 @@
 <template>
-    <div class="background-">
+    <div class="background-" v-if="!$store.state.user.pulling_info">
         <div class="center-">
             <img class="img-size margin-" src="../../../../../public/images/logo2.png" alt="">
         </div>
@@ -50,7 +50,27 @@ export default {
         let password = ref('');
         let error_message = ref('');
 
+        const jwt_token = localStorage.getItem("jwt_token");
+        if (jwt_token) {
+
+            store.commit("updateToken", jwt_token);
+            store.dispatch("getinfo", {
+                success() {
+                    router.push({ name: "home" });
+                    store.commit("updatePullingInfo", false);
+                },
+                error() {
+                    store.commit("updatePullingInfo", false);
+                }
+            })
+        } else {
+            store.commit("updatePullingInfo", false);
+        }
+
+
+
         const login = () => {
+            error_message.value = '';
             store.dispatch("login", {
                 username: username.value,
                 password: password.value,
@@ -75,7 +95,6 @@ export default {
             username,
             password,
             error_message,
-            store,
             login,
         }
     }
@@ -84,7 +103,7 @@ export default {
 
 <style scoped>
 .background- {
-    height: 961px;
+    height: 960px;
     width: 100%;
     background-color: #312E2B;
     background-repeat: no-repeat;
