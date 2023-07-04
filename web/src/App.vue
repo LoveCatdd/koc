@@ -30,4 +30,9 @@ export default ({
 
 <style>
 
+/* 整体背景 */
+body
+{
+  background-color: rgb(53, 53, 53);
+}
 </style>

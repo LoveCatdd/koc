@@ -2,6 +2,10 @@
   <div v-if="route_name === 'login' || route_name === 'register'"></div>
   <nav v-else class="navbar navbar-expand-lg bg-dark navbar-dark">
   <div class="container">
+    
+               
+
+
     <router-link class="navbar-brand" :to="{name: 'home'}">King of Chess</router-link>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -43,6 +47,8 @@
         </li>
 
       </ul>
+
+      
 
     </div>
   </div>
@@ -86,4 +92,8 @@ div.center {
   padding: 15px 0px 0px 0px;
   background-color: #272522;
 }
+
+
+
+
 </style>

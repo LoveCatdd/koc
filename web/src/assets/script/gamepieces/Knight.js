@@ -23,6 +23,7 @@ export class Knight extends PiecesObject {
         }
         return true;
     }
+
     // 走棋规则
     move_piece(x, y) {
         //基本走棋
