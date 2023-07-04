@@ -1,8 +1,8 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class Pawn extends PiecesObject {
-    constructor(info, ctx, store) {
-        super(ctx, store);
+    constructor(info, ctx, store, isReplay) {
+        super(ctx, store, isReplay);
 
         this.piece_image = new Image();
         this.path = info.image;
@@ -32,7 +32,6 @@ export class Pawn extends PiecesObject {
     }
     //路径有无棋子判断
     check1(x, y) {
-
 
         if (x === this.local_r && y === this.local_c) return false;
         let rowdef = (x - this.local_r) / Math.abs(x - this.local_r);

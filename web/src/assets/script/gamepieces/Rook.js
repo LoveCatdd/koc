@@ -1,8 +1,8 @@
 import { PiecesObject } from "./PiecesObject";
 
 export class Rook extends PiecesObject {
-    constructor(info, ctx, store) {
-        super(ctx, store);
+    constructor(info, ctx, store, isReplay) {
+        super(ctx, store, isReplay);
 
         this.piece_image = new Image();
         this.path = info.image;

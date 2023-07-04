@@ -4,6 +4,8 @@ export default {
         socket: null,
         opponent_username: "",
         opponent_photo: "",
+        opponent_rating: "",
+        opponent_designation: "暂无称号",
         a_direction: 0,
         b_direction: 0,
         a_id: 0,
@@ -13,7 +15,7 @@ export default {
         game_obj: null,
         action: "",
         match_status: "matching",
-
+        game_status: "playing",
     },
     getters: {
     },
@@ -50,6 +52,9 @@ export default {
         updateAction(state, action) {
             state.action = action;
         },
+        updateGameStatus(state, game_status) {
+            state.game_status = game_status;
+        },
         updatePk(state) {
             state.socket = null;
             state.opponent_username = "";
@@ -60,20 +65,22 @@ export default {
             state.b_id = 0;
             state.pieces_list = null;
             state.posts = [];
-            state.game_obj.ctx = null;
-            state.game_obj.parent = null;
-            state.game_obj.canvas = null;
-            state.game_obj.rows = null;
-            state.game_obj.cols = null;
-            for (let obj of state.game_obj.pieces_list)
-                if (obj !== null || obj !== undefined) {
-                    obj = null;
-                }
-            state.game_obj.L = 0;
-            state.game_obj.TL = 0;
-            state.game_obj.store = null;
-            state.game_obj.direction = 0;
-            state.game_obj.mouse_event = null;
+            if (state.game_obj !== null) {
+                state.game_obj.ctx = null;
+                state.game_obj.parent = null;
+                state.game_obj.canvas = null;
+                state.game_obj.rows = null;
+                state.game_obj.cols = null;
+                for (let obj of state.game_obj.pieces_list)
+                    if (obj !== null || obj !== undefined) {
+                        obj = null;
+                    }
+                state.game_obj.L = 0;
+                state.game_obj.TL = 0;
+                state.game_obj.store = null;
+                state.game_obj.direction = 0;
+                state.game_obj.mouse_event = null;
+            }
             state.game_obj = null;
         }
 

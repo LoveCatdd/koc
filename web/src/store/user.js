@@ -9,6 +9,7 @@ export default {
         is_login: false,
         pulling_info: true,  // 是否正在从云端拉取信息
         rating: 0,
+        designation: '暂无称号',
     },
     getters: {
     },

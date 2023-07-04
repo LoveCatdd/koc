@@ -3,7 +3,7 @@
         <div v-for="post in $store.state.pk.posts" :key="post.id">
             <div  :class=" post.sender === 'me'? 'chat-m': 'chat-u'"> 
                 <div :class=" post.sender === 'me'? 'chat-msg-m' : 'chat-msg-u' ">
-                    {{ post.content }}
+                    <p class="text-break">{{ post.content }}</p>
                 </div>
         </div>
         </div>
@@ -43,8 +43,11 @@ export default {
   flex-grow: 1;
   overflow: auto;
   max-height: 360px; /* 当内容超出最大高度时显示滚动条 */
-  
 }
+.text-break {
+  margin-bottom: 0px;
+}
+
 .chat-msg-u {
   padding: 10px;
   margin: 10px 10px 15px 15px;

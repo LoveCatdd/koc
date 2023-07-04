@@ -1,7 +1,7 @@
 
 import { GameObject } from "../GameObiect";
 export class PiecesObject extends GameObject {
-    constructor(ctx, store) {
+    constructor(ctx, store, isReplay) {
         super();
 
         this.piece_image;
@@ -19,7 +19,7 @@ export class PiecesObject extends GameObject {
 
         this.survive = false; //棋子存活状态
         this.status = "idle"; // idle 静止， move 移动
-
+        this.isReplay = isReplay;
         this.speed = 5;
 
         this.eps = 1 + 1e-3;

@@ -6,6 +6,7 @@ import { King } from '../gamepieces/King';
 import { Knight } from '../gamepieces/Knight';
 import { Queen } from '../gamepieces/Queen';
 import { Rook } from '../gamepieces/Rook';
+
 export class GameMap extends GameObject {
     constructor(canvas, parent, store) {
         super();
@@ -20,14 +21,17 @@ export class GameMap extends GameObject {
         this.TL = 0;
         this.store = store;
         this.direction = 0;
+        this.move_step = [];
         this.mouse_event = new ControllerBase(this.canvas, this);
     }
 
     start() {
         const user_id = parseInt(this.store.state.user.id);
         const [a_id, a_direction, b_id, b_direction] =
-            [parseInt(this.store.state.pk.a_id), parseInt(this.store.state.pk.a_direction),
-            parseInt(this.store.state.pk.b_id), parseInt(this.store.state.pk.b_direction)];
+            [parseInt(this.store.state.replay.a_id), parseInt(this.store.state.replay.a_direction),
+            parseInt(this.store.state.replay.b_id), parseInt(this.store.state.replay.b_direction)];
+
+        this.move_step = this.store.state.replay.move_step.split("&");
 
         if (user_id === a_id) {
             this.direction = a_direction;
@@ -41,70 +45,10 @@ export class GameMap extends GameObject {
 
     create_pieces() {
 
-        const pieces_list = this.store.state.pk.pieces_list;
+    }
 
-        for (let obj of pieces_list) {
-
-            const idx = parseInt(this.direction) === 1 ? parseInt(obj.idx) :
-                this.reversal(parseInt(obj.idx));
-
-            const piece_name = obj.pieceName;
-            const direction = parseInt(obj.direction);
-
-            const imgsrc = parseInt(obj.direction) === parseInt(this.direction) ?
-                (parseInt(this.direction) === 1 ? 'w' : 'b') :
-                (parseInt(this.direction) === 1 ? 'b' : 'w');
-
-            if (piece_name === "pawn") {
-                this.pieces_list[idx] = new Pawn({
-                    direction: direction,
-                    row: parseInt(idx / 8),
-                    col: parseInt(idx % 8),
-                    image: process.env.BASE_URL + `images\\pieces\\${imgsrc}p.png`,
-                    survive: true,
-                }, this.ctx, this.store, false);
-            } else if (piece_name === "rook") {
-                this.pieces_list[idx] = new Rook({
-                    direction: direction,
-                    row: parseInt(idx / 8),
-                    col: parseInt(idx % 8),
-                    image: process.env.BASE_URL + `images\\pieces\\${imgsrc}r.png`,
-                    survive: true,
-                }, this.ctx, this.store, false);
-            } else if (piece_name === "knight") {
-                this.pieces_list[idx] = new Knight({
-                    direction: direction,
-                    row: parseInt(idx / 8),
-                    col: parseInt(idx % 8),
-                    image: process.env.BASE_URL + `images\\pieces\\${imgsrc}n.png`,
-                    survive: true,
-                }, this.ctx, this.store, false);
-            } else if (piece_name === "bishop") {
-                this.pieces_list[idx] = new Bishop({
-                    direction: direction,
-                    row: parseInt(idx / 8),
-                    col: parseInt(idx % 8),
-                    image: process.env.BASE_URL + `images\\pieces\\${imgsrc}b.png`,
-                    survive: true,
-                }, this.ctx, this.store, false);
-            } else if (piece_name === "queen") {
-                this.pieces_list[idx] = new Queen({
-                    direction: direction,
-                    row: parseInt(idx / 8),
-                    col: parseInt(idx % 8),
-                    image: process.env.BASE_URL + `images\\pieces\\${imgsrc}q.png`,
-                    survive: true,
-                }, this.ctx, this.store, false);
-            } else if (piece_name === "king") {
-                this.pieces_list[idx] = new King({
-                    direction: direction,
-                    row: parseInt(idx / 8),
-                    col: parseInt(idx % 8),
-                    image: process.env.BASE_URL + `images\\pieces\\${imgsrc}k.png`,
-                    survive: true,
-                }, this.ctx, this.store, false);
-            }
-        }
+    check_reversal() {
+        return parseInt(this.direction) === -1;
     }
 
     reversal(idx) {
@@ -113,7 +57,35 @@ export class GameMap extends GameObject {
         return parseInt(row * 8 + col);
     }
 
-    sync_idx(pre_idx, now_idx) {
+    set_idx(idx) {
+        const [id, step] = this.move_step[idx].split("-");
+        const [pre_idx, now_idx] = step.split(" ");
+
+        if (parseInt(id) === parseInt(this.store.state.user.id)) {
+            this.sync_idx_me(pre_idx, now_idx);
+        } else {
+            this.sync_idx_u(pre_idx, now_idx);
+        }
+    }
+
+    sync_idx_me(pre_idx, now_idx) {
+        const pre_ = parseInt(pre_idx, 10);
+        const now_ = parseInt(now_idx, 10);
+
+        this.pieces_list[pre_].row = parseInt(now_ / 8);
+        this.pieces_list[pre_].col = now_ % 8;
+
+        if (this.pieces_list[now_] !== undefined &&
+            this.pieces_list[now_] !== null) {
+            this.pieces_list[now_].survive = false;
+        }
+
+        this.pieces_list[now_] = this.pieces_list[pre_];
+
+        this.pieces_list[pre_] = undefined;
+    }
+
+    sync_idx_u(pre_idx, now_idx) {
         const pre_ = this.reversal(parseInt(pre_idx, 10));
         const now_ = this.reversal(parseInt(now_idx, 10));
 

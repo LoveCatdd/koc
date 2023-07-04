@@ -1,18 +1,26 @@
 <template>
     <div class="lightdark ">
-        <div class="row margin-left">
+        <div v-if="$store.state.pk.game_status === 'playing'" class="row margin-left">
             <div class="col-7 margin-top">
                 <GameMap />
             </div>
             <div class="col-5 user margin-top padding- ">
-                <PkInfo class="height-25 radius-u" :username="$store.state.pk.opponent_username"/>
+                <PkInfo 
+                    class="height-25 radius-u" 
+                    :info="info_u"
+                    @SaveClick="SaveClick" 
+                />
                 <div class="height-35" >
                     <ChatPost  />
                 </div> 
                 <ChatBase class="height-18" @post="post"/>
-                <PkInfo class="height-25 radius-m" :username="$store.state.user.username"/>
+                <PkInfo 
+                    class="height-25 radius-m" 
+                    :info="info_me" 
+                />
             </div>
         </div>
+        <PkEnd v-else :info="info_me"   />
     </div>
 </template>
 
@@ -21,9 +29,9 @@ import GameMap from '@/components/GameMap.vue';
 import PkInfo from '@/components/PkInfo.vue';
 import ChatBase from '@/components/ChatBase.vue';
 import ChatPost from  '@/components/ChatPost.vue';
-
+import PkEnd from './PkEnd.vue';
 import { useStore } from 'vuex';
-import { onMounted, onUnmounted } from 'vue';
+import { onUnmounted, ref } from 'vue';
 
 export default {    
     name: 'PlayGround',
@@ -31,12 +39,63 @@ export default {
         GameMap,
         PkInfo,
         ChatBase,
-        ChatPost
+        ChatPost,
+        PkEnd
     },
     setup() {   
         const store = useStore();
         const user_id = store.state.user.id;
-        let socket = null;
+        
+        const info_me = {
+            isMe: true,
+            photo: store.state.user.photo,
+            name: store.state.user.username,
+            designation: store.state.user.designation,
+            rating: store.state.user.rating,
+        };
+
+        const info_u = {
+            isMe: false,
+            photo: store.state.pk.opponent_photo,
+            name: store.state.pk.opponent_username,
+            designation: store.state.pk.opponent_designation,
+            rating: store.state.pk.opponent_rating
+        }
+
+        let isSaveMsg =ref(true);
+
+        const SaveClick = (status) => {
+            console.log(status);
+            console.log(isSaveMsg);
+            isSaveMsg.value = status;
+            console.log(isSaveMsg);
+        }
+
+        const socket = store.state.pk.socket;
+        console.log(socket);
+        socket.onmessage = msg => {
+            const data = JSON.parse(msg.data);
+            console.log(data);
+            if (data.event === "action") {
+                store.commit("updateAction", data.action);
+            } else if (data.event === "wait") {
+                store.commit("updateAction", data.action);
+            } else if (isSaveMsg.value && data.event === "send-message") {
+                store.commit("updatePost", {
+                    id: data.id,
+                    sender: data.sender,
+                    content: data.content
+                })
+            } else if (data.event === "move") {
+                const idx_list = data.step.split(" ");
+                store.state.pk.game_obj.sync_idx(idx_list[0], idx_list[1]);
+            } else if (data.event === "result") {
+                store.commit("updateGameStatus"), {
+                    game_status: data.game_status,
+                }
+                console.log(store.state.pk.game_status);
+            }
+        };
         const post = (content) => {
             if (content === '') return ;
             const post = {
@@ -52,42 +111,24 @@ export default {
             }));
         };
 
-        onMounted(() => {
-         
-            socket = store.state.pk.socket;
-            console.log(socket);
-            socket.onmessage = msg => { // 有时会失效
-                const data = JSON.parse(msg.data);
-                console.log(data);
-                if (data.event === "action") {
-                    store.commit("updateAction", data.action);
-                } else if (data.event === "wait") {
-                    store.commit("updateAction", data.action);
-                } else if (data.event === "send-message") {
-                    store.commit("updatePost", {
-                        id: data.id,
-                        sender: data.sender,
-                        content: data.content
-                    })
-                } else if (data.event === "move") {
-                    const idx_list = data.step.split(" ");
-                    store.state.pk.game_obj.sync_idx(idx_list[0], idx_list[1]);
-                }
-            }
-        });
-
         onUnmounted(() => {
             if (socket !== null) {
-                // socket.onclose();
                 store.commit('updateStatus', "matching");
                 store.commit('updateMatchStatus', "matching");
                 store.commit('updatePk');
             }
         });
 
+
+
+
         return {
             post,
             socket,
+            isSaveMsg,
+            info_me,
+            info_u,
+            SaveClick,
         }
     }
 }

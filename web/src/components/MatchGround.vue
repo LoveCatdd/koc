@@ -2,8 +2,11 @@
 <div class="lightdark ">
     <div v-if="$store.state.pk.match_status === 'matching' " class="center-"> 
         <div class="card-background radius">
-            <div class="center- margin-bottom">
+            <div class="center- margin-bottom position-">
                 <img class="img-size"  :src="$store.state.user.photo" alt="">
+                <div class="sr-size" >
+                    <span :class="match_bool ? 'loader' : '' "></span>
+                </div>
             </div>
             <span class="username-rating left-" >
                {{ $store.state.user.username }}
@@ -22,31 +25,10 @@
         </div>
     </div>
 
-    <div 
+    <MatchInfoBase 
         v-else-if="$store.state.pk.match_status === 'success' && 
                 $store.state.pk.status === 'matching' "  
-        class="center-"
-        @change="updateInfo"        
-    > 
-        <div class="shadowed  border- card-background- radius">
-            <div class="title-font">
-                对局已就绪
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-5">
-                    <MatchInfo :info="info_me"/>
-                </div>
-                <div class="col-2 pk ">vs</div>
-                <div class="col-5">  
-                    <MatchInfo :info="info_u"/>
-                </div>
-            </div>
-            <div class="countdown">
-                即将开始(3)
-            </div>
-        </div>
-    </div>
+        />
 
 </div>
 </template>
@@ -54,46 +36,19 @@
 <script>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import MatchInfo from './MatchInfo.vue';
+import MatchInfoBase from './MatchInfoBase.vue';
 export default {
     name: 'MatchGround',
     components: {
-        MatchInfo,
+        MatchInfoBase
     },
     setup() {
         let match_btn = ref("开始匹配");
         let match_bool = ref(false);
         let minute = ref(0);
         let seconds = ref(0);
-        
+
         const store = useStore(); 
-
-        let info_me = {
-            photo: store.state.user.photo,
-            name: store.state.user.username,
-            direction: 
-                store.state.user.id === store.state.pk.a_id ? 
-                store.state.pk.a_direction : store.state.pk.b_direction,
-        };
-
-        let info_u = {
-            photo: store.state.pk.opponent_photo,
-            name: store.state.pk.opponent_username,
-            direction: 
-                store.state.user.id === store.state.pk.a_id ? 
-                store.state.pk.b_direction : store.state.pk.a_direction,
-        };
-
-        const updateInfo = () => {
-          info_u = {
-                photo: store.state.pk.opponent_photo,
-                name: store.state.pk.opponent_username,
-                direction: 
-                    store.state.user.id === store.state.pk.a_id ? 
-                    store.state.pk.b_direction : store.state.pk.a_direction,
-            };
-        };
-
         const click_btn = () => {
             if (match_btn.value === "开始匹配") {
                 match_btn.value = "取消";
@@ -114,15 +69,15 @@ export default {
             }
         };
 
-            setInterval(() => {
-                if (seconds.value < 60) {
-                    seconds.value = seconds.value + 1;
-                } 
-                if (seconds.value == 60) {
-                    minute.value = minute.value + 1;
-                    seconds.value = 0;
-                }
-            },1000);
+        setInterval(() => {
+            if (seconds.value < 60) {
+                seconds.value = seconds.value + 1;
+            } 
+            if (seconds.value == 60) {
+                minute.value = minute.value + 1;
+                seconds.value = 0;
+            }
+        },1000);
 
 
         return {
@@ -131,9 +86,6 @@ export default {
             minute,
             seconds,
             match_bool,
-            info_me,
-            info_u,
-            updateInfo
         }
     }
 }
@@ -141,50 +93,36 @@ export default {
 
 
 <style scoped>
-.countdown {
-    color: #8FCD9F;
-    font-size: 15px;
-    font-family: monospace;
-    text-align: center;
-    margin-top: 10px;
-}
-.pk {
-    color: #f2bb06;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    font-size: 60px;
-    font-family: monospace;
+.loader {   
+  width: 140px;
+  height: 140px;
 }
 
-.title-font {
-    color: aliceblue;
-    font-weight: bolder;
-    font-size: 24px;
-    font-family:cursive ;
-    text-align: center;
+.loader:before , .loader:after{
+  content: '';
+  border-radius: 50%;
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 15px 3Px rgba(236, 192, 82, 0.805) inset;
+}
+.loader:after {
+  box-shadow: 0 4px 0 #ffd453 inset;
+  animation: rotate 2s linear infinite;
 }
 
-hr {
-    color: #242848;
-    margin: 0px 0px 10px 0px;
-    border-width: 6px;
+@keyframes rotate {
+  0% {  transform: rotate(0)}
+  100% { transform: rotate(360deg)}
 }
 
-.shadowed {
-    box-shadow: 0px 0px 6px 4px rgba(180, 239, 199, 0.5);
+.sr-size {
+    height: 140px;
+    width: 140px;
+    border-width: 1vh;
 }
 
-.border- {
-    border-width: 2px;
-    border-style: solid;
-    border-color: #BE8358;
-}
-
-.card-background- {
-    padding: 10px;
-    margin-top: 120px;
-    background-color:#1A1F39;
+.position- {
+    position: relative;
 }
 .radius {
     border-radius: 10px;
@@ -213,17 +151,18 @@ hr {
     height: auto;
     width: auto;
     border-radius: 10px;
+    position: absolute;
 }
 .radius {
     border-radius: 10px;
 }
 .margin-bottom {
-    margin: 20px 25px 45px 20px
+    margin: 20px 25px 85px 20px
 }
 .username-rating {
     font-size: 30px;
     font-weight: bolder;
-    color: blueviolet;
+    color: rgb(255, 255, 255);
     height: auto;
     width: auto;
 }

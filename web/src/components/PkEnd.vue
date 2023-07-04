@@ -1,44 +1,114 @@
 <template>
-    <div class="lightdark ">
-        <div v-if="$store.state.pk.match_status === 'matching' " class="center-"> 
-            <div class="card-background radius">
-                <div class="center- margin-bottom">
-                    <img class="img-size"  :src="$store.state.user.photo" alt="">
+    <div class="center-"> 
+        <div class="card-background radius">
+            <div class="margin-bottom margin-">  
+                <img class="img-size img-float" :src="info.photo" alt="">        
+                <div class="user-margin">
+                    <div class="game-float user-color">匹配场</div>
+                    <div  class="user-margin user-color">lpxl</div>
+                    <div class="user-margin user-color">666</div>
                 </div>
-                <span class="username-rating left-" >
-                    {{ $store.state.user.username }}
-                </span>
-                <span class="username-rating right-">
-                    1500
-                </span>
-
             </div>
+            <div class="body-margin">
+                <div class="user-color">
+                    rating: 1550(<span>+50</span>)
+                </div>
+            </div>
+            <button class="button-float btn" @click="rightClick">
+                确认
+            </button>
         </div>
     </div>
 </template>
-    
-<script>
-export default {
-    name: 'Pkend',
-    setup() {
 
-}
+<script>
+import router from '@/router';
+
+export default {
+    name: 'PkEnd',
+    props: {
+        info: {
+            type: String,
+            required: true,
+        }
+    },
+    setup() {
+        const rightClick = () => {
+            router.push({name: 'home'});
+        };
+
+        return {
+            rightClick,
+        }
+    }
 }
 </script>
 
 
 <style scoped>
 
+.game-float {
+    float: right;
+}
 
+.button-float {
+    float: right;
+}
+
+.btn {
+ display: inline-block;
+ padding: 0.9rem 1.8rem;
+ font-size: 24px;
+ font-weight: 700;
+ color: white;
+ border: 3px solid rgb(252, 70, 100);
+ cursor: pointer;
+ position: relative;
+ background-color: transparent;
+ text-decoration: none;
+ overflow: hidden;
+ z-index: 1;
+ font-family: inherit;
+ height: 80px;
+ width: 150px;
+ margin-top: 70px;
+}
+
+.btn::before {
+ content: "";
+ position: absolute;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ background-color: rgb(252, 70, 100);
+ transform: translateX(-100%);
+ transition: all .3s;
+ z-index: -1;
+}
+
+.btn:hover::before {
+ transform: translateX(0);
+}
+span {
+    color:lightgreen;
+}
+
+.body-margin {
+    margin-top: 95px;
+    background-color: #30302e;
+}
+
+.img-float {
+    float: left;
+}
 .radius {
     border-radius: 10px;
 }
-.lightdark {
+.center- {
     height: 904px;
     width: 100%;
-    background-color: #312E2B;
-}
-.center- {
+
     display: flex;
     justify-content: center;
     align-content: center;
@@ -49,47 +119,28 @@ export default {
     margin-top: 100px;
     background-color:#272522;
 
-    height: auto;
-    width: calc(height) * 3 / 4;
+    height: 550px;
+    width: 850px;
 }
 .img-size {
-    height: auto;
-    width: auto;
-    border-radius: 10px;
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
 }
 .radius {
     border-radius: 10px;
 }
 .margin-bottom {
-    margin: 20px 25px 45px 20px
+    margin: 0px 25px 45px 20px
 }
-.username-rating {
-    font-size: 30px;
+
+.user-color {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
     font-weight: bolder;
-    color: blueviolet;
-    height: auto;
-    width: auto;
+    font-family: monospace;
 }
-.left- {
-    margin-right: 20px;
-}
-.right- {
-    margin-left: 50px;
-}
-.time-size {
-    font-size: 20px;
-    color: azure;
-    margin-top: 15px;
-    position: absolute;
-    bottom: 2px;
-    left: 2px;
-}
-.button-size {
-    font-size: 20px;
-    height: 55px;
-    width: 120px;
-}
-.margin-top {
-    margin-top: 40px;
+.user-margin {
+    margin: 15px 15px 10px 80px;
 }
 </style>
