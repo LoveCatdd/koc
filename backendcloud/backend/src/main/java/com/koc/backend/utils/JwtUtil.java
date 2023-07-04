@@ -17,13 +17,15 @@ import java.util.UUID;
  */
 @Component
 public class JwtUtil {
+    // JWT 的有效期
     public static final long JWT_TTL = 60 * 60 * 1000L * 24 * 14;  // 有效期14天
+    //生成 HMACSHA256 密钥的字符串。
     public static final String JWT_KEY = "JSDFSDFSDFASJDHASDASDdfa32dJHASFDA67765asda123";
-
+    //生成一个 UUID 字符串，并将其中的横线去除。
     public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
-
+    //创建一个新的 JWT，传入主题（subject）、过期时间（null 表示默认的 JWT_TTL）和生成的 UUID
     public static String createJWT(String subject) {
         JwtBuilder builder = getJwtBuilder(subject, null, getUUID());
         return builder.compact();
@@ -31,7 +33,9 @@ public class JwtUtil {
 
     private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        //生成密钥
         SecretKey secretKey = generalKey();
+        //获取当前时间
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         if (ttlMillis == null) {
@@ -48,12 +52,12 @@ public class JwtUtil {
                 .signWith(signatureAlgorithm, secretKey)
                 .setExpiration(expDate);
     }
-
+    //生成密钥
     public static SecretKey generalKey() {
         byte[] encodeKey = Base64.getDecoder().decode(JwtUtil.JWT_KEY);
         return new SecretKeySpec(encodeKey, 0, encodeKey.length, "HmacSHA256");
     }
-
+    //用于解析 JWT
     public static Claims parseJWT(String jwt) throws Exception {
         SecretKey secretKey = generalKey();
         return Jwts.parserBuilder()

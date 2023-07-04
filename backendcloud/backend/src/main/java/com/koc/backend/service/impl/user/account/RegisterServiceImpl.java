@@ -1,7 +1,10 @@
 package com.koc.backend.service.impl.user.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.koc.backend.mapper.InfoMapper;
 import com.koc.backend.mapper.UserMapper;
+import com.koc.backend.pojo.Group;
+import com.koc.backend.pojo.Info;
 import com.koc.backend.pojo.User;
 import com.koc.backend.service.user.account.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private InfoMapper infoMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -68,10 +73,16 @@ public class RegisterServiceImpl implements RegisterService {
 
     String encodedPassword = passwordEncoder.encode(password);//加密
     String photo = "https://www.miyoushe.com/mainPage/sr-logo-v2.png";
-    User user = new User(null, username, encodedPassword, photo, 1500);
-        userMapper.insert(user);
-        map.put("error_message", "success");
-        return map;
+    User user = new User(null, username, encodedPassword, photo,1500);
+    Info info = new Info(null,null);
+    Group group = new Group();
+    userMapper.insert(user);
+    user = userMapper.selectOne(queryWrapper.eq("username", user.getUsername()));
+    info.setUserid(user.getId());
+    infoMapper.insert(info);
+    map.put("error_message", "success");
+    return map;
+
 }
 }
 

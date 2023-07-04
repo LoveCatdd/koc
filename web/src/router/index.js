@@ -5,6 +5,8 @@ import RankListView from '../views/ranklist/RankListView.vue';
 import RecordView from '../views/record/RecordView.vue';
 import UserInfoView from '../views/user/info/UserInfoView.vue';
 import PkView from '../views/pk/PkView.vue';
+import RuleView from '../views/rule/RuleView';
+import FriendsListView from '../views/user/friends/FriendsListView';
 import LoginView from '../views/user/account/login/LoginView.vue';
 import RegisterView from '../views/user/account/register/RegisterView.vue';
 import store from "../store/index";
@@ -49,6 +51,16 @@ const routes = [
     meta: {
       requestAuth: true
     }
+  },
+  {
+    path: '/rule/',
+    name: 'rule',
+    component: RuleView
+  },
+  {
+    path: '/friendslist/',
+    name: 'friendslist',
+    component: FriendsListView
   },
   {
     path: '/login/',
