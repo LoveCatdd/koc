@@ -1,20 +1,19 @@
 package com.koc.backend.controller.Groups;
 
 import com.alibaba.fastjson.JSONObject;
-import com.koc.backend.service.user.groups.AddGroups;
+import com.koc.backend.service.user.groups.CgGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 @RestController
-public class AddGroupController {
+public class CgGroupController {
     @Autowired
-    private AddGroups addGroups;
-
-    @GetMapping("/user/account/addgroup/")
-    public JSONObject AddGroup(@RequestParam String req) {
-        return addGroups.AddGroup(req);
+    private CgGroups cgGroups;
+    @GetMapping("/user/account/cggroup/")
+    public JSONObject CgGroup(@RequestParam Integer id, @RequestParam String nam){
+        return cgGroups.changeGroup(id,nam);
     }
-
 }

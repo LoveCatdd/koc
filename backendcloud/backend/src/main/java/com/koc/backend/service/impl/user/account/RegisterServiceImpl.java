@@ -80,13 +80,12 @@ public class RegisterServiceImpl implements RegisterService {
     User user = new User(null, username, encodedPassword, photo,1500);
     userMapper.insert(user);
     user = userMapper.selectOne(queryWrapper.eq("username", user.getUsername()));
-    Info info = new Info(null,user.getId());
+    Info info = new Info(null,user.getId(),0,0);
     infoMapper.insert(info);
     Subset subset = new Subset(null,user.getId(),"默认分组");
     subsetMapper.insert(subset);
     map.put("error_message", "success");
     return map;
-
 }
 }
 

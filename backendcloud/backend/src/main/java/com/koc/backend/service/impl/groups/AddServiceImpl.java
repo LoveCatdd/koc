@@ -3,6 +3,7 @@ package com.koc.backend.service.impl.groups;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.koc.backend.mapper.subsetMapper;
 import com.koc.backend.pojo.Subset;
 import com.koc.backend.pojo.User;
@@ -11,43 +12,30 @@ import com.koc.backend.service.user.groups.AddGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.Query;
+import java.util.List;
+
 @Service
 public class AddServiceImpl implements AddGroups {
 
     @Autowired
-    subsetMapper subsetMapper;
+    private subsetMapper subsetMapper;
     @Override
     public JSONObject AddGroup(String req) {
         User user = UserUtilImpl.getUser();
-        JSONObject data = JSON.parseObject(req);
-        // Integer Gid = data.getInteger("groupid");
+        QueryWrapper<Subset> queryWrapper = new QueryWrapper<>();
         Integer Uid = user.getId();
-        JSONArray GNamesArray = data.getJSONArray("groupname");
-        String gnames =GNamesArray.toJSONString();
-
-        Subset subset = new Subset(null,Uid,gnames);
+        Subset subset = new Subset(null,Uid,req);
         subsetMapper.insert(subset);
         JSONObject res = new JSONObject();
+        List<Subset> uid = subsetMapper.selectList(queryWrapper.eq("userid", Uid));
+        for (Subset s: uid) {
+           if(s.getSubsetname() == req)
+               res.put("id",s.getId());
+            System.out.println(res);
+            break;
+        }
         res.put("error","success");
-
-        // QueryWrapper queryWrapper = new QueryWrapper();
-        //
-        // List<Group> groupList = groupMapper.selectList(queryWrapper.eq("userid", userId));
-        //
-        //
-        // JSONObject respGroup = new JSONObject();
-        // for (Group group : groupList) {
-        //     String group_ = group.getGroupid() + " " + group.getGroupnames();
-        //     respGroup.put("groupid", group.getGroupid());
-        //     respGroup.put("groupname",group.getGroupnames());
-        // }
-        //
-        // JSONObject resp = new JSONObject();
-        // resp.put("userid", userid);
-        // resp.put("groups", respGroup);
-        //
-
-
         return res;
     }
 }

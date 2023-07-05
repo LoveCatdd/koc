@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetFriendsController {
     @Autowired
-    GetFriends getFriends;
+    private GetFriends getFriends;
 
     @GetMapping("/user/friend/getfriends/")
     public JSONObject getFriends(){

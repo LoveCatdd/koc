@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.util.Map;
 
-public interface DeleteGroups {
-    public JSONObject DeleteGroup(Map<String, String> req);
+public interface CgGroups {
+    public JSONObject changeGroup(Integer id, String nam);
 
 }
