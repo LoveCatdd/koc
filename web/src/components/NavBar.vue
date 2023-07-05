@@ -1,49 +1,91 @@
 <template>
- <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">King of Chess</a>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">首页</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">排行榜</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">仓库</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">棋谱</a>
-        </li>
-    </ul>
+  <div v-if="route_name === 'login' || route_name === 'register'"></div>
+  <nav v-else class="navbar navbar-expand-lg bg-dark navbar-dark">
 
-    <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            lpxl
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-                <a class="dropdown-item" href="#">我的Bot</a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">退出</a></li>
-          </ul>
-        </li>
-      </ul>
+    <div class="container">
+      <router-link class="navbar-brand" :to="{ name: 'home' }">King of Chess</router-link>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link :class="route_name === 'home' ? 'nav-link active' : 'nav-link'" aria-current="page"
+              :to="{ name: 'home' }">首页</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :class="route_name === 'rank_list' ? 'nav-link active' : 'nav-link'"
+              :to="{ name: 'rank_list' }">排行榜</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :class="route_name === 'record' ? 'nav-link active' : 'nav-link'"
+              :to="{ name: 'record' }">棋谱</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :class="route_name === 'friendslist' ? 'nav-link active' : 'nav-link'"
+              :to="{ name: 'friendslist' }">好友</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :class="route_name === 'rule' ? 'nav-link active' : 'nav-link'"
+              :to="{ name: 'rule' }">规则</router-link>
+          </li>
+        </ul>、
+        <ul class="navbar-nav" v-if="$store.state.user.is_login">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              {{ $store.state.user.username }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <router-link class="dropdown-item" :to="{ name: 'user_info' }">个人中心</router-link>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#" @click="logout">退出</a></li>
+            </ul>
+          </li>
+        </ul>
 
+        <ul class="navbar-nav" v-else-if="!$store.state.user.pulling_info">
+          <li class="nav-item">
+            <router-link :class="route_name === 'pk' ? 'nav-link active' : 'nav-link'"
+              :to="{ name: 'login' }">登录</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :class="route_name === 'pk' ? 'nav-link active' : 'nav-link'"
+              :to="{ name: 'register' }">注册</router-link>
+          </li>
+        </ul>
+
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex';
+
 export default {
-    name: 'NavBar',
+  name: 'NavBar',
+  components: {
+  },
+  setup() {
+    const store = useStore();
+    const route = useRoute();
+    let route_name = (computed(() => route.name));
+    const logout = () => {
+      store.dispatch("logout");
+    };
+    return {
+      route_name,
+      logout,
+    }
+  }
+
 }
+
 </script>
 
-<style>
-
+<style scoped>
 </style>
