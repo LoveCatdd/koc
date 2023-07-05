@@ -19,6 +19,7 @@ export class King extends PiecesObject {
         this.store.state.pk.socket.send(JSON.stringify({
             event: "finished",
             status: "finished",
+            loser: this.direction,
         }));
     }
     // 走棋规则

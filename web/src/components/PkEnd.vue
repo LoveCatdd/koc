@@ -11,7 +11,9 @@
             </div>
             <div class="body-margin">
                 <div class="user-color">
-                    rating: 1550(<span>+50</span>)
+                    rating: {{ rating }}(
+                        <span v-if="loser === 'win'">{{ add }}</span>
+                    <span v-else-if="loser === 'loser'">{{ reduce }}</span>)
                 </div>
             </div>
             <button class="button-float btn" @click="rightClick">
@@ -38,7 +40,29 @@ export default {
 
         const store = useStore();
 
+        let rating = store.state.user.rating;
+
+        const loser = store.state.pk.loser;
+
+        const add = "+50";
+        const reduce = "-20";
+        console.log(loser);
+        if (loser === "win") {
+            rating += 50;
+        } else if (loser === "loser") {
+            rating -= 20;
+        }
+
         const rightClick = () => {
+            store.commit("updateGameStatus"), {
+                game_status: "playing",
+            },
+            store.commit("updatePlayStatus"), {
+                play_status: '',
+            },
+            store.commit("updateLoser", {
+                loser: 0,
+            });
             router.push({name: 'home'});
         };
 
@@ -46,10 +70,20 @@ export default {
         onUnmounted(() => {
             store.commit("updateGameStatus"), {
                 game_status: "playing",
-            }
+            },
+            store.commit("updatePlayStatus"), {
+                play_status: '',
+            },
+            store.commit("updateLoser", {
+                loser: 0,
+            });
         });
         return {
             rightClick,
+            rating,
+            add,
+            reduce,
+            loser
         }
     }
 }

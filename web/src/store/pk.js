@@ -16,6 +16,8 @@ export default {
         action: "",
         match_status: "matching",
         game_status: "playing",
+        play_status: '',
+        loser: 0,
     },
     getters: {
     },
@@ -46,11 +48,17 @@ export default {
         updatePost(state, post) {
             state.posts.push(post);
         },
+        updateLoser(state, loser) {
+            state.loser = loser;
+        },
         updateGameOBJ(state, game_obj) {
             state.game_obj = game_obj;
         },
         updateAction(state, action) {
             state.action = action;
+        },
+        updatePlayStatus(state, play_status) {
+            state.play_status = play_status;
         },
         updateGameStatus(state, game_status) {
             state.game_status = game_status;

@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-3 div-">
                     <div class="profile">
-                        <img src="../../../../public/images/logo2.png" alt="Avatar">
+                        <img src="../../../public/images/logo2.png" alt="Avatar">
                         <h2>John Smith</h2>
                     </div>
                     <div class="div1">
@@ -17,25 +17,27 @@
                         </ul>
                         <nav class="scroll-container-">
                             <ul id="menu list-tab" class="list-group ">
-                                <template v-for="group in groups.group" :key="group.id">
-                                    <li class="friend-wrapper list-group-item list-group-item-action active"
-                                        data-bs-toggle="list" v-if="group.id == 0" @click="cgroup(0)"><span>{{
-                                            group.name }}</span>
-                                    </li>
-                                    <li class="friend-wrapper list-group-item list-group-item-action" data-bs-toggle="list"
-                                        v-else @click="cgroup(group.id)">
-                                        <span style="flex-grow: 1;">{{ group.name }}</span>
-                                        <div id="chose" class="btn-group">
-                                            <i class="bi bi-list" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false" id="change"></i>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item"
-                                                        @click="showGroupModal('修改名称', group.id)">修改名称</a>
-                                                </li>
-                                                <li><a class="dropdown-item" @click="deleteGroup(group)">删除</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
+                                <template v-if="groups.group.length != 0">
+                                    <template v-for="group in groups.group" :key="group.id">
+                                        <li class="friend-wrapper list-group-item list-group-item-action active"
+                                            data-bs-toggle="list" v-if="group.id == 0" @click="cgroup(0)"><span>{{
+                                                group.name }}</span>
+                                        </li>
+                                        <li class="friend-wrapper list-group-item list-group-item-action"
+                                            data-bs-toggle="list" v-else @click="cgroup(group.id)">
+                                            <span style="flex-grow: 1;">{{ group.name }}</span>
+                                            <div id="chose" class="btn-group">
+                                                <i class="bi bi-list" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false" id="change"></i>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a class="dropdown-item"
+                                                            @click="showGroupModal('修改名称', group.id)">修改名称</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" @click="deleteGroup(group)">删除</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </template>
                                 </template>
                             </ul>
                         </nav>
@@ -46,12 +48,12 @@
                         <ul class="list-group">
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center friend-wrapper wi-">
-                                <span style="flex-grow: 1;">{{ groups.group[clickgs].name }}</span>
+                                <template v-if="groups.group.length != 0">
+                                    <span style="flex-grow: 1;">{{ groups.group[clickgs].name }}</span>
+                                </template>
                                 <div class="input-group" style="width: 250px;">
                                     <input type="text" v-model="searchValue" class="form-control float-end"
                                         placeholder="请输入需要查找的好友名称" @input="sreachf">
-                                    <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2"
-                                        style="padding:0px 20px">搜索</button> -->
                                 </div>
                             </li>
                         </ul>
@@ -67,9 +69,6 @@
                                             <img :src="item.photo" class="friend-text">
                                             <span style="flex-grow: 1;">{{ item.friendname }}</span>
                                             <span v-if="item.messages === 0">
-                                                <a role="button" href="#">
-                                                    <i class="bi bi-chat-dots"></i>
-                                                </a>
                                             </span>
                                             <span class="badge bg-primary rounded-pill" v-else>{{ item.messages
                                             }}</span>
@@ -77,7 +76,8 @@
                                                 <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
                                                     aria-expanded="false" id="change"></i>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" @click="deleteFriend(item)">删除好友</a></li>
+                                                    <li><a class="dropdown-item" @click="deleteFriend(item)">删除好友</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </li>
@@ -112,11 +112,11 @@
 
 <script>
 import { reactive, ref } from 'vue';
-// import ChatWindow from '@/chat/Chat.vue';
-// import $ from 'jquery';
-
+import { useStore } from "vuex";
+import $ from 'jquery';
 export default {
     setup() {
+        const store = useStore();
         let clickgs = ref(0);
         let clickg = ref(0);//目前无用
         let num = ref(null);// 识别id
@@ -125,40 +125,55 @@ export default {
         let showModal = ref(false);
         let newGroupName = ref('');
         const groups = reactive({
-            count: 4,
+            count: 0,
             group: [
-                { id: 0, name: '默认分组' },
-                { id: 1, name: 'nihao1' },
-                { id: 2, name: 'nihao4' },
-                { id: 3, name: 'nihao2' },
-                { id: 4, name: 'nihao3' }
             ],
         });
-        // component('PopupWindow', PopupWindow);
         const searchResults = reactive({
             count: 0,
             searchres: [
             ],
         });
         const friends = reactive({
-            count: 9,
+            count: 0,
             friend: [
-                { id: 0, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张三', messages: 0 },
-                { id: 1, groupid: 1, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '李四', messages: 0 },
-                { id: 2, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '赵六', messages: 0 },
-                { id: 3, groupid: 2, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '王五', messages: 0 },
-                { id: 4, groupid: 3, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '凯文', messages: 0 },
-                { id: 5, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '菲利斯', messages: 0 },
-                { id: 6, groupid: 4, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '帕朵', messages: 0 },
-                { id: 7, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '梅比乌斯', messages: 0 },
-                { id: 8, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '华', messages: 0 },
-                { id: 10, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张1', messages: 0 },
-                { id: 11, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张2', messages: 0 },
-                { id: 12, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '三', messages: 0 },
-                { id: 13, groupid: 0, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '张4', messages: 0 },
-                { id: 9, groupid: 4, photo: 'https://www.miyoushe.com/mainPage/sr-logo-v2.png', friendname: '伊甸', messages: 0 }
             ],
         });
+        const initgroup = () => {
+            console.log("initgrounp run");
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/group/getgroups/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                success(resp) {
+
+                    console.log(resp);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            })
+        }
+        const initfriends = () => {
+            console.log("initfriends run");
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/friend/getfriends/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                success(resp) {
+                    const data = JSON.parse(resp.data);
+                    [friends.friend.id, friends.friend.photo, friends.friend.friendname] = data.split(' ');
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            })
+
+        }
         const cgroup = (cid) => {
             clickgs.value = cid;
             searchValue.value = '';
@@ -211,8 +226,8 @@ export default {
             // });
             // 根据groupId删除对应的分组
             groups.count--;
+
             groups.group = groups.group.filter((t) => t !== group);
-            console.log(groups);
         };
 
         const changeGroup = () => {
@@ -229,6 +244,8 @@ export default {
         const sreachf = () => {
             searchResults.searchres = friends.friend.filter(friend => friend.friendname.includes(searchValue.value));
         }
+        initgroup();
+        initfriends();
         return {
             clickgs,
             clickg,
@@ -248,6 +265,8 @@ export default {
             showGroupModal,
             deleteFriend,
             sreachf,
+            initgroup,
+            initfriends
         }
     },
 

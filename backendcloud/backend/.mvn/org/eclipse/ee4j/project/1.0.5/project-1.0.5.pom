@@ -273,7 +273,7 @@
 
         <!--
             This profile enables consuming artifacts from the ossrh staging
-            repository group.
+            repository subset.
         -->
         <profile>
             <id>staging</id>

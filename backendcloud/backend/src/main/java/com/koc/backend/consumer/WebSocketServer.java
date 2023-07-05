@@ -205,6 +205,14 @@ public class WebSocketServer {
         int aId = this.game.getPlayerA().getId();
         int bId = this.game.getPlayerB().getId();
         String status = data.getString("status");
+        Integer direction = data.getInteger("loser");
+        if (direction.equals(game.getPlayerA().getDirection())) {
+            users.get(aId).game.setLoser(game.getPlayerA().getId());
+            users.get(bId).game.setLoser(game.getPlayerA().getId());
+        } else if (direction.equals(game.getPlayerB().getDirection())) {
+            users.get(aId).game.setLoser(game.getPlayerB().getId());
+            users.get(bId).game.setLoser(game.getPlayerB().getId());
+        }
         users.get(aId).game.setStatus(status);
         users.get(bId).game.setStatus(status);
     }

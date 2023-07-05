@@ -19,18 +19,18 @@ public class GetRankListServiceImpl implements GetRankListService {
 
     @Override
     public JSONObject getList(Integer page) {
-
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-
         IPage<User> userIPage = new Page<>(page, 10);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("rating");
         List<User> users = userMapper.selectPage(userIPage, queryWrapper).getRecords();
         JSONObject resp = new JSONObject();
-        for (User user : users){
+        int id = 1;
+        for (User user : users) {
             user.setPassword("");
+            user.setId(id);
+            id ++;
         }
         resp.put("users", users);
-        //用于查询用户表中记录的数量。
         resp.put("users_count", userMapper.selectCount(null));
         return resp;
     }

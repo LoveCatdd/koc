@@ -3,7 +3,6 @@ package com.koc.backend.consumer.utils;
 import com.koc.backend.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 
-
 public class JwtAuthentication {
     public static int getUserId(String token) {
         int userId = -1;

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import NotFoundView from '../views/error/NotFoundView';
 import RankListView from '../views/ranklist/RankListView.vue';
@@ -6,7 +6,7 @@ import RecordView from '../views/record/RecordView.vue';
 import UserInfoView from '../views/user/info/UserInfoView.vue';
 import PkView from '../views/pk/PkView.vue';
 import RuleView from '../views/rule/RuleView';
-import FriendsListView from '../views/user/friends/FriendsListView';
+import FriendsListView from '../views/friends/FriendsListView';
 import LoginView from '../views/user/account/login/LoginView.vue';
 import RegisterView from '../views/user/account/register/RegisterView.vue';
 import store from "../store/index";

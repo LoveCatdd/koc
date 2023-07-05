@@ -25,6 +25,7 @@
 
 <script>
 import router from '@/router';
+import { useStore } from 'vuex';
 
 
 export default {
@@ -32,24 +33,24 @@ export default {
     components: {
     },
     setup() {
+      const store = useStore();
       const getImageUrl = (path) => {
             return require('../../public/images/' + path);
         };
       
       const matchClick = () => {
+        store.commit("updatePlayStatus", "match");
         router.push({name: 'pk'});
+        
       };
       const rankClick = () => {
-        router.push({name: 'pk'});
-      };
-      const friendClick = () => {
+        store.commit("updatePlayStatus", "rank");
         router.push({name: 'pk'});
       };
         return {
             getImageUrl,
             matchClick,
             rankClick,
-            friendClick,
         }
     }
 }

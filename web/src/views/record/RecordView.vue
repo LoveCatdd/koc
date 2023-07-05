@@ -1,144 +1,220 @@
 <template>
-    <body class="lightdark"></body>
-    <!-- 可以继承自table -->
-    <table style="width: 1100px;" class=" table-striped table-hover ">
-      <thead>
-      <tr >
-        <th class="font-title">A</th>
-        <th class="font-title">B</th>
-        <th class="font-title">对战结果</th>
-        <th class="font-title">对战时间</th>
-        <th class="font-title">查看回放步骤</th>
-      </tr>
-
-      <tr class="font-content">
-        <td>play1</td>
-        <td>play2</td>
-        <td>winner: B</td>
-        <td>2023-5-23 | 15:34</td>
-        <td><a class="aa" href="#">详情</a></td>
-      </tr>
-      <tr class="font-content">
-        <td>play3</td>
-        <td>play4</td>
-        <td>winner: A</td>
-        <td>2023-8-12 | 19:20</td>
-        <td><a class="aa" href="#">详情</a></td>
-      </tr>
-      <tr class="font-content">
-        <td>play5</td>
-        <td>play6</td>
-        <td>winner: B</td>
-        <td>2023-9-30 | 05:04</td>
-        <td><a class="aa" href="#">详情</a></td>
-      </tr>
-      <tr class="font-content">
-        <td>play7</td>
-        <td>play8</td>
-        <td>winner: A</td>
-        <td>2023-4-02 | 15:30</td>
-        <td><a class="aa" href="#">详情</a></td>
-      </tr>
-      <tr class="font-content">
-        <td>play9</td>
-        <td>play10</td>
-        <td>winner: B</td>
-        <td>2023-5-23 | 18:24</td>
-        <td><a class="aa" href="#">详情</a></td>
-      </tr>
-      <tr class="font-content">
-        <td>play11</td>
-        <td>play12</td>
-        <td>winner: A</td>
-        <td>2023-1-29 | 03:34</td>
-        <td ><a class="aa" href="#" >详情</a></td>
-      </tr>
-
-
-
-      </thead>
+  <div class="lightdark ">
+    <div class="center-">
+        <div class="card-background" >
+          <div class="center- margin-bottom position-">
+            <table  class="  table-striped table-hover f1">
+              <thead>
+                <!-- 表头 -->
+                <tr>
+                  <th>
+                    <p>玩家A</p>
+                    <hr />
+                  </th>
+                  <th>
+                    <p >玩家B</p>
+                    <hr />
+                  </th>
+                  <th>
+                    <p>对战结果</p>
+                    <hr />
+                  </th>
+                  <th>
+                    <p>对战时间</p>
+                    <hr />
+                  </th>
+                </tr>
+              </thead>
       <tbody>
-      <tr v-for="record in records" :key="record.record.id">
-        <td>
-          <img :src="record.a_photo" alt="" class="record-user-photo">
-          &nbsp;
-          <span class="record-user-username">{{ record.a_username }}</span>
-        </td>
-        <td>
-          <img :src="record.b_photo" alt="" class="record-user-photo">
-          &nbsp;
-          <span class="record-user-username">{{ record.b_username }}</span>
-        </td>
-        <td>
-          {{ record.result }}
-        </td>
-        <td>
-          {{ record.record.createTime }}
-        </td>
-        <td>
-          <button @click="open_record_content(record.record.id)" type="button" class="btn btn-secondary">查看录像
-          </button>
-        </td>
-      </tr>
+        <tr v-for="record in records" :key="record.record.id">
+          <td class="tr-size">
+            <img :src="record.a_photo" alt="" class="img-size" >
+            &nbsp;
+            <span class="text-center">{{ record.a_username }}</span>
+          </td>
+          <td class="tr-size">
+            <img :src="record.b_photo" alt="" class="img-size" >
+            &nbsp;
+            <span class=" text-center">{{ record.b_username }}</span>
+          </td>
+          <td class="tr-size text-center">
+            {{ record.result }}
+            <span v-if="record.result !== '平局'" class="font-size">win</span>
+          </td>
+          <td class="tr-size text-center">
+            {{ record.record.createTime }}
+          </td>
+        </tr>
       </tbody>
 
     </table>
-    
-
+  </div>
+      <nav aria-label="..." class="page-size">
+        <ul class="pagination">
+            <li class="page-item" @click="click_page(-2)">
+                <a class="page-link" href="#">前一页</a>
+            </li>
+            <li :class="'page-item ' + page.is_active" v-for="page in pages" :key="page.number" @click="click_page(page.number)">
+                <a class="page-link" href="#">{{ page.number }}</a>
+            </li>
+            <li class="page-item" @click="click_page(-1)">
+                <a class="page-link" href="#">后一页</a>
+            </li>
+        </ul>
+        </nav>
+    </div>
+  </div>
+</div>
 </template>
   
-  <script>
-  // import ContentBase from '@/components/ContentBase.vue';
-  // 以下为新添加
+<script>
+// import ContentBase from '@/components/ContentBase.vue';
+import { useStore } from "vuex";
+import { ref } from 'vue';
+import $ from 'jquery';
+export default {
+  name: 'RecordView',
+  components: {
+  },
 
-  export default {
-      name: 'RecordView',
-      components: {
-          // ContentBase,
+  setup() {
+    const store = useStore();
+    let records = ref([]);
+    let current_page = 1;
+    let total_records = 0;
+    let pages = ref([]);
+
+    const click_page = page => {
+      if (page === -2) page = current_page - 1;
+      if (page === -1) page = current_page + 1;
+      let max_pages = Math.ceil(total_records / 10);
+
+      if (page >= 1 && page <= max_pages) {
+        pull_page(page);
       }
+    }
+
+    const update_pages = () => {
+      let max_pages = Math.ceil(total_records / 10);
+      let new_pages = [];
+      for (let i = current_page - 2; i <= current_page + 2; i++) {
+        if (i >= 1 && i <= max_pages) {
+          new_pages.push({
+            number: i,
+            is_active: i === current_page ? "active" : "",
+          });
+        }
+      }
+      pages.value = new_pages;
+    }
+    const pull_page = page => {
+      current_page = page;
+      $.ajax({
+        url: "http://127.0.0.1:8090/user/recordlist/getlist/",
+        data: {
+          page,
+        },
+        type: "get",
+        headers: {
+          Authorization: "Bearer " + store.state.user.token,
+        },
+        success(resp) {
+          records.value = resp.records;
+          total_records = resp.records_count;
+          update_pages();
+        }
+      })
+    }
+    pull_page(current_page);
+    return {
+      records,
+      pages,
+      click_page,
+    }
   }
-  </script>
+}
+</script>
   
 
 
-  <style>
-.font-title
-{
- color: rgb(162, 219, 96);
- font-size: 25px;
+<style scoped>
+.font-size {
+  font-size: 24px;
+  font-family: monospace;
+  color: rgb(129, 186, 16);
 }
-</style>
-<!-- 展示信息的样式 -->
-<style>   
-   .font-content
-   {
-    color: rgb(255, 255, 255);
-    font-size: 30px;  /*字体大小*/
-    font-weight: 450;  /*字体粗细*/
-   }
-/* 超链接 样式设定 */
-</style>
+.page-size {
+  margin-top: 25px;
+  float: right;
+}
+i {
+  color: azure;
+  font-size: 35px;
+  margin: 10px 10px 10px 10px;
+}
 
-<style>
-/* 回放详情 */
-.aa{
-		/*祛除连接下划线*/
-		text-decoration: blink;
-		background-color: rgb(71, 139, 211);
-		margin: 0px;
-		padding: 8px;
-		font-size:18px;
-	}
-	.aa:link{
-		/*未点击之前为白色*/
-		color: rgb(255, 255, 255);
-	}.aa:visited{
-		/*点击为白色*/
-		color: rgb(237, 198, 81);
-   }
-	.aa:hover{
-		/*鼠标置于链接上时 字体颜色为黑色，背景为白色*/
-		background-color: rgb(204, 235, 81);  /*标题 颜色设置*/
-		color: black;
-	}
+.page-size {
+  margin-top: 25px;
+  display: flex;
+  justify-content: right;
+}
+
+hr {
+  color: #fd264f;
+  border-width: 2px;
+  width: 96%;
+}
+
+.img-size {
+  height: 70px;
+  width: 70px;
+}
+
+p {
+  text-align: center;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.center- {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.card-background {
+    padding: 20px;
+    margin-top: 100px;
+    background-color:#242422;
+
+    height: auto;
+    width: auto;
+}
+.f1 {
+  color: rgb(255, 255, 255);
+  font-size: 25px;
+  font-weight: 450;
+  font-family: monospace;
+  width: auto;
+  height: auto;
+}
+
+thead {
+  color: rgb(255, 255, 255);
+  background-color: #2a2827;
+}
+
+.tr-size {
+  padding: 10px;
+  width: 350px;
+  background-color: #393941;
+}
+.text-center {
+  text-align: center;
+}
+.lightdark {
+    height: 904px;
+    width: 100%;
+    background-color: #312E2B;
+}
+
 </style>

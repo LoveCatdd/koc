@@ -61,7 +61,10 @@ export default {
                     console.log(data);
                     store.commit("updateGameStatus"), {
                         game_status: data.game_status,
-                    }
+                    };
+                    store.commit("updateLoser", {
+                       loser: data.result,
+                    });
                 }
             }
         });

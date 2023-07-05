@@ -20,7 +20,7 @@
                 />
             </div>
         </div>
-        <PkEnd v-else :info="info_me"   />
+        <PkEnd v-else :info="info_me" />
     </div>
 </template>
 
@@ -93,7 +93,7 @@ export default {
                 store.commit("updateGameStatus"), {
                     game_status: data.game_status,
                 }
-                console.log(store.state.pk.game_status);
+                store.commit("updateLoser", data.result);
             }
         };
         const post = (content) => {
