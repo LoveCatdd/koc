@@ -55,12 +55,18 @@ const routes = [
   {
     path: '/rule/',
     name: 'rule',
-    component: RuleView
+    component: RuleView,
+    meta: {
+      requestAuth: true
+    }
   },
   {
     path: '/friendslist/',
     name: 'friendslist',
-    component: FriendsListView
+    component: FriendsListView,
+    meta: {
+      requestAuth: true
+    }
   },
   {
     path: '/login/',

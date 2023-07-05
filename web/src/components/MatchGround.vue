@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { onBeforeUnmount, ref } from 'vue';
 import { useStore } from 'vuex';
 import MatchInfoBase from './MatchInfoBase.vue';
 export default {
@@ -68,6 +68,13 @@ export default {
 
             }
         };
+
+        onBeforeUnmount(() =>{
+            console.log("un motuned start");
+            store.state.pk.socket.send(JSON.stringify({
+                    event: "stop-matching"
+                }))
+        });
 
         setInterval(() => {
             if (seconds.value < 60) {

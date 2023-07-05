@@ -42,7 +42,7 @@
             <span v-if="record.result !== '平局'" class="font-size">win</span>
           </td>
           <td class="tr-size text-center">
-            {{ record.record.createTime }}
+            {{ record.record.createtime }}
           </td>
         </tr>
       </tbody>
@@ -186,13 +186,13 @@ p {
     margin-top: 100px;
     background-color:#242422;
 
-    height: auto;
+    height: 90%;
     width: auto;
 }
 .f1 {
   color: rgb(255, 255, 255);
   font-size: 25px;
-  font-weight: 450;
+  font-weight: 200;
   font-family: monospace;
   width: auto;
   height: auto;
@@ -205,6 +205,7 @@ thead {
 
 .tr-size {
   padding: 10px;
+  height: 100px;
   width: 350px;
   background-color: #393941;
 }
@@ -212,7 +213,7 @@ thead {
   text-align: center;
 }
 .lightdark {
-    height: 904px;
+    height: 2000px;
     width: 100%;
     background-color: #312E2B;
 }

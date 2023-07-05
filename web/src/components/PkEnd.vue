@@ -4,16 +4,22 @@
             <div class="margin-bottom margin-">  
                 <img class="img-size img-float" :src="$store.state.user.photo" alt="">        
                 <div class="user-margin">
-                    <div class="game-float user-color">匹配场</div>
+                    <div class="game-float user-color">
+                        {{ $store.state.pk.play_status === "rank" ?"排位场":"匹配场"}}</div>
                     <div  class="user-margin user-color">{{ $store.state.user.username }}</div>
                     <div class="user-margin user-color">{{ $store.state.user.designation }}</div>
                 </div>
             </div>
-            <div class="body-margin">
+            <div v-if="$store.state.pk.play_status === 'rank' " class="body-margin">
                 <div class="user-color">
                     rating: {{ rating }}(
                         <span v-if="loser === 'win'">{{ add }}</span>
-                    <span v-else-if="loser === 'loser'">{{ reduce }}</span>)
+                    <span class="lose" v-else-if="loser === 'lose'">{{ reduce }}</span>)
+                </div>
+            </div>
+            <div v-else class="body-margin">
+                <div class="user-color">
+                    <span></span>
                 </div>
             </div>
             <button class="button-float btn" @click="rightClick">
@@ -40,43 +46,45 @@ export default {
 
         const store = useStore();
 
-        let rating = store.state.user.rating;
+        let rating = parseInt(store.state.user.rating);
 
         const loser = store.state.pk.loser;
-
+        const playing_status = store.state.pk.play_status;
         const add = "+50";
         const reduce = "-20";
         console.log(loser);
-        if (loser === "win") {
+        if (playing_status ==="rank" && loser === "win") {
             rating += 50;
-        } else if (loser === "loser") {
+        } else if (playing_status ==="rank" && loser === "lose") {
             rating -= 20;
         }
 
         const rightClick = () => {
-            store.commit("updateGameStatus"), {
-                game_status: "playing",
-            },
-            store.commit("updatePlayStatus"), {
+            store.commit("updateGameStatus",  "playing",);
+            store.commit("updatePlayStatus", {
                 play_status: '',
-            },
+            });
             store.commit("updateLoser", {
                 loser: 0,
             });
+            store.commit('updateStatus', "matching");
+            store.commit('updateMatchStatus', "matching");
+            store.commit('updatePk');
             router.push({name: 'home'});
         };
 
 
         onUnmounted(() => {
-            store.commit("updateGameStatus"), {
-                game_status: "playing",
-            },
-            store.commit("updatePlayStatus"), {
+            store.commit("updateGameStatus",  "playing",);
+            store.commit("updatePlayStatus", {
                 play_status: '',
-            },
+            });
             store.commit("updateLoser", {
                 loser: 0,
             });
+            store.commit('updateStatus', "matching");
+            store.commit('updateMatchStatus', "matching");
+            store.commit('updatePk');
         });
         return {
             rightClick,
@@ -138,7 +146,9 @@ export default {
 span {
     color:lightgreen;
 }
-
+.lose {
+    color:lightcoral;
+}
 .body-margin {
     margin-top: 95px;
     background-color: #30302e;

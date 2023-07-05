@@ -227,7 +227,7 @@ thead {
   text-align: center;
 }
 .lightdark {
-    height: 904px;
+    height: 2000px;
     width: 100%;
     background-color: #312E2B;
 }

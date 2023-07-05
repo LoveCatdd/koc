@@ -19,10 +19,6 @@
               :to="{ name: 'record' }">棋谱</router-link>
           </li>
           <li class="nav-item">
-            <router-link :class="route_name === 'pk' ? 'nav-link active' : 'nav-link'"
-              :to="{ name: 'pk' }">PK</router-link>
-          </li>
-          <li class="nav-item">
             <router-link :class="route_name === 'friendslist' ? 'nav-link active' : 'nav-link'"
               :to="{ name: 'friendslist' }">好友</router-link>
           </li>
