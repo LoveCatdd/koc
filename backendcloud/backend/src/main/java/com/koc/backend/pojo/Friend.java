@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Friend {
-    @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer userid;
     private Integer groupid;
-    private String friendname;
 }

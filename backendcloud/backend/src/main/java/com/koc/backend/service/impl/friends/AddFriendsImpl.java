@@ -15,15 +15,15 @@ public class AddFriendsImpl implements AddFriends {
 
 
     @Autowired
-    FriendMapper friendMapper;
+    private FriendMapper friendMapper;
     @Override
     public JSONObject AddFriends(String req) {
         User user = UserUtilImpl.getUser();
         JSONObject data = JSON.parseObject(req);
+        Integer Fid = data.getInteger("friendid");
         Integer Uid = user.getId();
         Integer Gid = data.getInteger("groupid");
-        String Fid = data.getString("friendid");
-        Friend friend = new Friend(null,Uid,Gid,Fid);
+        Friend friend = new Friend(Uid,Gid,Fid);
         friendMapper.insert(friend);
         JSONObject res = new JSONObject();
         res.put("error_message","success");

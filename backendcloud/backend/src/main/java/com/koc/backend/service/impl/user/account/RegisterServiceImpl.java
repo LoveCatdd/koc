@@ -86,7 +86,6 @@ public class RegisterServiceImpl implements RegisterService {
     subsetMapper.insert(subset);
     map.put("error_message", "success");
     return map;
-
 }
 }
 

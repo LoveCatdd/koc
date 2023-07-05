@@ -5,8 +5,8 @@
             <div class="row">
                 <div class="col-3 div-">
                     <div class="profile">
-                        <img src="../../../public/images/logo2.png" alt="Avatar">
-                        <h2>John Smith</h2>
+                        <img :src="photo">
+                        <h2>{{ username }}</h2>
                     </div>
                     <div class="div1">
                         <ul id="menu list-tab" class="list-group">
@@ -20,7 +20,7 @@
                                 <template v-if="groups.group.length != 0">
                                     <template v-for="group in groups.group" :key="group.id">
                                         <li class="friend-wrapper list-group-item list-group-item-action active"
-                                            data-bs-toggle="list" v-if="group.id == 0" @click="cgroup(0)"><span>{{
+                                            data-bs-toggle="list" v-if="group.id == clickg" @click="cgroup(clickg)"><span>{{
                                                 group.name }}</span>
                                         </li>
                                         <li class="friend-wrapper list-group-item list-group-item-action"
@@ -48,9 +48,7 @@
                         <ul class="list-group">
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center friend-wrapper wi-">
-                                <template v-if="groups.group.length != 0">
-                                    <span style="flex-grow: 1;">{{ groups.group[clickgs].name }}</span>
-                                </template>
+                                <!-- <span style="flex-grow: 1;">{{ groups.group[clickg].name }}</span> -->
                                 <div class="input-group" style="width: 250px;">
                                     <input type="text" v-model="searchValue" class="form-control float-end"
                                         placeholder="请输入需要查找的好友名称" @input="sreachf">
@@ -63,7 +61,7 @@
                                     v-for="item in searchResults.searchres.length > 0 ? searchResults.searchres : friends.friend"
                                     :key="item.id">
                                     <template
-                                        v-if="(searchResults.searchres.length > 0 && item.groupid == clickg) || (searchValue == '' && item.groupid == clickgs)">
+                                        v-if="(searchResults.searchres.length > 0 && item.groupid == clickgs) || (searchValue == '' && item.groupid == clickgs)">
                                         <li id="fr-"
                                             class="list-group-item d-flex justify-content-between align-items-center wi-">
                                             <img :src="item.photo" class="friend-text">
@@ -76,6 +74,8 @@
                                                 <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
                                                     aria-expanded="false" id="change"></i>
                                                 <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a class="dropdown-item" @click="getinfomes(item)">个人信息</a>
+                                                    </li>
                                                     <li><a class="dropdown-item" @click="deleteFriend(item)">删除好友</a>
                                                     </li>
                                                 </ul>
@@ -121,6 +121,8 @@ export default {
         let clickg = ref(0);//目前无用
         let num = ref(null);// 识别id
         let title = ref('');
+        let photo = ref('');
+        let username = ref('');
         let searchValue = ref('');
         let showModal = ref(false);
         let newGroupName = ref('');
@@ -140,7 +142,7 @@ export default {
             ],
         });
         const initgroup = () => {
-            console.log("initgrounp run");
+            console.log('initgroup');
             $.ajax({
                 url: 'http://127.0.0.1:8090/user/group/getgroups/',
                 type: "get",
@@ -148,8 +150,21 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
-
-                    console.log(resp);
+                    groups.count = resp.groupsnum;
+                    groups.group = resp.grouplist;
+                    username.value = resp.name;
+                    photo.value = resp.photo;
+                    for (let g in groups.group) {
+                        if (groups.group[g].name == "默认分组") {
+                            clickg = g;
+                            console.log(g);
+                            break;
+                        }
+                    }
+                    // console.log(username);
+                    // console.log(photo);
+                    // console.log(groups);
+                    console.log(resp)
                 },
                 error(resp) {
                     console.log(resp);
@@ -157,7 +172,7 @@ export default {
             })
         }
         const initfriends = () => {
-            console.log("initfriends run");
+            console.log('initfriends');
             $.ajax({
                 url: 'http://127.0.0.1:8090/user/friend/getfriends/',
                 type: "get",
@@ -165,29 +180,19 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
-                    const data = JSON.parse(resp.data);
-                    [friends.friend.id, friends.friend.photo, friends.friend.friendname] = data.split(' ');
+                    friends.count = resp.fnum;
+                    friends.friend = resp.flist;
+                    console.log(resp);
                 },
                 error(resp) {
                     console.log(resp);
                 }
             })
-
         }
         const cgroup = (cid) => {
             clickgs.value = cid;
             searchValue.value = '';
             searchResults.searchres = [];
-            // $.ajax({
-            //     url: 'http://localhost/api/getfriends',
-            //     data: {
-            //         groupid: cid
-            //     },
-            //     success(resp) {
-            //         const data = JSON.parse(resp.data);
-            //         [friends.friend.id, friends.friend.photo, friends.friend.friendname, friends.friend.messages,] = data.split(' ');
-            //     }
-            // })
         };
         const showGroupModal = (titles, index) => {
             title.value = titles;
@@ -203,6 +208,7 @@ export default {
         };
 
         const addGroup = () => {
+            console.log('addGroup');
             if (groups.group.some(group => group.name === newGroupName.value)) {
                 alert('分组名称已存在，请输入一个新的名称。');
                 return;
@@ -211,36 +217,131 @@ export default {
                 alert('名称不能为空');
                 return;
             }
+            console.log(newGroupName.value);
+            const req = newGroupName.value;
             groups.count++;
-            groups.group.push({ id: groups.count, name: newGroupName.value });
-            console.log(groups);
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/addgroup/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                data: {
+                    req,
+                },
+                success(resp) {
+                    groups.count++;
+                    groups.group.push({ id: resp.id, name: req });
+                    console.log(resp);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            })
             closeModal();
         };
-
         const deleteGroup = (group) => {
+            console.log('deleteGroup');
+            const req = group.id;
             // 向后端发送请求删除分组
-            // $.ajax({
-            //     success(resp) {
-            //         const data = JSON.parse(resp.data);
-            //     }
-            // });
-            // 根据groupId删除对应的分组
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/deletegroup/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                data: {
+                    req,
+                },
+                success(resp) {
+                    groups.count--;
+                    groups.group = groups.group.filter((t) => t !== group);
+                    console.log(resp);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
             groups.count--;
-
-            groups.group = groups.group.filter((t) => t !== group);
         };
 
         const changeGroup = () => {
-            groups.group[num.value].name = newGroupName.value;
+            console.log('changeGroup');
+            const id = num.value;
+            const nam = newGroupName.value;
+            if (groups.group.some(group => group.name === nam)) {
+                alert('分组名称已存在，请输入一个新的名称。');
+                return;
+            }
+            else if (nam.trim() === '') {
+                alert('名称不能为空');
+                return;
+            }
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/cggroup/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                data: {
+                    id,
+                    nam,
+                },
+                success(resp) {
+                    groups.group.name = newGroupName.value;
+                    console.log(resp);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
             console.log(groups);
             closeModal();
         };
 
         const deleteFriend = (friend) => {
-            friends.count--;
-            friends.friend = friends.friend.filter((t) => t !== friend);
+            console.log('deleteFriend');
+            const req = friend.id;
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/deletefriend/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                data: {
+                    req,
+                },
+                success(resp) {
+                    friends.count--;
+                    friends.friend = friends.friend.filter((t) => t !== friend);
+                    console.log(resp);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
         };
 
+        const getinfomes = (item) => {
+            const i = item.id
+            console.log("1:" + i);
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/getinfomes/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                data: {
+                    i,
+                },
+                success(resp) {
+                    console.log(resp);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
+        }
         const sreachf = () => {
             searchResults.searchres = friends.friend.filter(friend => friend.friendname.includes(searchValue.value));
         }
@@ -249,6 +350,8 @@ export default {
         return {
             clickgs,
             clickg,
+            photo,
+            username,
             num,
             title,
             showModal,
@@ -266,7 +369,8 @@ export default {
             deleteFriend,
             sreachf,
             initgroup,
-            initfriends
+            initfriends,
+            getinfomes
         }
     },
 

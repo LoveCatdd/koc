@@ -11,22 +11,16 @@ import com.koc.backend.service.user.friends.DeleteFriends;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class DeleteFriendsImpl implements DeleteFriends {
     @Autowired
-    FriendMapper friendMapper;
+    private FriendMapper friendMapper;
     @Override
-    public JSONObject DeleteFriends(String req) {
-        User user = UserUtilImpl.getUser();
-        JSONObject data = JSON.parseObject(req);
-        Integer Fid = data.getInteger("id");
-        Friend friend = friendMapper.selectById(Fid);
-
+    public JSONObject DeleteFriends(Map<String, Integer> req) {
+        Integer Fid =req.get("id");
         JSONObject jsonObject = new JSONObject();
-        // if (friend == null) {
-        //     jsonObject.put("error_message", "Bot不存在");
-        //     return jsonObject;
-        // }
         friendMapper.deleteById(Fid);
         jsonObject.put("error_message", "success");
         return jsonObject;

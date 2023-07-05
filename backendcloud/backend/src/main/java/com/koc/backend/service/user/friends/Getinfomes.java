@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.util.Map;
 
-public interface DeleteFriends {
-    public JSONObject DeleteFriends(Map<String, Integer> req);
-
+public interface Getinfomes {
+    public JSONObject Getinfomes(Map<String, Integer> id);
 }
