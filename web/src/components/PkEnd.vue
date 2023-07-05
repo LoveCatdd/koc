@@ -38,7 +38,7 @@ export default {
     name: 'PkEnd',
     props: {
         info: {
-            type: String,
+            type: Object,
             required: true,
         }
     },

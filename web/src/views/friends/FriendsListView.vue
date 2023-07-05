@@ -133,9 +133,7 @@ export default {
         let searchValue = ref('');
         let showModal = ref(false);
         let newGroupName = ref('');
-        const info = {
-            photo: store.state.user.photo,
-        };
+        let info = reactive({});
         const groups = reactive({
             count: 0,
             group: [
@@ -355,7 +353,11 @@ export default {
                     fid
                 },
                 success(resp) {
-                    console.log(resp);
+                    info.name = resp.name;
+                    info.photo = resp.photo;
+                    info.rating = resp.rating;
+                    info.win = resp.win;
+                    info.total = resp.total;
                 },
                 error(resp) {
                     console.log(resp);

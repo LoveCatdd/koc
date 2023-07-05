@@ -1,18 +1,19 @@
 <template>
 <div class="lightdark offcanvas offcanvas-end offcanvas-size" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-body margin- body-color">
-        <img class="img-size img-float" :src="info.photo" alt="">        
+        <img class="img-size img-float" :src="photo" alt="">        
         <div class="user-margin">
-            <div class="rating-float user-color">rating</div>
-            <div  class="user-margin user-color">lpxl</div>
-            <div class="user-margin user-color">666</div>
+            <div class="rating-float user-color">{{ rating }}</div>
+            <div  class="user-margin user-color">{{ name }}</div>
+            <div class="user-margin user-color">{{ designation }}</div>
         </div>
-        <PkUserInfoBase />
+        <PkUserInfoBase :info="info" />
     </div>
 </div>
 </template>
 
 <script>
+import { computed } from 'vue'
 
 import PkUserInfoBase from './PkUserInfoBase.vue'
 
@@ -23,10 +24,23 @@ export default {
     },
     props: {
         info: {
-            type: String,
+            type: Object,
             required: true,
         }
     },
+    setup(props) {
+        let photo = computed(() => {return props.info.photo});
+        let rating = computed(() => {return props.info.rating});
+        let name = computed(() => {return props.info.name});
+        let designation = computed(() => {return props.info.designation});
+        
+        return {
+            photo,
+            rating,
+            name,
+            designation
+        }
+    }
 }
 </script>
 

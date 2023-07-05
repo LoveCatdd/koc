@@ -76,7 +76,7 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     String encodedPassword = passwordEncoder.encode(password);//加密
-    String photo = "https://www.miyoushe.com/mainPage/sr-logo-v2.png";
+    String photo = "https://video.acwing.com/image/default/64F34C87F88E4DAC9C6D6B3EECFC3DC5-6-2.png?auth_key=1689206400-ac2793wing-0-e9726e7b3b25a3172301855a46aad572";
     User user = new User(null, username, encodedPassword, photo,1500);
     userMapper.insert(user);
     user = userMapper.selectOne(queryWrapper.eq("username", user.getUsername()));

@@ -5,13 +5,13 @@
         <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
         <div class="body-margin">
             <div class="user-color text-">
-            胜场： 100
+            胜场： {{  win }}
             </div>
             <div class="user-color text-">
-            胜场率： 100%
+            胜场率： {{ del }} %
             </div>
             <div class="user-color text-">
-            总场数： 100
+            总场数： {{ total }}
             </div>
         </div>
     </div>
@@ -20,13 +20,13 @@
         <input id="tab2-2" name="tabs-two" type="radio">
         <div class="body-margin">
             <div class="user-color text-">
-                胜场： 100
+                胜场：{{ win }}
             </div>
             <div class="user-color text-">
-                胜场率： 100%
+                胜场率：{{ del }} %
             </div>
             <div class="user-color text-">
-                总场数： 100
+                总场数： {{ total }}
             </div>
     </div>
     </div>
@@ -34,9 +34,28 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 export default {
     name:  'PkUserInfoBase',
+    props: {
+        info: {
+            type: Object,
+            required: true,
+        }
+    },
+    setup(props) {   
+        let win = computed(() => { return props.info.win});
+        let total = computed(() => { return props.info.total});
+        let del = computed(() => { return win.value /total.value});
+        if (isNaN(del)) del = "--"
 
+        console.log(props.info);
+        return {
+            del,
+            win,
+            total
+        }
+    }
 }
 </script>
 

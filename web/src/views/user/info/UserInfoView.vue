@@ -29,10 +29,10 @@
                 </form>
               </div>
 
-              <div type="button" data-toggle="tooltip" data-placement="right" title="查看称号" class="user-margin user-color">666</div>
+              <div type="button" data-toggle="tooltip" data-placement="right" title="查看称号" class="user-margin user-color">暂无称号</div>
           </div>
       </div>
-      <PkUserInfoBase />
+      <PkUserInfoBase :info="info"/>
     </div>  
   </div>
 
@@ -42,7 +42,7 @@
 <script>
 import PkUserInfoBase from '@/components/PkUserInfoBase.vue';
 import $ from 'jquery';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 export default {
     name: 'UserInfoView',
@@ -53,6 +53,7 @@ export default {
       const store =useStore();
       let username = ref('');
       let photo = ref('');
+      let info =reactive({});
       const updateUsername = () => {
         console.log("update username");
           $.ajax({
@@ -94,15 +95,43 @@ export default {
             }
           });
       };
+
+      
+      const getinfomes = (id) => {
+            const fid = id
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/getinfomes/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                data: {
+                    fid
+                },
+                success(resp) {
+                  info.name = resp.name;
+                  info.photo = resp.photo;
+                  info.rating = resp.rating;
+                  info.win = resp.win;
+                  info.total = resp.total;
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
+          }
+      getinfomes(store.state.user.id);
+
+      console.log(info.value);
       return {
         updateUsername,
         username,
         photo,
         updatePhoto,
+        info
       }
     }
-
-}
+  }
 </script>
 
 

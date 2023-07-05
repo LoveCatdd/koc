@@ -31,8 +31,8 @@ import ChatBase from '@/components/ChatBase.vue';
 import ChatPost from  '@/components/ChatPost.vue';
 import PkEnd from './PkEnd.vue';
 import { useStore } from 'vuex';
-import { onUnmounted, ref } from 'vue';
-
+import { onUnmounted, reactive, ref } from 'vue';
+import $ from 'jquery';
 export default {    
     name: 'PlayGround',
     components: {
@@ -45,22 +45,61 @@ export default {
     setup() {   
         const store = useStore();
         const user_id = store.state.user.id;
-        
-        const info_me = {
+
+        let info_me = reactive({
             isMe: true,
             photo: store.state.user.photo,
             name: store.state.user.username,
             designation: store.state.user.designation,
             rating: store.state.user.rating,
-        };
+        });
 
-        const info_u = {
+        let info_u = reactive({
             isMe: false,
             photo: store.state.pk.opponent_photo,
             name: store.state.pk.opponent_username,
             designation: store.state.pk.opponent_designation,
-            rating: store.state.pk.opponent_rating
-        }
+            rating: store.state.pk.opponent_rating,
+        });
+
+        
+        const getinfomes = (id) => {
+            const fid = id
+            $.ajax({
+                url: 'http://127.0.0.1:8090/user/account/getinfomes/',
+                type: "get",
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                data: {
+                    fid
+                },
+                success(resp) {
+                    if (fid === user_id) {
+                        info_me.win= resp.win;
+                        info_me.total=  resp.total;
+                    
+                    } else {
+                        info_u.win= resp.win;
+                        info_u.total=  resp.total;
+                    }
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
+        }   
+
+        let opponent_id = parseInt(user_id) === parseInt(store.state.pk.a_id) ? 
+                store.state.pk.b_id : store.state.pk.a_id;
+
+        getinfomes(user_id);
+        getinfomes(opponent_id);
+        
+        console.log(info_u);
+        console.log(info_me);
+        
+
 
         let isSaveMsg =ref(true);
 
@@ -111,6 +150,8 @@ export default {
             }));
         };
 
+
+
         onUnmounted(() => {
             if (socket !== null) {
                 socket.close();
@@ -127,6 +168,7 @@ export default {
             info_me,
             info_u,
             SaveClick,
+            user_id,
         }
     }
 }

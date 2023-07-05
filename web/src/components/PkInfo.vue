@@ -51,7 +51,7 @@ export default {
     },
     props: {
         info: {
-            type: String,
+            type: Object,
             required: true,
         }
     },
@@ -60,8 +60,9 @@ export default {
         let showChatstatus = ref(true);
         const showClick = () => {   
             showIconstatus.value = !showIconstatus.value;
+            console.log(props.info);
         };
-
+        
         const noSaveMsg = () => {
             context.emit('SaveClick',false);
             showChatstatus.value = !showChatstatus.value;
