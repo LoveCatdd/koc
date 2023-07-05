@@ -1,75 +1,80 @@
 <template>
-  <ContentField>
-
-    <body class="lightdark"></body>
-    <!-- 可以继承自table -->
-    <table style="width: 1100px;" class=" table-striped table-hover ">
-      <thead>
-        <tr>
-          <th class="font-title">A</th>
-          <th class="font-title">B</th>
-          <th class="font-title">对战结果</th>
-          <th class="font-title">对战时间</th>
-          <th class="font-title">查看回放步骤</th>
-        </tr>
-      </thead>
+  <div class="lightdark ">
+    <div class="center-">
+        <div class="card-background" >
+          <div class="center- margin-bottom position-">
+            <table  class="  table-striped table-hover f1">
+              <thead>
+                <!-- 表头 -->
+                <tr>
+                  <th>
+                    <p>玩家A</p>
+                    <hr />
+                  </th>
+                  <th>
+                    <p >玩家B</p>
+                    <hr />
+                  </th>
+                  <th>
+                    <p>对战结果</p>
+                    <hr />
+                  </th>
+                  <th>
+                    <p>对战时间</p>
+                    <hr />
+                  </th>
+                </tr>
+              </thead>
       <tbody>
         <tr v-for="record in records" :key="record.record.id">
-          <td>
-            <img :src="record.a_photo" alt="" class="record-user-photo" style="height: 50px;">
+          <td class="tr-size">
+            <img :src="record.a_photo" alt="" class="img-size" >
             &nbsp;
-            <span class="record-user-username">{{ record.a_username }}</span>
+            <span class="text-center">{{ record.a_username }}</span>
           </td>
-          <td>
-            <img :src="record.b_photo" alt="" class="record-user-photo" style="height: 50px;">
+          <td class="tr-size">
+            <img :src="record.b_photo" alt="" class="img-size" >
             &nbsp;
-            <span class="record-user-username">{{ record.b_username }}</span>
+            <span class=" text-center">{{ record.b_username }}</span>
           </td>
-          <td>
+          <td class="tr-size text-center">
             {{ record.result }}
+            <span v-if="record.result !== '平局'" class="font-size">win</span>
           </td>
-          <td>
+          <td class="tr-size text-center">
             {{ record.record.createTime }}
-          </td>
-          <td>
-            <button @click="open_record_content(record.record.id)" type="button" class="btn btn-secondary">查看录像
-            </button>
           </td>
         </tr>
       </tbody>
 
     </table>
-  </ContentField>
-  <div style="position: absolute;left:1200px;top:800px;">
-    <nav aria-label="...">
-      <ul class="pagination" style="float: right">
-        <li class="page-item" @click="click_page(-2)">
-          <span class="page-link">前一页</span>
-        </li>
-        <li :class="'page-item ' + page.is_active" v-for="page in pages" :key="page.number"
-          @click="click_page(page.number)">
-          <a class="page-link" href="#">{{ page.number }}</a>
-        </li>
-        <li class="page-item" @click="click_page(-1)">
-          <a class="page-link" href="#">后一页</a>
-        </li>
-      </ul>
-    </nav>
   </div>
+      <nav aria-label="..." class="page-size">
+        <ul class="pagination">
+            <li class="page-item" @click="click_page(-2)">
+                <a class="page-link" href="#">前一页</a>
+            </li>
+            <li :class="'page-item ' + page.is_active" v-for="page in pages" :key="page.number" @click="click_page(page.number)">
+                <a class="page-link" href="#">{{ page.number }}</a>
+            </li>
+            <li class="page-item" @click="click_page(-1)">
+                <a class="page-link" href="#">后一页</a>
+            </li>
+        </ul>
+        </nav>
+    </div>
+  </div>
+</div>
 </template>
   
 <script>
 // import ContentBase from '@/components/ContentBase.vue';
-// 以下为新添加
-import ContentField from "@/components/ContentField.vue";
 import { useStore } from "vuex";
 import { ref } from 'vue';
 import $ from 'jquery';
 export default {
   name: 'RecordView',
   components: {
-    // ContentBase,
-    ContentField,
   },
 
   setup() {
@@ -132,49 +137,84 @@ export default {
   
 
 
-<style>
-.font-title {
-  color: rgb(162, 219, 96);
-  font-size: 25px;
+<style scoped>
+.font-size {
+  font-size: 24px;
+  font-family: monospace;
+  color: rgb(129, 186, 16);
 }
-</style>
-<!-- 展示信息的样式 -->
-<style>   .font-content {
-     color: rgb(255, 255, 255);
-     font-size: 30px;
-     /*字体大小*/
-     font-weight: 450;
-     /*字体粗细*/
-   }
-
-   /* 超链接 样式设定 */
-</style>
-
-<style>
-/* 回放详情 */
-.aa {
-  /*祛除连接下划线*/
-  text-decoration: blink;
-  background-color: rgb(71, 139, 211);
-  margin: 0px;
-  padding: 8px;
-  font-size: 18px;
+.page-size {
+  margin-top: 25px;
+  float: right;
+}
+i {
+  color: azure;
+  font-size: 35px;
+  margin: 10px 10px 10px 10px;
 }
 
-.aa:link {
-  /*未点击之前为白色*/
+.page-size {
+  margin-top: 25px;
+  display: flex;
+  justify-content: right;
+}
+
+hr {
+  color: #fd264f;
+  border-width: 2px;
+  width: 96%;
+}
+
+.img-size {
+  height: 70px;
+  width: 70px;
+}
+
+p {
+  text-align: center;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.center- {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.card-background {
+    padding: 20px;
+    margin-top: 100px;
+    background-color:#242422;
+
+    height: auto;
+    width: auto;
+}
+.f1 {
   color: rgb(255, 255, 255);
+  font-size: 25px;
+  font-weight: 450;
+  font-family: monospace;
+  width: auto;
+  height: auto;
 }
 
-.aa:visited {
-  /*点击为白色*/
-  color: rgb(237, 198, 81);
+thead {
+  color: rgb(255, 255, 255);
+  background-color: #2a2827;
 }
 
-.aa:hover {
-  /*鼠标置于链接上时 字体颜色为黑色，背景为白色*/
-  background-color: rgb(204, 235, 81);
-  /*标题 颜色设置*/
-  color: black;
+.tr-size {
+  padding: 10px;
+  width: 350px;
+  background-color: #393941;
 }
+.text-center {
+  text-align: center;
+}
+.lightdark {
+    height: 904px;
+    width: 100%;
+    background-color: #312E2B;
+}
+
 </style>

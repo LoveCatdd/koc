@@ -1,13 +1,12 @@
 <template>
     <div>
         <span class="margin-bottom">
-            <img class="img-size"  :src="info.photo" alt="">
+            <img class="img-size" :src="info.photo" alt="">
         </span>
         <div class="username-rating " >
             {{ info.name }}
         </div>
-
-        <span class="piece-bottom ">
+        <span >
             <img v-if="info.direction === 1" class="piece-size" :src="getImageUrl('wp.png')" alt="">
             <img v-else-if="info.direction === -1" class="piece-size" :src="getImageUrl('bp.png')" alt="">
         </span>
@@ -28,6 +27,7 @@ export default {
         const getImageUrl = (path) => {
             return require('../../public/images/pieces/' + path);
         };
+
         return {
             getImageUrl,
         }

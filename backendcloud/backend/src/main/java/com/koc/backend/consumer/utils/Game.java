@@ -8,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Data
@@ -37,7 +35,6 @@ public class Game extends Thread{
        this.pieces = new ArrayList<>();
        this.playerA = new Player(aId, aDirt);
        this.playerB = new Player(bId, bDirt);
-
     }
 
     public void setNextStepA(String nextStepA) {
@@ -135,6 +132,7 @@ public class Game extends Thread{
         respWait.put("action", "wait");
         int aDirection = playerA.getDirection();
         int bDirection = playerB.getDirection();
+
         if (aDirection == 1) {
             wait = playerB.getId();
             action = playerA.getId();
@@ -226,14 +224,17 @@ public class Game extends Thread{
     private void senResult() {
         JSONObject respA = new JSONObject();
         respA.put("event", "result");
-
+        respA.put("game_status","end");
         JSONObject respB = new JSONObject();
         respB.put("event", "result");
+        respB.put("game_status", "end");
+
         if (playerA.getId().equals(loser)) {
             respB.put("result", "win");
             respA.put("result", "lose");
+
         } else if (playerB.getId().equals(loser)) {
-            respA.put("resu;t", "win");
+            respA.put("result", "win");
             respB.put("result", "lose");
         }
         saveToDatabase();
@@ -251,7 +252,6 @@ public class Game extends Thread{
 
         while (true) {
             if (nextStep()) {
-                judge();
                 if ("playing".equals(status)) {
                     sendMove();
                     playingAction(wait, action); // 切换

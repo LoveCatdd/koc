@@ -14,8 +14,8 @@ public class UpdateController {
     @Autowired
     UpdateService updateService;
 
-    @GetMapping("/user/account/info/update/")
-    public Map<String, String> updateinfoController(@RequestParam Map<String, String> map){
+    @PostMapping("/user/account/info/update/")
+    public Map<String, String> updateInfoController(@RequestParam Map<String, String> map){
         return updateService.updateService(map);
     }
 }

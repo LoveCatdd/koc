@@ -33,7 +33,6 @@ export class Pawn extends PiecesObject {
     //路径有无棋子判断
     check1(x, y) {
 
-
         if (x === this.local_r && y === this.local_c) return false;
         let rowdef = (x - this.local_r) / Math.abs(x - this.local_r);
         let coldef = (y - this.local_c) / Math.abs(y - this.local_c);

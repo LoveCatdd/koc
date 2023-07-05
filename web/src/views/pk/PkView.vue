@@ -33,21 +33,18 @@ export default {
             }
             socket.onmessage = msg => {
                 const data = JSON.parse(msg.data);
+                console.log(data);
                 if (data.event === "start-matching") {
                     store.commit('updateOpponent', {
                         username: data.username,
                         photo: data.photo
                     });
                     store.commit("updateGame", data.game);
-                    setTimeout(() => {
-                        store.commit('updateMatchStatus', "success");
-                    }, 1000);
+                    store.commit('updateMatchStatus', "success");
                     setTimeout(() => {
                         store.commit('updateStatus', "playing");
                     }, 3000);
-                }
-
-                if (data.event === "action") {
+                } else if (data.event === "action") {
                     store.commit("updateAction", data.action);
                 } else if (data.event === "wait") {
                     store.commit("updateAction", data.action);
@@ -60,6 +57,14 @@ export default {
                 } else if (data.event === "move") {
                     const idx_list = data.step.split(" ");
                     store.state.pk.game_obj.sync_idx(idx_list[0], idx_list[1]);
+                } else if (data.event === "result") {
+                    console.log(data);
+                    store.commit("updateGameStatus"), {
+                        game_status: data.game_status,
+                    };
+                    store.commit("updateLoser", {
+                       loser: data.result,
+                    });
                 }
             }
         });
@@ -67,6 +72,8 @@ export default {
         onUnmounted(() => {
             if (socket !== null) {
                 socket.close();
+                if (socket === null) console.log("close success");
+                else console.log("close error");
                 store.commit('updateStatus', "matching");
             }
         });

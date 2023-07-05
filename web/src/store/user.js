@@ -9,6 +9,7 @@ export default {
         is_login: false,
         pulling_info: true,  // 是否正在从云端拉取信息
         rating: 0,
+        designation: '暂无称号',
     },
     getters: {
     },
@@ -32,6 +33,12 @@ export default {
         },
         updatePullingInfo(state, pulling_info) {
             state.pulling_info = pulling_info;
+        },
+        updateUsername(state, username) {
+            state.username = username;
+        },
+        updatePhoto(state, photo) {
+            state.photo = photo;
         }
 
     },
@@ -66,6 +73,7 @@ export default {
                     Authorization: "Bearer " + context.state.token,
                 },
                 success(resp) {
+                    console.log(resp);
                     if (resp.error_message === "success") {
                         context.commit("updateUser", {
                             ...resp,
@@ -76,7 +84,8 @@ export default {
                         datas.error();
                     }
                 },
-                error() {
+                error(resp) {
+                    console.log(resp);
                     datas.error();
                 }
             });

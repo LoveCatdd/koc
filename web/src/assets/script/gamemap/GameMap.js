@@ -114,11 +114,14 @@ export class GameMap extends GameObject {
     }
 
     sync_idx(pre_idx, now_idx) {
-        const pre_ = this.reversal(parseInt(pre_idx, 10));
-        const now_ = this.reversal(parseInt(now_idx, 10));
+        const pre_ = this.reversal(parseInt(pre_idx));
+        const now_ = this.reversal(parseInt(now_idx));
 
-        this.pieces_list[pre_].row = parseInt(now_ / 8);
-        this.pieces_list[pre_].col = now_ % 8;
+
+        if (this.pieces_list[pre_] !== undefined && this.pieces_list[pre_] !== null) {
+            this.pieces_list[pre_].row = parseInt(now_ / 8);
+            this.pieces_list[pre_].col = now_ % 8;
+        }
 
         if (this.pieces_list[now_] !== undefined &&
             this.pieces_list[now_] !== null) {

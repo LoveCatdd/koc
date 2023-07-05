@@ -130,7 +130,7 @@ public class WebSocketServer {
     public void sendMessage(String message) {
         synchronized (this.session) {
             try {
-
+                System.out.println(message);
                 this.session.getBasicRemote().sendText(message);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -195,7 +195,26 @@ public class WebSocketServer {
             sendMsg(data);
         } else if ("send-move".equals(event)) {
             sendMove(data);
+        } else if ("finished".equals(event)) {
+            sendStatus(data);
         }
+    }
+
+    private void sendStatus(JSONObject data) {
+        System.out.println("finished" + data);
+        int aId = this.game.getPlayerA().getId();
+        int bId = this.game.getPlayerB().getId();
+        String status = data.getString("status");
+        Integer direction = data.getInteger("loser");
+        if (direction.equals(game.getPlayerA().getDirection())) {
+            users.get(aId).game.setLoser(game.getPlayerA().getId());
+            users.get(bId).game.setLoser(game.getPlayerA().getId());
+        } else if (direction.equals(game.getPlayerB().getDirection())) {
+            users.get(aId).game.setLoser(game.getPlayerB().getId());
+            users.get(bId).game.setLoser(game.getPlayerB().getId());
+        }
+        users.get(aId).game.setStatus(status);
+        users.get(bId).game.setStatus(status);
     }
 
     @OnError
