@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class GetFriendsImpl implements GetFriends {
 
@@ -26,6 +29,8 @@ public class GetFriendsImpl implements GetFriends {
         QueryWrapper<Friend> qr = new QueryWrapper<>();
         JSONObject jsonObject = new JSONObject();
         List<JSONObject> jsonlist = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        // friendMapper.selectByMap()
         List<Friend> friends = friendMapper.selectList(qr.eq("userid",user.getId()));
         for (Friend f: friends) {
             JSONObject jsont =new JSONObject();

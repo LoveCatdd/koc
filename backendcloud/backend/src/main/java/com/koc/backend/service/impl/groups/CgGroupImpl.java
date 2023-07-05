@@ -19,6 +19,8 @@ public class CgGroupImpl implements CgGroups {
 
     @Override
     public JSONObject changeGroup(Integer id, String nam) {
+        System.out.println(id);
+        System.out.println(nam);
         Subset subset = subsetMapper.selectById(id);
         subset.setSubsetname(nam);
         subsetMapper.updateById(subset);

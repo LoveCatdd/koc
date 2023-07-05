@@ -1,7 +1,6 @@
 <template>
-    <section class="p-6">
+    <section class="p-6" style="background-color: #242422;;">
         <nav class="container">
-            <!-- <div class="col-12 container" background-color: black"></div> -->
             <div class="row">
                 <div class="col-3 div-">
                     <div class="profile">
@@ -19,9 +18,9 @@
                             <ul id="menu list-tab" class="list-group ">
                                 <template v-if="groups.group.length != 0">
                                     <template v-for="group in groups.group" :key="group.id">
-                                        <li class="friend-wrapper list-group-item list-group-item-action active"
-                                            data-bs-toggle="list" v-if="group.id == clickg" @click="cgroup(clickg)"><span>{{
-                                                group.name }}</span>
+                                        <li id="mov-" class="friend-wrapper list-group-item  list-group-item-action active"
+                                            data-bs-toggle="list" v-if="group.id == 0" @click="cgroup(clickg)">
+                                            <span>{{ group.name }}</span>
                                         </li>
                                         <li class="friend-wrapper list-group-item list-group-item-action"
                                             data-bs-toggle="list" v-else @click="cgroup(group.id)">
@@ -44,7 +43,7 @@
                     </div>
                 </div>
                 <div class="col-8 div-">
-                    <div class="div1" style="height: 790px;">
+                    <div class="div1" style="height: 800px;">
                         <ul class="list-group">
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center friend-wrapper wi-">
@@ -74,7 +73,9 @@
                                                 <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
                                                     aria-expanded="false" id="change"></i>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" @click="getinfomes(item)">个人信息</a>
+                                                    <li><a type="button" class="dropdown-item" data-bs-toggle="offcanvas"
+                                                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                                                            @click="getinfomes(item)">个人信息</a>
                                                     </li>
                                                     <li><a class="dropdown-item" @click="deleteFriend(item)">删除好友</a>
                                                     </li>
@@ -95,8 +96,9 @@
             </div>
         </nav>
     </section>
+    <UserInfoBase :info="info" />
     <div v-if="showModal" class="modal">
-        <div class="modal-header" style="background-color: azure;">
+        <div class="modal-header" style="background-color: rgb(53, 53, 53);">
             <h2 class="modal-title">{{ title }}</h2>
             <span class="close" style="font-size:20px;" @click="closeModal">&times;</span>
         </div>
@@ -114,7 +116,12 @@
 import { reactive, ref } from 'vue';
 import { useStore } from "vuex";
 import $ from 'jquery';
+import UserInfoBase from '../../components/UserInfoBase.vue';
 export default {
+    name: 'FriendsListView',
+    components: {
+        UserInfoBase,
+    },
     setup() {
         const store = useStore();
         let clickgs = ref(0);
@@ -126,6 +133,9 @@ export default {
         let searchValue = ref('');
         let showModal = ref(false);
         let newGroupName = ref('');
+        const info = {
+            photo: store.state.user.photo,
+        };
         const groups = reactive({
             count: 0,
             group: [
@@ -154,13 +164,13 @@ export default {
                     groups.group = resp.grouplist;
                     username.value = resp.name;
                     photo.value = resp.photo;
-                    for (let g in groups.group) {
-                        if (groups.group[g].name == "默认分组") {
-                            clickg = g;
-                            console.log(g);
-                            break;
-                        }
-                    }
+                    // for (let g in groups.group) {
+                    //     if (groups.group[g].name.value == "默认分组") {
+                    //         clickg.value = g;
+                    //         console.log(g);
+                    //         break;
+                    //     }
+                    // }
                     // console.log(username);
                     // console.log(photo);
                     // console.log(groups);
@@ -243,6 +253,7 @@ export default {
         const deleteGroup = (group) => {
             console.log('deleteGroup');
             const req = group.id;
+            console.log(req);
             // 向后端发送请求删除分组
             $.ajax({
                 url: 'http://127.0.0.1:8090/user/account/deletegroup/',
@@ -251,7 +262,7 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 data: {
-                    req,
+                    req
                 },
                 success(resp) {
                     groups.count--;
@@ -288,7 +299,17 @@ export default {
                     nam,
                 },
                 success(resp) {
-                    groups.group.name = newGroupName.value;
+                    for (let g of groups.group) {
+                        console.log('1');
+                        console.log('id' + g.id.value);
+                        console.log('num' + nam);
+                        if (g.id.value == num.value) {
+                            console.log('2:' + num.value);
+                            console.log(newGroupName.value);
+                            g.name = newGroupName.value;
+                            break;
+                        }
+                    }
                     console.log(resp);
                 },
                 error(resp) {
@@ -323,8 +344,7 @@ export default {
         };
 
         const getinfomes = (item) => {
-            const i = item.id
-            console.log("1:" + i);
+            const fid = item.id
             $.ajax({
                 url: 'http://127.0.0.1:8090/user/account/getinfomes/',
                 type: "get",
@@ -332,7 +352,7 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 data: {
-                    i,
+                    fid
                 },
                 success(resp) {
                     console.log(resp);
@@ -370,7 +390,8 @@ export default {
             sreachf,
             initgroup,
             initfriends,
-            getinfomes
+            getinfomes,
+            info
         }
     },
 
@@ -384,7 +405,7 @@ export default {
     border-radius: 1%;
     margin: 15px;
     height: 850px;
-    background-color: azure;
+    background-color: rgb(40, 41, 41);
 }
 
 
@@ -409,6 +430,7 @@ a {
     max-height: 700px;
     height: 700px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #paging {
@@ -422,6 +444,9 @@ a:active {
     color: rgb(75, 75, 75);
 }
 
+i {
+    color: white;
+}
 
 .profile h2 {
     font-size: 15px;
@@ -432,7 +457,7 @@ a:active {
 .div1 {
     height: 720px;
     border-radius: 2%;
-    background-color: #ffffff;
+    background-color: #464646;
     font-size: larger;
 }
 
@@ -476,6 +501,21 @@ i {
 
 .wi- {
     padding: 15px 30px;
+}
+
+ul,
+li,
+input {
+    border-width: 1px;
+    border-color: #2c2c2c;
+    background-color: #919191;
+}
+
+span,
+a,
+h2,
+input {
+    color: white;
 }
 
 .friend-wrapper {
@@ -525,7 +565,6 @@ i {
     /* 阴影效果 */
     border-radius: 4px;
     /* 圆角边框 */
-    /* background-color: rgba(0, 0, 0, 0.5); */
     background-color: rgba(255, 255, 255, 0.5);
 
     /* 半透明背景色 */
@@ -537,7 +576,7 @@ i {
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: #242424;
     margin: 20% auto;
     /* 垂直和水平居中定位 */
     padding: 20px;

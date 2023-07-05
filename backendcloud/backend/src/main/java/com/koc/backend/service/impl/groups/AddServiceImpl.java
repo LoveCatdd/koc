@@ -26,7 +26,6 @@ public class AddServiceImpl implements AddGroups {
         QueryWrapper<Subset> queryWrapper = new QueryWrapper<>();
         Integer Uid = user.getId();
         Subset subset = new Subset(null,Uid,req);
-        System.out.println(subset);
         subsetMapper.insert(subset);
         JSONObject res = new JSONObject();
         List<Subset> uid = subsetMapper.selectList(queryWrapper.eq("userid", Uid));

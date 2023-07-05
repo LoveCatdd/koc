@@ -14,7 +14,7 @@ public class DeleteGroupController {
     private DeleteGroups deleteGroups;
 
     @GetMapping("/user/account/deletegroup/")
-    public JSONObject DeleteGroup(@RequestParam Map<String, Integer> req){
-       return deleteGroups.DeleteGroup(req.get("req"));
+    public JSONObject DeleteGroup(@RequestParam Map<String, String> req){
+       return deleteGroups.DeleteGroup(req);
     }
 }
