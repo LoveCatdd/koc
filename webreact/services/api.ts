@@ -90,3 +90,47 @@ export const getRankList = async (): Promise<User[]> => {
   const response = await api.get("/ranklist/");
   return response.data;
 };
+
+// Match APIs
+export const startMatching = async (userId: number): Promise<{ message: string }> => {
+  const response = await api.post("/pk/start/matching/", {
+    user_id: userId,
+  });
+  return response.data;
+};
+
+export const stopMatching = async (userId: number): Promise<{ message: string }> => {
+  const response = await api.post("/pk/stop/matching/", {
+    user_id: userId,
+  });
+  return response.data;
+};
+
+// Game APIs
+export const sendMove = async (gameId: string, userId: number, move: string): Promise<{ message: string }> => {
+  const response = await api.post("/pk/move/", {
+    game_id: gameId,
+    user_id: userId,
+    move: move,
+  });
+  return response.data;
+};
+
+export const getGameStatus = async (gameId: string): Promise<any> => {
+  const response = await api.get(`/pk/status/?game_id=${gameId}`);
+  return response.data;
+};
+
+export const finishGame = async (gameId: string, winnerId: number): Promise<{ message: string }> => {
+  const response = await api.post("/pk/finish/", {
+    game_id: gameId,
+    winner_id: winnerId,
+  });
+  return response.data;
+};
+
+// Record APIs
+export const getRecordDetail = async (recordId: number): Promise<Record> => {
+  const response = await api.get(`/record/detail/?record_id=${recordId}`);
+  return response.data;
+};
