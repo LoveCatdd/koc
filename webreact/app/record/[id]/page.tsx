@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/utils/auth";
 import type { Record, Piece } from "@/types";
+import { ClientLayout } from "../../../components/ClientLayout";
 
 interface RecordParams {
   id: string;
@@ -153,99 +154,101 @@ export default function RecordDetailPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
-        Game Record #{record.id}
-      </h1>
+    <ClientLayout>
+      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
+          Game Record #{record.id}
+        </h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Game Info */}
-        <div>
-          <h2 className="text-lg font-medium mb-4">Game Info</h2>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-3 bg-gray-100 rounded">
-                <p className="font-medium">{record.a_name}</p>
-                <p className="text-gray-600">Rating: {record.a_rating}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Game Info */}
+          <div>
+            <h2 className="text-lg font-medium mb-4">Game Info</h2>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-3 bg-gray-100 rounded">
+                  <p className="font-medium">{record.a_name}</p>
+                  <p className="text-gray-600">Rating: {record.a_rating}</p>
+                </div>
+                <div className="p-3 bg-gray-100 rounded">
+                  <p className="font-medium">{record.b_name}</p>
+                  <p className="text-gray-600">Rating: {record.b_rating}</p>
+                </div>
               </div>
               <div className="p-3 bg-gray-100 rounded">
-                <p className="font-medium">{record.b_name}</p>
-                <p className="text-gray-600">Rating: {record.b_rating}</p>
+                <p className="font-medium">Date</p>
+                <p className="text-gray-600">
+                  {new Date(record.create_time).toLocaleString()}
+                </p>
+              </div>
+              <div className="p-3 bg-gray-100 rounded">
+                <p className="font-medium">Status</p>
+                <p className="text-gray-600">{record.status}</p>
               </div>
             </div>
-            <div className="p-3 bg-gray-100 rounded">
-              <p className="font-medium">Date</p>
-              <p className="text-gray-600">
-                {new Date(record.create_time).toLocaleString()}
-              </p>
-            </div>
-            <div className="p-3 bg-gray-100 rounded">
-              <p className="font-medium">Status</p>
-              <p className="text-gray-600">{record.status}</p>
-            </div>
           </div>
-        </div>
 
-        {/* Chess Board */}
-        <div>
-          <h2 className="text-lg font-medium mb-4">Replay</h2>
-          <div className="bg-gray-200 w-64 h-64 mx-auto grid grid-cols-8 grid-rows-8">
-            {Array.from({ length: 8 }).map((_, row) =>
-              Array.from({ length: 8 }).map((_, col) => {
-                const x = col;
-                const y = row;
-                const isLight = (row + col) % 2 === 0;
-                const piece = pieces.find((p) => p.x === x && p.y === y);
+          {/* Chess Board */}
+          <div>
+            <h2 className="text-lg font-medium mb-4">Replay</h2>
+            <div className="bg-gray-200 w-64 h-64 mx-auto grid grid-cols-8 grid-rows-8">
+              {Array.from({ length: 8 }).map((_, row) =>
+                Array.from({ length: 8 }).map((_, col) => {
+                  const x = col;
+                  const y = row;
+                  const isLight = (row + col) % 2 === 0;
+                  const piece = pieces.find((p) => p.x === x && p.y === y);
 
-                return (
-                  <div
-                    key={`${row}-${col}`}
-                    className={`w-8 h-8 flex items-center justify-center ${isLight ? "bg-white" : "bg-gray-400"}`}
-                  >
-                    {piece && (
-                      <span
-                        className={`text-xl ${piece.color === "white" ? "text-white" : "text-black"}`}
-                      >
-                        {piece.type === "pawn" &&
-                          (piece.color === "white" ? "♙" : "♟")}
-                        {piece.type === "rook" &&
-                          (piece.color === "white" ? "♖" : "♜")}
-                        {piece.type === "knight" &&
-                          (piece.color === "white" ? "♘" : "♞")}
-                        {piece.type === "bishop" &&
-                          (piece.color === "white" ? "♗" : "♝")}
-                        {piece.type === "queen" &&
-                          (piece.color === "white" ? "♕" : "♛")}
-                        {piece.type === "king" &&
-                          (piece.color === "white" ? "♔" : "♚")}
-                      </span>
-                    )}
-                  </div>
-                );
-              }),
-            )}
+                  return (
+                    <div
+                      key={`${row}-${col}`}
+                      className={`w-8 h-8 flex items-center justify-center ${isLight ? "bg-white" : "bg-gray-400"}`}
+                    >
+                      {piece && (
+                        <span
+                          className={`text-xl ${piece.color === "white" ? "text-white" : "text-black"}`}
+                        >
+                          {piece.type === "pawn" &&
+                            (piece.color === "white" ? "♙" : "♟")}
+                          {piece.type === "rook" &&
+                            (piece.color === "white" ? "♖" : "♜")}
+                          {piece.type === "knight" &&
+                            (piece.color === "white" ? "♘" : "♞")}
+                          {piece.type === "bishop" &&
+                            (piece.color === "white" ? "♗" : "♝")}
+                          {piece.type === "queen" &&
+                            (piece.color === "white" ? "♕" : "♛")}
+                          {piece.type === "king" &&
+                            (piece.color === "white" ? "♔" : "♚")}
+                        </span>
+                      )}
+                    </div>
+                  );
+                }),
+              )}
+            </div>
+            <div className="flex justify-center gap-4 mt-4">
+              <button
+                onClick={handlePreviousStep}
+                className="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={currentStep === 0}
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNextStep}
+                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={currentStep >= steps.length}
+              >
+                Next
+              </button>
+            </div>
+            <p className="text-center mt-2 text-gray-600">
+              Step {currentStep} of {steps.length}
+            </p>
           </div>
-          <div className="flex justify-center gap-4 mt-4">
-            <button
-              onClick={handlePreviousStep}
-              className="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={currentStep === 0}
-            >
-              Previous
-            </button>
-            <button
-              onClick={handleNextStep}
-              className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={currentStep >= steps.length}
-            >
-              Next
-            </button>
-          </div>
-          <p className="text-center mt-2 text-gray-600">
-            Step {currentStep} of {steps.length}
-          </p>
         </div>
       </div>
-    </div>
+    </ClientLayout>
   );
 }

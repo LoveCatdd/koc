@@ -14,6 +14,8 @@ export interface Game {
   a_direction: number;
   b_direction: number;
   pieces_list: Piece[];
+  current_player_id?: number;
+  winner_id?: number;
 }
 
 export interface Piece {
