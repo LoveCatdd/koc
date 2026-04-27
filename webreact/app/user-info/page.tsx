@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/utils/auth";
 import { toast } from "sonner";
-import { ClientLayout } from "../components/ClientLayout";
+
 
 export default function UserInfo() {
   const { user } = useAuth();
@@ -69,8 +69,7 @@ export default function UserInfo() {
   }
 
   return (
-    <ClientLayout>
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="container mx-auto p-4">
           <h1 className="text-3xl font-bold mb-6">User Profile</h1>
 
@@ -156,8 +155,6 @@ export default function UserInfo() {
               </CardFooter>
             </Card>
           </div>
-        </div>
       </div>
-    </ClientLayout>
   );
 }

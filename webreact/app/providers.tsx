@@ -1,14 +1,15 @@
 "use client";
+
 import React, { ReactNode } from "react";
-import { Layout } from "@/components/Layout";
 import { AuthProvider } from "@/utils/auth";
+import { Layout } from "@/components/Layout";
 import { Toaster } from "@/components/ui/sonner";
 
-interface ClientLayoutProps {
+interface ProvidersProps {
   children: ReactNode;
 }
 
-export const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
+export const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
     <AuthProvider>
       <Layout>{children}</Layout>

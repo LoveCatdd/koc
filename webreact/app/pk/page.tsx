@@ -14,7 +14,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { ClientLayout } from "../components/ClientLayout";
 
 export default function PkPage() {
   const [isMatching, setIsMatching] = useState(false);
@@ -88,46 +87,70 @@ export default function PkPage() {
   };
 
   return (
-    <ClientLayout>
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">
-              Play Chess
-            </CardTitle>
-            <CardDescription className="text-center">
-              Find an opponent and start playing
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-6">
-              <h2 className="text-lg font-medium mb-2">Your Info</h2>
-              <div className="flex items-center gap-4 p-3 border rounded-md">
-                <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
-                  {user.photo ? (
-                    <img
-                      src={user.photo}
-                      alt={user.username}
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-500 text-xl font-medium">
-                      {user.username.charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
-                <div>
-                  <p className="font-medium">{user.username}</p>
-                  <div className="flex items-center gap-2">
-                    <p className="text-gray-600">Rating: {user.rating}</p>
-                  </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">
+            Play Chess
+          </CardTitle>
+          <CardDescription className="text-center">
+            Find an opponent and start playing
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-6">
+            <h2 className="text-lg font-medium mb-2">Your Info</h2>
+            <div className="flex items-center gap-4 p-3 border rounded-md">
+              <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                {user.photo ? (
+                  <img
+                    src={user.photo}
+                    alt={user.username}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="text-gray-500 text-xl font-medium">
+                    {user.username.charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <div>
+                <p className="font-medium">{user.username}</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-gray-600">Rating: {user.rating}</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="mb-6">
-              <h2 className="text-lg font-medium mb-2">Match Status</h2>
-              <div className="p-4 bg-gray-100 rounded-md">
+          <div className="mb-6">
+            <h2 className="text-lg font-medium mb-2">Match Status</h2>
+            <div className="p-4 bg-gray-100 rounded-md">
+              {opponent ? (
+                <div className="text-center">
+                  <p className="text-green-600 font-medium mb-2">
+                    Opponent Found!
+                  </p>
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                      {opponent.photo ? (
+                        <img
+                          src={opponent.photo}
+                          alt={opponent.username}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-gray-500 text-lg font-medium">
+                          {opponent.username.charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-left">
+                      <p className="font-medium">{opponent.username}</p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
                 <p className="text-center font-medium">
                   {isMatching ? (
                     <span className="flex items-center justify-center gap-2">
@@ -138,29 +161,29 @@ export default function PkPage() {
                     matchStatus || "Ready to match"
                   )}
                 </p>
-              </div>
+              )}
             </div>
+          </div>
 
-            <div className="flex gap-4">
-              <Button
-                onClick={handleStartMatching}
-                disabled={isMatching}
-                className="flex-1"
-              >
-                {isMatching ? "Matching..." : "Start Matching"}
-              </Button>
-              <Button
-                onClick={handleStopMatching}
-                disabled={!isMatching}
-                variant="secondary"
-                className="flex-1"
-              >
-                Stop Matching
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </ClientLayout>
+          <div className="flex gap-4">
+            <Button
+              onClick={handleStartMatching}
+              disabled={isMatching}
+              className="flex-1"
+            >
+              {isMatching ? "Matching..." : "Start Matching"}
+            </Button>
+            <Button
+              onClick={handleStopMatching}
+              disabled={!isMatching}
+              variant="secondary"
+              className="flex-1"
+            >
+              Stop Matching
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

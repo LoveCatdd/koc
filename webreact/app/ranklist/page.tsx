@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "@/utils/auth";
 import { getRankList } from "@/services/api";
 import type { User } from "@/types";
-import { ClientLayout } from "../components/ClientLayout";
+
 
 export default function RankListPage() {
   const [rankList, setRankList] = useState<User[]>([]);
@@ -31,8 +31,7 @@ export default function RankListPage() {
   }
 
   return (
-    <ClientLayout>
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
           Rankings
         </h1>
@@ -94,8 +93,7 @@ export default function RankListPage() {
               </tbody>
             </table>
           </div>
-        )}
+        </div>
       </div>
-    </ClientLayout>
   );
 }
