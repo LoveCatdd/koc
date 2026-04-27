@@ -76,7 +76,7 @@ export default function GamePage() {
   }, [token, user?.id]);
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8">加载中...</div>;
   }
 
   if (!user) {
@@ -124,7 +124,7 @@ export default function GamePage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-center">
-                  Chess Game
+                  国际象棋
                 </CardTitle>
                 <div className="flex justify-center gap-4 mt-2">
                   {game && (
@@ -135,13 +135,11 @@ export default function GamePage() {
                             isCurrentPlayerTurn() ? "default" : "secondary"
                           }
                         >
-                          {isCurrentPlayerTurn()
-                            ? "Your Turn"
-                            : "Opponent's Turn"}
+                          {isCurrentPlayerTurn() ? "你的回合" : "对手回合"}
                         </Badge>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge variant="secondary">Game ID: {id}</Badge>
+                        <Badge variant="secondary">对局ID: {id}</Badge>
                       </div>
                     </>
                   )}
@@ -188,7 +186,7 @@ export default function GamePage() {
                     variant="secondary"
                     onClick={() => router.push("/pk")}
                   >
-                    Exit Game
+                    退出游戏
                   </Button>
                 </div>
               </CardContent>

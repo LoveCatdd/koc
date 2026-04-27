@@ -7,8 +7,8 @@ import { Providers } from "./providers";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Chess Game",
-  description: "Online chess game with real-time matching and chat",
+  title: "国际象棋",
+  description: "在线国际象棋游戏，支持实时匹配和聊天",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="zh-CN" className={cn("font-sans", geist.variable)}>
       <body>
         <Providers>{children}</Providers>
       </body>

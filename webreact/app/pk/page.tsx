@@ -66,7 +66,7 @@ export default function PkPage() {
   }, [token, router]);
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8">加载中...</div>;
   }
 
   if (!user) {
@@ -91,15 +91,15 @@ export default function PkPage() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
-            Play Chess
+            下棋对战
           </CardTitle>
           <CardDescription className="text-center">
-            Find an opponent and start playing
+            寻找对手开始对战
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="mb-6">
-            <h2 className="text-lg font-medium mb-2">Your Info</h2>
+            <h2 className="text-lg font-medium mb-2">我的信息</h2>
             <div className="flex items-center gap-4 p-3 border rounded-md">
               <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
                 {user.photo ? (
@@ -117,20 +117,18 @@ export default function PkPage() {
               <div>
                 <p className="font-medium">{user.username}</p>
                 <div className="flex items-center gap-2">
-                  <p className="text-gray-600">Rating: {user.rating}</p>
+                  <p className="text-gray-600">评分: {user.rating}</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="mb-6">
-            <h2 className="text-lg font-medium mb-2">Match Status</h2>
+            <h2 className="text-lg font-medium mb-2">匹配状态</h2>
             <div className="p-4 bg-gray-100 rounded-md">
               {opponent ? (
                 <div className="text-center">
-                  <p className="text-green-600 font-medium mb-2">
-                    Opponent Found!
-                  </p>
+                  <p className="text-green-600 font-medium mb-2">找到对手！</p>
                   <div className="flex items-center justify-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                       {opponent.photo ? (
@@ -155,10 +153,10 @@ export default function PkPage() {
                   {isMatching ? (
                     <span className="flex items-center justify-center gap-2">
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                      {matchStatus || "Looking for opponent..."}
+                      {matchStatus || "寻找对手中..."}
                     </span>
                   ) : (
-                    matchStatus || "Ready to match"
+                    matchStatus || "准备匹配"
                   )}
                 </p>
               )}
@@ -171,7 +169,7 @@ export default function PkPage() {
               disabled={isMatching}
               className="flex-1"
             >
-              {isMatching ? "Matching..." : "Start Matching"}
+              {isMatching ? "匹配中..." : "开始匹配"}
             </Button>
             <Button
               onClick={handleStopMatching}
@@ -179,7 +177,7 @@ export default function PkPage() {
               variant="secondary"
               className="flex-1"
             >
-              Stop Matching
+              停止匹配
             </Button>
           </div>
         </CardContent>

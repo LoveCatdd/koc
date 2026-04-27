@@ -19,26 +19,26 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-blue-600">
-            Chess Game
+            国际象棋
           </Link>
           <nav className="flex space-x-6 items-center">
             <Link href="/pk" className="text-gray-700 hover:text-blue-600">
-              Play
+              对战
             </Link>
             <Link href="/friends" className="text-gray-700 hover:text-blue-600">
-              Friends
+              好友
             </Link>
             <Link href="/record" className="text-gray-700 hover:text-blue-600">
-              Records
+              记录
             </Link>
             <Link
               href="/ranklist"
               className="text-gray-700 hover:text-blue-600"
             >
-              Rankings
+              排行榜
             </Link>
             <Link href="/rule" className="text-gray-700 hover:text-blue-600">
-              Rules
+              规则
             </Link>
             {user ? (
               <div className="flex items-center space-x-4">
@@ -52,12 +52,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                   onClick={handleLogout}
                   className="text-gray-700 hover:text-red-600"
                 >
-                  Logout
+                  退出登录
                 </button>
               </div>
             ) : (
               <Link href="/login" className="text-gray-700 hover:text-blue-600">
-                Login
+                登录
               </Link>
             )}
           </nav>
@@ -66,7 +66,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <main className="flex-1 container mx-auto px-4 py-8">{children}</main>
       <footer className="bg-white shadow-sm mt-auto py-4">
         <div className="container mx-auto px-4 text-center text-gray-600">
-          © 2026 Chess Game. All rights reserved.
+          © 2026 国际象棋. 保留所有权利.
         </div>
       </footer>
     </div>

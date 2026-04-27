@@ -12,58 +12,50 @@ export default function Rule() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6">Chess Rules</h1>
+        <h1 className="text-3xl font-bold mb-6">国际象棋规则</h1>
 
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Basic Rules</CardTitle>
-            <CardDescription>Learn the fundamentals of chess</CardDescription>
+            <CardTitle>基本规则</CardTitle>
+            <CardDescription>学习国际象棋的基础知识</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-2">Objective</h3>
+                <h3 className="text-lg font-semibold mb-2">目标</h3>
                 <p>
-                  The goal of chess is to checkmate your opponent's king.
-                  Checkmate occurs when the king is in a position to be captured
-                  (in check) and cannot escape from capture.
+                  国际象棋的目标是将死对方的国王。当国王处于被攻击的位置（将军）且无法逃脱时，即被将死。
                 </p>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-2">Setup</h3>
+                <h3 className="text-lg font-semibold mb-2">设置</h3>
                 <p>
-                  Chess is played on an 8x8 grid. Each player starts with 16
-                  pieces: 1 king, 1 queen, 2 rooks, 2 bishops, 2 knights, and 8
-                  pawns.
+                  国际象棋在8x8的棋盘上进行。每位玩家开始时有16个棋子：1个国王、1个皇后、2个车、2个象、2个马和8个兵。
                 </p>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-2">Movement</h3>
+                <h3 className="text-lg font-semibold mb-2">移动规则</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>
-                    <strong>King:</strong> Moves one square in any direction
+                    <strong>国王：</strong>可以向任意方向移动一格
                   </li>
                   <li>
-                    <strong>Queen:</strong> Moves any number of squares in any
-                    direction
+                    <strong>皇后：</strong>可以向任意方向移动任意格数
                   </li>
                   <li>
-                    <strong>Rook:</strong> Moves any number of squares
-                    horizontally or vertically
+                    <strong>车：</strong>可以横向或纵向移动任意格数
                   </li>
                   <li>
-                    <strong>Bishop:</strong> Moves any number of squares
-                    diagonally
+                    <strong>象：</strong>可以斜向移动任意格数
                   </li>
                   <li>
-                    <strong>Knight:</strong> Moves in an L-shape (2 squares in
-                    one direction, then 1 square perpendicular)
+                    <strong>马：</strong>走L形（先向一个方向走2格，再垂直走1格）
                   </li>
                   <li>
-                    <strong>Pawn:</strong> Moves forward one square, or two
-                    squares on its first move. Captures diagonally.
+                    <strong>兵：</strong>
+                    向前移动一格，首次移动可以走两格。吃子时斜向前进。
                   </li>
                 </ul>
               </div>
@@ -74,33 +66,28 @@ export default function Rule() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Special Moves</CardTitle>
+              <CardTitle>特殊走法</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Castling</h3>
+                  <h3 className="text-lg font-semibold mb-2">王车易位</h3>
                   <p>
-                    A special move that allows the king to move two squares
-                    towards a rook, and the rook to move to the square the king
-                    crossed.
+                    一种特殊走法，允许国王向车的方向移动两格，车则移动到国王跳过的格子上。
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">En Passant</h3>
+                  <h3 className="text-lg font-semibold mb-2">吃过路兵</h3>
                   <p>
-                    A special pawn capture that can occur when a pawn moves two
-                    squares from its starting position and lands next to an
-                    opponent's pawn.
+                    当一个兵从初始位置走两格，并且落在对方兵的旁边时，对方可以选择斜向吃掉这个兵。
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Pawn Promotion</h3>
+                  <h3 className="text-lg font-semibold mb-2">兵升变</h3>
                   <p>
-                    When a pawn reaches the opposite end of the board, it can be
-                    promoted to any other piece (usually a queen).
+                    当兵到达棋盘的另一端时，可以升变为任何其他棋子（通常升变为皇后）。
                   </p>
                 </div>
               </div>
@@ -109,31 +96,26 @@ export default function Rule() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Game End</CardTitle>
+              <CardTitle>游戏结束</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Checkmate</h3>
+                  <h3 className="text-lg font-semibold mb-2">将死</h3>
                   <p>
-                    The game ends when a player's king is in check and cannot
-                    escape. The player who checkmates wins.
+                    当一方的国王被将军且无法逃脱时，游戏结束。将死对方的玩家获胜。
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Stalemate</h3>
-                  <p>
-                    A draw occurs when a player has no legal moves but their
-                    king is not in check.
-                  </p>
+                  <h3 className="text-lg font-semibold mb-2">无子可动</h3>
+                  <p>当一方没有合法的走法但国王并未被将军时，游戏为平局。</p>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Draw</h3>
+                  <h3 className="text-lg font-semibold mb-2">平局</h3>
                   <p>
-                    Games can also end in a draw by agreement, insufficient
-                    material, or threefold repetition.
+                    游戏也可以通过双方协议、无子可动、重复局面三次等方式平局。
                   </p>
                 </div>
               </div>
@@ -143,35 +125,28 @@ export default function Rule() {
 
         <Card className="mt-6">
           <CardHeader>
-            <CardTitle>Strategy Tips</CardTitle>
+            <CardTitle>策略提示</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-2">Opening</h3>
-                <p>
-                  Control the center of the board with your pawns and develop
-                  your pieces.
-                </p>
+                <h3 className="text-lg font-semibold mb-2">开局</h3>
+                <p>用兵控制棋盘中心，发展你的棋子。</p>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-2">Middle Game</h3>
-                <p>
-                  Look for tactical opportunities and plan your attacks. Protect
-                  your king by castling early.
-                </p>
+                <h3 className="text-lg font-semibold mb-2">中局</h3>
+                <p>寻找战术机会，规划进攻。尽早进行王车易位保护你的国王。</p>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-2">Endgame</h3>
-                <p>
-                  Coordinate your pieces to checkmate the opponent's king. Use
-                  pawn promotion to your advantage.
-                </p>
+                <h3 className="text-lg font-semibold mb-2">残局</h3>
+                <p>协调你的棋子将死对方的国王。利用兵升变来获得优势。</p>
               </div>
+            </div>
           </CardContent>
         </Card>
       </div>
+    </div>
   );
 }

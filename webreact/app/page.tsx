@@ -47,10 +47,10 @@ export default function Home() {
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
-              Welcome to Chess Game
+              欢迎来到国际象棋
             </CardTitle>
             <CardDescription className="text-center">
-              Please log in to continue
+              请登录以继续
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
@@ -59,14 +59,14 @@ export default function Home() {
                 className="w-full"
                 onClick={() => (window.location.href = "/login")}
               >
-                Login
+                登录
               </Button>
               <Button
                 className="w-full"
                 variant="secondary"
                 onClick={() => (window.location.href = "/register")}
               >
-                Register
+                注册
               </Button>
             </div>
           </CardContent>
@@ -80,7 +80,7 @@ export default function Home() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p>Loading...</p>
+          <p>加载中...</p>
         </div>
       </div>
     );
@@ -91,89 +91,84 @@ export default function Home() {
       <div className="container mx-auto p-4">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">
-            Welcome, {user?.username}!
+            欢迎回来, {user?.username}!
           </h1>
           <p className="text-gray-600">
-            Your rating:{" "}
-            <Badge variant="secondary">{user?.rating || 1500}</Badge>
+            您的评分: <Badge variant="secondary">{user?.rating || 1500}</Badge>
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader>
-              <CardTitle>Play Game</CardTitle>
-              <CardDescription>Start a new match</CardDescription>
+              <CardTitle>开始游戏</CardTitle>
+              <CardDescription>开始新对局</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">
-                Challenge other players and improve your rating.
-              </p>
+              <p className="mb-4">挑战其他玩家并提升您的评分。</p>
             </CardContent>
             <CardFooter>
               <Button
                 onClick={() => (window.location.href = "/pk")}
                 className="w-full"
               >
-                Find Match
+                寻找对手
               </Button>
             </CardFooter>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>View Rankings</CardTitle>
-              <CardDescription>See top players</CardDescription>
+              <CardTitle>查看排行榜</CardTitle>
+              <CardDescription>查看顶尖玩家</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">
-                Check the leaderboard and see how you rank.
-              </p>
+              <p className="mb-4">查看排行榜，看看您的排名。</p>
             </CardContent>
             <CardFooter>
               <Button
                 onClick={() => (window.location.href = "/ranklist")}
                 className="w-full"
               >
-                Rank List
+                排行榜
               </Button>
             </CardFooter>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Your Friends</CardTitle>
-              <CardDescription>Manage your friends</CardDescription>
+              <CardTitle>我的好友</CardTitle>
+              <CardDescription>管理好友</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">Add friends and challenge them to games.</p>
+              <p className="mb-4">添加好友并邀请他们对战。</p>
             </CardContent>
             <CardFooter>
               <Button
                 onClick={() => (window.location.href = "/friends")}
                 className="w-full"
               >
-                Friends List
+                好友列表
               </Button>
             </CardFooter>
           </Card>
         </div>
 
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Recent Games</h2>
+          <h2 className="text-2xl font-bold mb-4">最近对局</h2>
           {recentGames.length > 0 ? (
             <div className="grid grid-cols-1 gap-4">
               {recentGames.map((game) => (
                 <Card key={game.id}>
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-center">
-                      <CardTitle className="text-lg">Game #{game.id}</CardTitle>
+                      <CardTitle className="text-lg">对局 #{game.id}</CardTitle>
                       <Badge
                         variant={
                           game.winner === user?.id ? "default" : "destructive"
                         }
                       >
-                        {game.winner === user?.id ? "Won" : "Lost"}
+                        {game.winner === user?.id ? "胜利" : "失败"}
                       </Badge>
                     </div>
                     <CardDescription>
@@ -184,10 +179,10 @@ export default function Home() {
                     <div className="flex justify-between">
                       <div>
                         <p className="font-medium">
-                          Opponent: {game.opponent_username}
+                          对手: {game.opponent_username}
                         </p>
                         <p className="text-sm text-gray-600">
-                          Rating: {game.opponent_rating}
+                          评分: {game.opponent_rating}
                         </p>
                       </div>
                       <Button
@@ -197,7 +192,7 @@ export default function Home() {
                           (window.location.href = `/record/${game.id}`)
                         }
                       >
-                        View Replay
+                        查看回放
                       </Button>
                     </div>
                   </CardContent>
@@ -207,12 +202,12 @@ export default function Home() {
           ) : (
             <Card>
               <CardContent className="text-center py-8">
-                <p className="text-gray-600">No recent games found.</p>
+                <p className="text-gray-600">暂无最近对局。</p>
                 <Button
                   className="mt-4"
                   onClick={() => (window.location.href = "/pk")}
                 >
-                  Play Now
+                  开始对战
                 </Button>
               </CardContent>
             </Card>
@@ -222,12 +217,12 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Game Rules</CardTitle>
-              <CardDescription>Learn how to play</CardDescription>
+              <CardTitle>游戏规则</CardTitle>
+              <CardDescription>学习如何下棋</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Brush up on the rules of chess and improve your game.
+                复习国际象棋规则，提升您的棋艺。
               </p>
             </CardContent>
             <CardFooter>
@@ -235,25 +230,25 @@ export default function Home() {
                 onClick={() => (window.location.href = "/rule")}
                 className="w-full"
               >
-                View Rules
+                查看规则
               </Button>
             </CardFooter>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>User Profile</CardTitle>
-              <CardDescription>Your account information</CardDescription>
+              <CardTitle>用户资料</CardTitle>
+              <CardDescription>您的账户信息</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">View and edit your profile settings.</p>
+              <p className="mb-4">查看和编辑您的个人资料设置。</p>
             </CardContent>
             <CardFooter>
               <Button
                 onClick={() => (window.location.href = "/user-info")}
                 className="w-full"
               >
-                Profile
+                个人资料
               </Button>
             </CardFooter>
           </Card>

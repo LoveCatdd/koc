@@ -80,7 +80,7 @@ export default function FriendsPage() {
   };
 
   if (authLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8">加载中...</div>;
   }
 
   if (!user) {
@@ -91,13 +91,13 @@ export default function FriendsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Friends</h1>
+        <h1 className="text-3xl font-bold mb-6">好友</h1>
 
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Add Friend</CardTitle>
+            <CardTitle>添加好友</CardTitle>
             <CardDescription>
-              Enter user ID to send a friend request
+              输入用户ID发送好友请求
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -106,12 +106,12 @@ export default function FriendsPage() {
                 type="number"
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
-                placeholder="Enter User ID"
+                placeholder="输入用户ID"
                 className="flex-1"
                 required
               />
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Adding..." : "Add Friend"}
+                {isLoading ? "添加中..." : "添加好友"}
               </Button>
             </form>
           </CardContent>
@@ -119,15 +119,15 @@ export default function FriendsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Your Friends</CardTitle>
-            <CardDescription>Manage your friends list</CardDescription>
+            <CardTitle>我的好友</CardTitle>
+            <CardDescription>管理好友列表</CardDescription>
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="text-center py-4">Loading friends...</div>
+              <div className="text-center py-4">加载好友中...</div>
             ) : friends.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-gray-600">No friends yet. Add some!</p>
+                <p className="text-gray-600">暂无好友，添加一些吧！</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -154,7 +154,7 @@ export default function FriendsPage() {
                         <p className="font-medium">{friend.friend_name}</p>
                         <div className="flex items-center gap-2">
                           <p className="text-sm text-gray-600">
-                            Rating: {friend.friend_rating}
+                            评分: {friend.friend_rating}
                           </p>
                         </div>
                       </div>
@@ -164,7 +164,7 @@ export default function FriendsPage() {
                       size="sm"
                       onClick={() => handleDeleteFriend(friend.friend_id)}
                     >
-                      Remove
+                      删除
                     </Button>
                   </div>
                 ))}

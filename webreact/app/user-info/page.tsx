@@ -62,7 +62,7 @@ export default function UserInfo() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p>Loading...</p>
+          <p>加载中...</p>
         </div>
       </div>
     );
@@ -71,16 +71,16 @@ export default function UserInfo() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="container mx-auto p-4">
-          <h1 className="text-3xl font-bold mb-6">User Profile</h1>
+          <h1 className="text-3xl font-bold mb-6">用户资料</h1>
 
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>Account Information</CardTitle>
-              <CardDescription>Update your profile details</CardDescription>
+              <CardTitle>账户信息</CardTitle>
+              <CardDescription>更新您的个人资料</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">用户名</Label>
                 <Input
                   id="username"
                   value={username}
@@ -89,19 +89,19 @@ export default function UserInfo() {
               </div>
 
               <div className="space-y-2">
-                <Label>User ID</Label>
+                <Label>用户ID</Label>
                 <div className="bg-gray-100 p-3 rounded-md">{user?.id}</div>
               </div>
 
               <div className="space-y-2">
-                <Label>Rating</Label>
+                <Label>评分</Label>
                 <div className="bg-gray-100 p-3 rounded-md">
                   {user?.rating || 1500}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Joined Date</Label>
+                <Label>加入日期</Label>
                 <div className="bg-gray-100 p-3 rounded-md">N/A</div>
               </div>
             </CardContent>
@@ -111,7 +111,7 @@ export default function UserInfo() {
                 disabled={updating}
                 className="w-full"
               >
-                {updating ? "Updating..." : "Update Profile"}
+                {updating ? "更新中..." : "更新资料"}
               </Button>
             </CardFooter>
           </Card>
@@ -119,39 +119,39 @@ export default function UserInfo() {
           <div className="mt-8 max-w-2xl mx-auto">
             <Card>
               <CardHeader>
-                <CardTitle>Account Security</CardTitle>
-                <CardDescription>Change your password</CardDescription>
+                <CardTitle>账户安全</CardTitle>
+                <CardDescription>修改密码</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="current-password">Current Password</Label>
+                  <Label htmlFor="current-password">当前密码</Label>
                   <Input
                     id="current-password"
                     type="password"
-                    placeholder="Enter current password"
+                    placeholder="输入当前密码"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="new-password">New Password</Label>
+                  <Label htmlFor="new-password">新密码</Label>
                   <Input
                     id="new-password"
                     type="password"
-                    placeholder="Enter new password"
+                    placeholder="输入新密码"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirm-password">Confirm New Password</Label>
+                  <Label htmlFor="confirm-password">确认新密码</Label>
                   <Input
                     id="confirm-password"
                     type="password"
-                    placeholder="Confirm new password"
+                    placeholder="确认新密码"
                   />
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">Change Password</Button>
+                <Button className="w-full">修改密码</Button>
               </CardFooter>
             </Card>
           </div>

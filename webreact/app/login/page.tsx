@@ -30,10 +30,10 @@ export default function LoginPage() {
     try {
       const response = await login(username, password);
       await authLogin(response.token);
-      toast.success("Login successful");
+      toast.success("登录成功");
       router.push("/");
     } catch (err) {
-      toast.error("Invalid username or password");
+      toast.error("用户名或密码错误");
     } finally {
       setIsLoading(false);
     }
@@ -43,17 +43,15 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Login
-          </CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">登录</CardTitle>
           <CardDescription className="text-center">
-            Sign in to your account
+            登录到您的账户
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username">用户名</Label>
               <Input
                 id="username"
                 type="text"
@@ -64,7 +62,7 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">密码</Label>
               <Input
                 id="password"
                 type="password"
@@ -75,14 +73,14 @@ export default function LoginPage() {
             </div>
 
             <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? "登录中..." : "登录"}
             </Button>
 
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                Don't have an account?{" "}
+                还没有账户？{" "}
                 <a href="/register" className="text-blue-500 hover:underline">
-                  Register
+                  注册
                 </a>
               </p>
             </div>

@@ -54,7 +54,7 @@ export const Chat: React.FC<ChatProps> = ({ gameId }) => {
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden">
       <div className="bg-gray-100 px-4 py-2 border-b border-gray-200">
-        <h3 className="font-medium">Chat</h3>
+        <h3 className="font-medium">聊天</h3>
       </div>
       <div className="h-64 overflow-y-auto p-4">
         {messages.map((msg, index) => (
@@ -77,14 +77,14 @@ export const Chat: React.FC<ChatProps> = ({ gameId }) => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
+            placeholder="输入消息..."
             className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             type="submit"
             className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
           >
-            Send
+            发送
           </button>
         </div>
       </form>

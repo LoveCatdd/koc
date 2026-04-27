@@ -145,50 +145,50 @@ export default function RecordDetailPage() {
   };
 
   if (authLoading || isLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8">加载中...</div>;
   }
 
   if (!record) {
-    return <div className="text-center py-8">Record not found</div>;
+    return <div className="text-center py-8">未找到记录</div>;
   }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
-        Game Record #{record.id}
+        游戏记录 #{record.id}
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Game Info */}
+        {/* 游戏信息 */}
         <div>
-          <h2 className="text-lg font-medium mb-4">Game Info</h2>
+          <h2 className="text-lg font-medium mb-4">游戏信息</h2>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="p-3 bg-gray-100 rounded">
                 <p className="font-medium">{record.a_name}</p>
-                <p className="text-gray-600">Rating: {record.a_rating}</p>
+                <p className="text-gray-600">评分: {record.a_rating}</p>
               </div>
               <div className="p-3 bg-gray-100 rounded">
                 <p className="font-medium">{record.b_name}</p>
-                <p className="text-gray-600">Rating: {record.b_rating}</p>
+                <p className="text-gray-600">评分: {record.b_rating}</p>
               </div>
             </div>
             <div className="p-3 bg-gray-100 rounded">
-              <p className="font-medium">Date</p>
+              <p className="font-medium">日期</p>
               <p className="text-gray-600">
                 {new Date(record.create_time).toLocaleString()}
               </p>
             </div>
             <div className="p-3 bg-gray-100 rounded">
-              <p className="font-medium">Status</p>
+              <p className="font-medium">状态</p>
               <p className="text-gray-600">{record.status}</p>
             </div>
           </div>
         </div>
 
-        {/* Chess Board */}
+        {/* 棋盘 */}
         <div>
-          <h2 className="text-lg font-medium mb-4">Replay</h2>
+          <h2 className="text-lg font-medium mb-4">回放</h2>
           <div className="bg-gray-200 w-64 h-64 mx-auto grid grid-cols-8 grid-rows-8">
             {Array.from({ length: 8 }).map((_, row) =>
               Array.from({ length: 8 }).map((_, col) => {
@@ -231,18 +231,18 @@ export default function RecordDetailPage() {
               className="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={currentStep === 0}
             >
-              Previous
+              上一步
             </button>
             <button
               onClick={handleNextStep}
               className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={currentStep >= steps.length}
             >
-              Next
+              下一步
             </button>
           </div>
           <p className="text-center mt-2 text-gray-600">
-            Step {currentStep} of {steps.length}
+            第 {currentStep} / {steps.length} 步
           </p>
         </div>
       </div>

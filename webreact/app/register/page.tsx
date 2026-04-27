@@ -52,16 +52,16 @@ export default function RegisterPage() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
-            Register
+            注册
           </CardTitle>
           <CardDescription className="text-center">
-            Create a new account
+            创建新账户
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username">用户名</Label>
               <Input
                 id="username"
                 type="text"
@@ -72,7 +72,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">密码</Label>
               <Input
                 id="password"
                 type="password"
@@ -83,7 +83,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">确认密码</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -94,14 +94,14 @@ export default function RegisterPage() {
             </div>
 
             <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? "Registering..." : "Register"}
+              {isLoading ? "注册中..." : "注册"}
             </Button>
 
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                Already have an account?{" "}
+                已有账户？{" "}
                 <a href="/login" className="text-blue-500 hover:underline">
-                  Login
+                  登录
                 </a>
               </p>
             </div>
