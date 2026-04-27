@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/utils/auth";
 import type { Record, Piece } from "@/types";
-import { ClientLayout } from "../../../components/ClientLayout";
+import { ClientLayout } from "../../components/ClientLayout";
 
 interface RecordParams {
   id: string;
