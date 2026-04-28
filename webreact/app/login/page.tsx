@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "@/services/api";
 import { useAuth } from "@/utils/auth";
 import {
   Card,
@@ -18,18 +17,16 @@ import { toast } from "sonner";
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { login: authLogin } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await login(username, password);
-      await authLogin(response.token);
+      await login(username, password);
       toast.success("登录成功");
       router.push("/");
     } catch (err) {
