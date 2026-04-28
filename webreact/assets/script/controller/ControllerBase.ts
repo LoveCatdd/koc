@@ -1,7 +1,4 @@
-export interface GameMap {
-  L: number;
-  pieces_list: (Piece | undefined)[];
-}
+import { GameMap } from "../gamemap/GameMap";
 
 export interface Piece {
   row: number;
@@ -28,7 +25,7 @@ export class ControllerBase {
     this.idx = -1;
     this.isMouseDown = false;
     this.isMouseMove = false;
-    this.pieces_list = this.gamemap.pieces_list;
+    this.pieces_list = this.gamemap.pieces_list as (Piece | undefined)[];
     this.start();
     this.piece_picked = [undefined, undefined];
   }

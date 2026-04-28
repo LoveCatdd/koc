@@ -2,8 +2,20 @@ import { GameObject } from "../GameObject";
 
 export interface Store {
     state: {
+        user?: {
+            id: string;
+        };
         pk: {
-            game_obj: {
+            a_id?: string;
+            a_direction?: string;
+            b_id?: string;
+            b_direction?: string;
+            pieces_list?: Array<{
+                idx: string;
+                pieceName: string;
+                direction: string;
+            }>;
+            game_obj?: {
                 pieces_list: PiecesObject[];
                 direction: number;
             };
@@ -53,7 +65,7 @@ export class PiecesObject extends GameObject {
 
         this.eps = 1 + 1e-3;
         this.store = store;
-        this.pieces_list = this.store.state.pk.game_obj.pieces_list;
+        this.pieces_list = this.store.state.pk.game_obj?.pieces_list || [];
     }
 
     setL(L: number): void {
@@ -109,7 +121,7 @@ export class PiecesObject extends GameObject {
     }
 
     check_direction(): boolean {
-        return this.direction === this.store.state.pk.game_obj.direction;
+        return this.direction === (this.store.state.pk.game_obj?.direction ?? 0);
     }
 
     check_action(): boolean {
